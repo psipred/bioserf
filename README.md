@@ -13,10 +13,10 @@
 
 S.Ward, M.Sadowski, D.Jones, D.Buchan
 
-## Protocol
+## BioSerf Protocol
 
 1. Run blast over the PDBAA to find out which pdbs your sequence may hit!
-
+TODO: THIS NEEDS CHANGED TO BLAST+
 `> /scratch0/NOT_BACKED_UP/dbuchan/Applications/blast-2.2.26/bin/blastpgp -h 0.001 -d /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta -o bioserf_out.bls -i example/B0R5N0.fasta`
 
 2. Create a set of pGenTHREADER models
@@ -65,6 +65,35 @@ Finally this should output a file
 B0R5N0.final.pdb
 
 # DomSerf protocol
+
+1. Run blast against the CATH db sequences and PDB
+
+`> /scratch0/NOT_BACKED_UP/dbuchan/Applications/ncbi-blast-2.2.31+/bin/psiblast -num_threads 1 -num_alignments 1000 -outfmt 0 -num_iterations 5 -inclusion_ethresh 0.001 -db /scratch0/NOT_BACKED_UP/dbuchan/uniref/CathDomainSeqs.S100.ATOM -query ../example/B0R5N0.fasta -out  B0R5N0.domserf.cath.bls`
+
+`> /scratch0/NOT_BACKED_UP/dbuchan/Applications/ncbi-blast-2.2.31+/bin/psiblast -num_threads 1 -num_alignments 1000 -outfmt 0 -num_iterations 5 -inclusion_ethresh 0.001 -db /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta -query ../example/B0R5N0.fasta -out  B0R5N0.domserf.pdb.bls`
+
+2. Run domTHREADER
+
+`./GenThreader.sh -i B0R5N0.fasta -j B0R5N0 -d -s`
+
+3. Run parse_pdb_blast.pl
+
+`> ../bin/parse_pdb_blast.pl /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/data/CathDomainSummary_3.5 ../example/B0R5N0.fasta B0R5N0.domserf.pdb.bls /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta ./ /scratch0/NOT_BACKED_UP/dbuchan/pdb/ /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/bin/reformat.pl ~/bin/modeller9.17/bin/mod9.17`
+
+CathDomainSummary_3.5 :  a list of cath domain IDS, CATH codes, and start stop regions
+B0R5N0.domserf.pdb.bls: PDB blast output from step 1
+pdb_aa.fasta: the PDB blast db used in step 1
+./ : tmp dir for models and whatnot
+pdb/ : location of pdb files
+reformat.pl : location of reformat.pl
+mod9.17 : locatin of Modeller binary
+
+4. run runDomserf.java
+
+`javac -cp /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/src/lib/biojava-1.7.1.jar:/cs/research/bioinf/home1/green/dbuchan/Code/bioserf/src runDomserf.java`
+
+`> java -cp /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/src/lib/biojava-1.7.1.jar:/cs/research/bioinf/home1/green/dbuchan/Code/bioserf/src runDomserf B0R5N0.domserf.bls`
+
 runParsePdbBlast(strParsePdbBlast, strCathSummary, fPfilt.getCanonicalPath(), fBlastOutPdb.getCanonicalPath(), strPdbDB, strTmp, strPdb, strReformat, strModellerBin);
             boolean pdbFound = gatherModels(strTmp);
             boolean domsFound = false;

@@ -35,7 +35,7 @@ class runBioserf
   {
     if( args.length != 17 )
     {
-          System.out.println( "usage: java -cp bioserf/src/:bioserf/src/org/ucl/ parseBlast blast_file seq_file evalueThreshold(0.0005) /tmp/ PDB_PATH PDBAA_PATH percentIDThreshold(40) strUUID mod9.17 B0R5N0.pgen.presults /modeller9.17/modlib/ /modeller9.17/lib/x86_64-intel8/ /usr/bin/python qmodcheck_mainens qmodcheck modcheckpot.dat tmjury3d_mq_modeller" );
+          System.out.println( "usage: java -cp bioserf/src/:bioserf/src/org/ucl/ runBioserf blast_file seq_file evalueThreshold(0.0005) /tmp/ PDB_PATH PDBAA_PATH percentIDThreshold(40) strUUID mod9.17 B0R5N0.pgen.presults /modeller9.17/modlib/ /modeller9.17/lib/x86_64-intel8/ /usr/bin/python qmodcheck_mainens qmodcheck modcheckpot.dat tmjury3d_mq_modeller" );
           System.exit(1);
     }
 

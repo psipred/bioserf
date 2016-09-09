@@ -7,7 +7,7 @@ CFLAGS=-O3
 LIBS=-lm
 INC=/usr/include/
 
-all: qmodcheck qmodcheck_mainens runBioserf
+all: qmodcheck qmodcheck_mainens runBioserf runDomserf
 
 clean:
 	rm -f qmodcheck
@@ -17,11 +17,14 @@ clean:
 	rm -f ../bin/qmodcheck
 	rm -f ../bin/qmodcheck_mainens
 	rm -f ../bin/runBioserf*
+	rm -f ../bin/runDomserf*
+
 
 install:
 	cp qmodcheck ../bin
 	cp qmodcheck_mainens ../bin
 	cp runBioserf*.class ../bin
+	cp runDomserf*.class ../bin
 
 qmodcheck:
 		$(CC) $(CFLAGS) qmodcheck.c $(LIBS) -o qmodcheck
@@ -31,3 +34,6 @@ qmodcheck_mainens:
 
 runBioserf:
 		$(JAVAC) -cp lib/biojava-1.7.1.jar:lib/bytecode.jar:./ runBioserf.java
+
+runDomserf:
+		$(JAVAC) -cp lib/biojava-1.7.1.jar:lib/bytecode.jar:./ runDomserf.java
