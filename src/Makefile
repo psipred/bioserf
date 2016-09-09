@@ -12,6 +12,8 @@ all: qmodcheck qmodcheck_mainens runBioserf
 clean:
 	rm -f qmodcheck
 	rm -f qmodcheck_mainens
+	rm -f runBioserf.class
+	rm -f *subHitComparator.class
 	rm -f ../bin/qmodcheck
 	rm -f ../bin/qmodcheck_mainens
 	rm -f ../bin/runBioserf*
