@@ -288,11 +288,11 @@ int             jacobi(float a[6][6], float d[6], float v[6][6], int *nrot)
 #undef ROTATE
 
 /*
- * function eigsrt 
+ * function eigsrt
  *
  * Given the eigenvalues d[n] and eignevectors v[n][n] as output from jacobi
  * this routine sourts the eigenvalues into descending order and rearranges
- * the columns of v correspondingly 
+ * the columns of v correspondingly
  */
 void            eigsrt(float d[6], float v[6][6])
 {
@@ -438,7 +438,7 @@ int
 	*natoms = 0;
 	return 1;
     }
-	
+
     while (!feof(ifp))
     {
 	if (!fgets(buf, 160, ifp))
@@ -501,11 +501,13 @@ main(int argc, char **argv)
     float           x, y, z, d, r, rmsd, u[3][3], **rmsdmat, matchsum, qm_val, best_qm;
     FILE           *ifp, *ofp, *qfp;
     char cmdstr[512];
+    char tmpPDBPath[1024];
+    char cpCMD[1024];
     Point           new, CG_a, CG_b;
     Transform       fr_xf;
 
-    if (argc != 2)
-	fail("usage : collect_data ensemble.pdb");
+    if (argc != 5)
+	fail("usage : collect_data ensemble.pdb qmodcheck modcheckpot.dat tmp/");
 
     ifp = fopen(argv[1], "r");	/* Open PDB file in TEXT mode */
 
@@ -524,7 +526,8 @@ main(int argc, char **argv)
 	if (natoms[nmodels] < 10)
 	    continue;
 
-	ofp = fopen("qmod_temp.pdb", "w");
+  sprintf(tmpPDBPath, "%sqmod_temp.pdb", argv[4]);
+	ofp = fopen("tmpPDBPath", "w");
 	for (i = 0; i < natoms[nmodels]; i++)
 	{
 	    fprintf(ofp, "ATOM   %4d %s %s  %4d    %8.3f%8.3f%8.3f%6.2f%6.2f\n",
@@ -539,8 +542,8 @@ main(int argc, char **argv)
 
 //	sprintf(cmdstr, "/var/www/cgi-bin/psipred/bin/qmodcheck qmod_temp.pdb | tail -1 > qmod.tmp");
 //	sprintf(cmdstr, "qmodcheck qmod_temp.pdb A | tail -1");
-sprintf(cmdstr, "/webdata/binaries/current/HHblits/qmodcheck qmod_temp.pdb | tail -1 > qmod.tmp");
-	
+sprintf(cmdstr, "%s %s %s %s | tail -1 > qmod.tmp", argv[2], tmpPDBPath, argv[3], argv[4]);
+
 	ret = system(cmdstr);
 
 	if (ret < 0 || (WIFSIGNALED(ret) && (WTERMSIG(ret) == SIGINT || WTERMSIG(ret) == SIGQUIT)))
@@ -555,7 +558,8 @@ sprintf(cmdstr, "/webdata/binaries/current/HHblits/qmodcheck qmod_temp.pdb | tai
 	    if (qm_val < best_qm)
 	    {
 		best_qm = qm_val;
-		system("/bin/cp -f qmod_temp.pdb best_qmod.pdb");
+    sprintf(cpCMD, "/bin/cp -f %s %sbest.qmod.pdb", tmpPDBPath, argv[4]);
+		system(cpCMD);
 	    }
 	}
 	else
