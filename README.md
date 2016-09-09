@@ -17,7 +17,7 @@ S.Ward, M.Sadowski, D.Jones, D.Buchan
 
 1. Run blast over the PDBAA to find out which pdbs your sequence may hit!
 
-`> scratch0/NOT_BACKED_UP/dbuchan/Applications/blast-2.2.26/bin/blastpgp -h 0.001 -d /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta -o bioserf_out.bls -i example/B0R5N0.fasta`
+`> /scratch0/NOT_BACKED_UP/dbuchan/Applications/blast-2.2.26/bin/blastpgp -h 0.001 -d /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta -o bioserf_out.bls -i example/B0R5N0.fasta`
 
 2. Create a set of pGenTHREADER models
 
