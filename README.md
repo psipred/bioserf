@@ -23,23 +23,26 @@ S.Ward, M.Sadowski, D.Jones, D.Buchan
 
 `> GenThreader.sh -i ~/Code/bioserf/example/B0R5N0.fasta -j B0R5N0 -s`
 
+you need the presults (for runBioserf) and ss2 files (for HHBlits), more the ss and ss2 files to the
+dir you will run HHBlits in. More the presults file to the dir you will run runBioserf in
+
 3. Creat a set of models using HHBlits (HHSuite3 btw)
 
 `hhblits -i ../example/B0R5N0.fasta -n 3 -cpu 1 -d /scratch0/NOT_BACKED_UP/dbuchan/hhblitsdb/pdb70 -oa3m B0R5N0.hhblits.a3m`
 
-`perl addss.pl B0R5N0.hhblits.a3m`
+`addss.pl B0R5N0.hhblits.a3m`
 
 `hhsearch -realign -mact 0 -cpu 1 -E 0.001 -i B0R5N0.hhblits.a3m -d /scratch0/NOT_BACKED_UP/dbuchan/hhblitsdb/pdb70 -o B0R5N0.hhr`
 
 note that hhmakemodel will hang if the hhr file references pdbs which are not present in the
 pdb dir.
-`hhmakemodel.pl -m 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 -d /scratch0/NOT_BACKED_UP/dbuchan/pdb -i B0R5N0.hhr -ts /scratch0/NOT_BACKED_UP/dbuchan/hhblitsdb/pdb70`
+`hhmakemodel.pl -m 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 -d /scratch0/NOT_BACKED_UP/dbuchan/pdb -i B0R5N0.hhr -ts B0R5N0.hh.pdb`
 
 4. Parse blast and output modeller mod.py files and tidy up the set of pGenTHREADER models
 
 `> javac -cp lib/biojava-1.7.1.jar:lib/bytecode.jar:./ runBioserf.java`
 
-`> java -cp lib/biojava-1.7.1.jar:/cs/research/bioinf/home1/green/dbuchan/Code/bioserf/src runBioserf ../bioserf_out.bls ../example/B0R5N0.fasta 0.00005 ./ /scratch0/NOT_BACKED_UP/dbuchan/pdb/ /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta 40 B0R5N0 ~/bin/modeller9.17/bin/mod9.17 B0R5N0.pgen.presults /cs/research/bioinf/home1/green/dbuchan/bin/modeller9.17/modlib/ /cs/research/bioinf/home1/green/dbuchan/bin/modeller9.17/lib/x86_64-intel8/ /scratch0/NOT_BACKED_UP/dbuchan/python3/bin/python /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/bin/qmodcheck_mainens /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/bin/qmodcheck /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/data/modcheckpot.dat /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/bin/tmjury3d_mq_modeller_threadsafe`
+`> java -cp /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/src/lib/biojava-1.7.1.jar:/cs/research/bioinf/home1/green/dbuchan/Code/bioserf/src runBioserf bioserf_out.bls ../example/B0R5N0.fasta 0.00005 ./ /scratch0/NOT_BACKED_UP/dbuchan/pdb/ /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta 40 B0R5N0 ~/bin/modeller9.17/bin/mod9.17 B0R5N0.pgen.presults /cs/research/bioinf/home1/green/dbuchan/bin/modeller9.17/modlib/ /cs/research/bioinf/home1/green/dbuchan/bin/modeller9.17/lib/x86_64-intel8/ /scratch0/NOT_BACKED_UP/dbuchan/python3/bin/python /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/bin/qmodcheck_mainens /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/bin/qmodcheck /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/data/modcheckpot.dat /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/bin/tmjury3d_mq_modeller_threadsafe`
 
 bioserf_out.bls : the blast output from step 1
 B0R5N0.fasta : The fasta file from step 1

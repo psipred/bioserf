@@ -527,7 +527,7 @@ main(int argc, char **argv)
 	    continue;
 
   sprintf(tmpPDBPath, "%sqmod_temp.pdb", argv[4]);
-	ofp = fopen("tmpPDBPath", "w");
+	ofp = fopen(tmpPDBPath, "w");
 	for (i = 0; i < natoms[nmodels]; i++)
 	{
 	    fprintf(ofp, "ATOM   %4d %s %s  %4d    %8.3f%8.3f%8.3f%6.2f%6.2f\n",
@@ -542,8 +542,9 @@ main(int argc, char **argv)
 
 //	sprintf(cmdstr, "/var/www/cgi-bin/psipred/bin/qmodcheck qmod_temp.pdb | tail -1 > qmod.tmp");
 //	sprintf(cmdstr, "qmodcheck qmod_temp.pdb A | tail -1");
-sprintf(cmdstr, "%s %s %s %s | tail -1 > qmod.tmp", argv[2], tmpPDBPath, argv[3], argv[4]);
 
+sprintf(cmdstr, "%s %s %s %s | tail -1 > qmod.tmp", argv[2], tmpPDBPath, argv[3], argv[4]);
+//puts(cmdstr);
 	ret = system(cmdstr);
 
 	if (ret < 0 || (WIFSIGNALED(ret) && (WTERMSIG(ret) == SIGINT || WTERMSIG(ret) == SIGQUIT)))
