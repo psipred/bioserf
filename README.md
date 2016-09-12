@@ -72,13 +72,10 @@ B0R5N0.final.pdb
 
 `> /scratch0/NOT_BACKED_UP/dbuchan/Applications/ncbi-blast-2.2.31+/bin/psiblast -num_threads 1 -num_alignments 1000 -outfmt 0 -num_iterations 5 -inclusion_ethresh 0.001 -db /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta -query ../example/B0R5N0.fasta -out  B0R5N0.domserf.pdb.bls`
 
-2. Run domTHREADER
 
-`./GenThreader.sh -i B0R5N0.fasta -j B0R5N0 -d -s`
+2. Run parse_pdb_blast.pl
 
-3. Run parse_pdb_blast.pl
-
-`> ../bin/parse_pdb_blast.pl /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/data/CathDomainSummary_3.5 ../example/B0R5N0.fasta B0R5N0.domserf.pdb.bls /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta ./ /scratch0/NOT_BACKED_UP/dbuchan/pdb/ /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/bin/reformat.pl ~/bin/modeller9.17/bin/mod9.17`
+`> ../bin/parse_pdb_blast.pl /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/data/CathDomainSummary_3.5 ../example/B0R5N0.fasta B0R5N0.domserf.pdb.bls /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta . /scratch0/NOT_BACKED_UP/dbuchan/pdb/ /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/bin/reformat.pl ~/bin/modeller9.17/bin/mod9.17`
 
 CathDomainSummary_3.5 :  a list of cath domain IDS, CATH codes, and start stop regions
 B0R5N0.domserf.pdb.bls: PDB blast output from step 1
@@ -88,54 +85,16 @@ pdb/ : location of pdb files
 reformat.pl : location of reformat.pl
 mod9.17 : locatin of Modeller binary
 
-4. run runDomserf.java
+If a good hit is found pdb files of the form NAME_start_stop.pdb will be produced for each
+domain that CATH
 
-`javac -cp /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/src/lib/biojava-1.7.1.jar:/cs/research/bioinf/home1/green/dbuchan/Code/bioserf/src runDomserf.java`
+3. If no domain pdb files were produced (i.e. we couldn't find a PDB match which was already classified in CATH). Then we run the following.
 
-`> java -cp /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/src/lib/biojava-1.7.1.jar:/cs/research/bioinf/home1/green/dbuchan/Code/bioserf/src runDomserf B0R5N0.domserf.bls`
-
-runParsePdbBlast(strParsePdbBlast, strCathSummary, fPfilt.getCanonicalPath(), fBlastOutPdb.getCanonicalPath(), strPdbDB, strTmp, strPdb, strReformat, strModellerBin);
-            boolean pdbFound = gatherModels(strTmp);
-            boolean domsFound = false;
-            if(pdbFound == false)
-            {
-                runParseCathDomthreader(strParseCathDom, strCathSummary, fBlastOutCath.getCanonicalPath(), fPfilt.getCanonicalPath(), fPResults.getCanonicalPath(), fAlign.getCanonicalPath(), tempNameRoot);
-
-                if(fSSF.exists() && fSSF.length() > 0)
-                {
-                    runDomainFinder(strDomainFinder, fSSF.getCanonicalPath(), fSSFProcessed.getCanonicalPath());
-                    if(fSSFProcessed.exists())
-                    {
-                        FileInputStream fileinputstream = new FileInputStream(fSSFProcessed.getCanonicalPath());
-                        int numberBytes = fileinputstream.available();
-                        byte byteArray[] = new byte[numberBytes];
-                        int size_of_read = fileinputstream.read(byteArray);
-                        localJob.UpdateStatus(StatusClass.DomainTemplates, StatusCode.Unknown, "Found Domain templates" , byteArray);
-                    }
-
-                    //make_modeller_files.pl e9aa184a-754a-4caf-bb02-23f333aa1c69.ssf_out b4f69346-fb49-4852-88f0-d85858c190dc.blastaligns b4f69346-fb49-4852-88f0-d85858c190dc.pdomaligns /webdata/tmp/NewPredServer/b4f69346-fb49-4852-88f0-d85858c190dc b4f69346-fb49-4852-88f0-d85858c190dc.mod_lookups b4f69346-fb49-4852-88f0-d85858c190dc.pfilt /webdata/data/dompdb/
-                    runMakeModeller(strMakeModeller, fSSFProcessed.getCanonicalPath(), fCathAligns.getCanonicalPath(), fPDomAligns.getCanonicalPath(), tempNameRoot, fModLookups.getCanonicalPath(), fPfilt.getCanonicalPath(), strDomPDB );
-                    runModeller(rootUUID, strTmp, strModellerBin);
-                    //rewrite_modeller.pl /webdata/tmp/NewPredServer b4f69346-fb49-4852-88f0-d85858c190dc.mod_lookups b4f69346-fb49-4852-88f0-d85858c190dc.blastaligns b4f69346-fb49-4852-88f0-d85858c190dc.pdomaligns b4f69346-fb49-4852-88f0-d85858c190dc.pfilt b4f69346-fb49-4852-88f0-d85858c190dc_1.ali
-                    runRewrite(strRewriteModeller, strTmp, fModLookups.getCanonicalPath(), fCathAligns.getCanonicalPath(), fPDomAligns.getCanonicalPath(), fPfilt.getCanonicalPath(), rootUUID);
-                    domsFound = gatherModels(strTmp);
-                }
-                else
-                {
-                    //TODO: return a fault if the sff file disappeared after ParseCathDom ran.
-                    //I simply have no idea how this could happen but I suppose 1 in a million times it might
-                }
-
-            }
-            else
-            {   //93
-                if(fPDBTemplates.exists())
-                {
-                    FileInputStream fileinputstream = new FileInputStream(fPDBTemplates.getCanonicalPath());
-                    int numberBytes = fileinputstream.available();
-                    byte byteArray[] = new byte[numberBytes];
-                    int size_of_read = fileinputstream.read(byteArray);
-                    localJob.UpdateStatus(StatusClass.PDBTemplates, StatusCode.Unknown, "Found PDB templates" , byteArray);
-                }
-                localJob.UpdateStatus(StatusClass.domserfCathMatch, StatusCode.JobRunning, "A full length PDB chain with CATH domains was matched", strError);
-            }
+Run domTHREADER
+`> ./GenThreader.sh -i B0R5N0.fasta -j B0R5N0 -d -s`
+Run runParseCathDomthreader
+`> ../bin/parse_cath_domthreader.pl /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/data/CathDomainSummary_3.5 B0R5N0.domserf.cath.bls ../example/B0R5N0.fasta ./B0R5N0.pdom.presults ./B0R5N0.pdom.align ./ B0R5N0.blastaligns B0R5N0.ssf B0R5N0.pdomaligns`
+`> ../bin/DomainFinder3 -i B0R5N0.ssf -o B0R5N0.dfout`
+`> runMakeModeller`
+`modeller`
+rewrite

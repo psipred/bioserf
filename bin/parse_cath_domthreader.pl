@@ -7,18 +7,22 @@ use English;
 use Data::Dumper;
 
 my $CathDomainSummary = $ARGV[0];
-my $tmpRoot = $ARGV[5];
+my $tmpPath = $ARGV[5];
 
-#print $tmpRoot.".blastaligns\n";
-my $fhBlastAlignOut = new FileHandle($tmpRoot.".blastaligns","w");
-my $fhSSF = new FileHandle($tmpRoot.".ssf","w");
-my $fhAligns = new FileHandle($tmpRoot.".pdomaligns","w");
+# print $tmpRoot.".blastaligns\n";
+# my $fhBlastAlignOut = new FileHandle($tmpRoot.".blastaligns","w");
+# my $fhSSF = new FileHandle($tmpRoot.".ssf","w");
+# my $fhAligns = new FileHandle($tmpRoot.".pdomaligns","w");
+my $fhBlastAlignOut = new FileHandle($tmpPath.$ARGV[6],"w");
+my $fhSSF = new FileHandle($tmpPath.$ARGV[7],"w");
+my $fhAligns = new FileHandle($tmpPath.$ARGV[8],"w");
 my $hBlastData ={};
 my $length = 0;
 my $ID = '';
 my $hPDomData = {};
 
 my $hCathSummary = {};
+print("Reading CATH summary\n");
 readCathDomainSummary();
 
 $hBlastData ={};
@@ -67,7 +71,6 @@ sub print_alignments
 		print $fhAligns $ID." ".$id."\n";
 		print $fhAligns $hPDomData->{$id}{ALIGNMENT_HEADER}."\n";
 		print $fhAligns $hPDomData->{$id}{ALIGNMENT}."\n";
-	
 	}
 }
 
@@ -101,7 +104,7 @@ sub remove_low_overlaps
 				delete $hBlastData->{$id};
 		}
 	}
-	
+
 	foreach my $id (keys %$hPDomData)
 	{
 		my $domId=$hPDomData->{$id}{DOMAINID};
@@ -116,7 +119,7 @@ sub remove_low_overlaps
 		{
 			delete $hPDomData->{$id};
 		}
-		
+
 	}
 }
 
@@ -132,13 +135,15 @@ sub read_fasta
 	my $seq = '';
 	while(my $line = $fhIn->getline)
 	{
-		if($line =~ /^>(.+)/){$ID = $1;next;}
+		if($line =~ /^>(.+)/)
+		{$ID = $1;
+		 $ID = substr($ID, 0, index($ID, ' '));
+     next;}
 		chomp $line;
 		$seq.=$line;
-		
 	}
 	my $length = length $seq;
-	
+
 	return($length);
 }
 
@@ -146,20 +151,20 @@ sub read_blast_data
 {
 	my ($file) = @ARG;
 	my $fhIn = new FileHandle($file,"r");
-	
+
 	my $found_alignments = 0;
 	my $passed_count = 0;
 	my $found_align = 0;
 	my $hData = {};
 	my $current_id = '';
 	my $current_length = 0;
-	my $align_count = 0;	
-	my $pdb_id ='';	
+	my $align_count = 0;
+	my $pdb_id ='';
 	my $get_align = 0;
 	while(my $line = $fhIn->getline)
 	{
 		chomp $line;
-		
+
 		if($line =~ /^>\sdomain\|(.{7})\|.+/)
 		{
 			$current_id = "CDOM|".$1.":";
@@ -178,9 +183,9 @@ sub read_blast_data
 			my $eval = $2;
 			if($eval == 0.00 || $eval < 0.00005)
 			{
-				
-				$align_count++;	
-				
+
+				$align_count++;
+
 				$hData->{$current_id.$align_count}{START} = 0;
 				$hData->{$current_id.$align_count}{STOP} = 0;
 				$hData->{$current_id.$align_count}{ALIGNMENT} = '';
@@ -189,7 +194,7 @@ sub read_blast_data
 				$hData->{$current_id.$align_count}{DOMAINID} = $pdb_id;
 				$hData->{$current_id.$align_count}{DOMAINLENGTH} = $current_length;
 				$hData->{$current_id.$align_count}{ALIGNMENT_HEADER} = $current_id.$align_count;
-				
+
 				$get_align = 1;
 			}
 			else
@@ -197,8 +202,8 @@ sub read_blast_data
 				$get_align = 0;
 			}
 		}
-		
-		
+
+
 		if($line =~ /^(Query|Sbjct)\s/ && $get_align == 1)
 		{
 			$hData->{$current_id.$align_count}{ALIGNMENT} .= $line."\n";
@@ -215,10 +220,10 @@ sub read_blast_data
 				{
 					$hData->{$current_id.$align_count}{STOP} = $tmp_stop;
 				}
-				
+
 			}
 		}
-		
+
 	}
 	#print Dumper $hData;
 	#exit;
@@ -228,7 +233,7 @@ sub read_blast_data
 sub read_pdom_data
 {
 	my ($pfile) = @ARG;
-	
+
 	$pfile =~ s/bls/pdom.presults/;
 	my $fhIn = new FileHandle($pfile,"r");
 	my $hit_count = 0;
@@ -248,10 +253,10 @@ sub read_pdom_data
 			$hData->{$current_id}{START} = @$aEntries[9];
 			$hData->{$current_id}{STOP} = @$aEntries[10];
 			$hData->{$current_id}{DOMAINID} = @$aEntries[11];
-			
+
 		}
 	}
-	
+
 	$pfile =~ s/presults/align/;
 	$fhIn = new FileHandle($pfile,"r");
 	my $align_count = 0;
@@ -297,6 +302,6 @@ sub readCathDomainSummary
                 $hCathSummary->{$pdb_code}{CATHCODE}=@$aEntries[1];
 				$hCathSummary->{$pdb_code}{START}=@$aEntries[2];
                 $hCathSummary->{$pdb_code}{STOP}=@$aEntries[3];
-				$hCathSummary->{$pdb_code}{LENGTH}=@$aEntries[3]-@$aEntries[2];	
+				$hCathSummary->{$pdb_code}{LENGTH}=@$aEntries[3]-@$aEntries[2];
         }
 }
