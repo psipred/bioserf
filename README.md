@@ -95,6 +95,10 @@ Run domTHREADER
 Run runParseCathDomthreader
 `> ../bin/parse_cath_domthreader.pl /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/data/CathDomainSummary_3.5 B0R5N0.domserf.cath.bls ../example/B0R5N0.fasta ./B0R5N0.pdom.presults ./B0R5N0.pdom.align ./ B0R5N0.blastaligns B0R5N0.ssf B0R5N0.pdomaligns`
 `> ../bin/DomainFinder3 -i B0R5N0.ssf -o B0R5N0.dfout`
-`> ../bin/make_modeller_files.pl B0R5N0.ssf B0R5N0.blastaligns B0R5N0.pdomaligns ./B0R5N0 B0R5N0.mod_lookups ../example/B0R5N0.fasta /scratch0/NOT_BACKED_UP/dbuchan/dompdb`
-`modeller`
-rewrite
+`> ../bin/make_modeller_files.pl B0R5N0.dfout B0R5N0.blastaligns B0R5N0.pdomaligns ./B0R5N0 B0R5N0.mod_lookups ../example/B0R5N0.fasta /scratch0/NOT_BACKED_UP/dbuchan/dompdb/`
+
+`export PYTHONPATH=~bin/modeller9.17/modlib:~/bin/modeller9.17/lib/x86_64-intel8/`
+`export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/bin/modeller9.17/lib/x86_64-intel8/`
+`for i in `ls *.py | sed -e 's/\.py//'`; do echo $i; ~/bin/modeller9.17/bin/mod9.17 $i.py; done;`
+
+rewrite_modeller.pl ./  B0R5N0.mod_lookups  B0R5N0.blastaligns B0R5N0.pdomaligns ../example/B0R5N0.fasta B0R5N0_1.ali ../bin/reformat.pl

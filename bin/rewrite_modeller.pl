@@ -19,6 +19,8 @@ my $blast_aligns = $ARGV[2];
 my $pdom_aligns = $ARGV[3];
 my $fasta_file = $ARGV[4];
 my $ali_file = $ARGV[5];
+my $reformat_bin = $ARGV[6];
+
 
 #my $hLookup = read_lookup();
 my $hLookup = make_lookup();
@@ -32,16 +34,39 @@ sub make_lookup
 	#my $dhIn = new DirHandle($fasta_files);
 	my $hData = {};
 	my $id = '';;
-	
-	$fasta_file =~ /^(.+)\.pfilt/;
-	$id = $1;
+
+	# $fasta_file =~ /^(.+)\.pfilt/;
+	# $id = $1;
+
+	  if($fasta_file =~ /\//)
+	  {
+	    if($fasta_file =~ /^.+\/(.+)\.pfilt/){$id = $1;}
+	  	elsif($fasta_file =~ /^.+\/(.+)\.fasta/){$id = $1;}
+	  	elsif($fasta_file =~ /^.+\/(.+)\.fa/){$id = $1;}
+	  	else
+	  	{
+	  		print "COULD NOT GET ID FROM FASTA FILE\n";
+	  		exit;
+	  	}
+	  }
+	  else
+	  {
+	  	if ($fasta_file =~ /^(.+)\.fasta/ ){$id = $1;}
+	  	elsif ($fasta_file =~ /^(.+)\.pfilt/){$id = $1;}
+	  	elsif ($fasta_file =~ /^(.+)\.fa/){$id = $1;}
+	  	else
+	  	{
+	  		print "COULD NOT GET ID FROM FASTA FILE\n";
+	  		exit;
+	  	}
+	  }
 	my $fhIn = new FileHandle($fasta_file,"r");
-	
+
 	LOOP: while(my $line = $fhIn->getline)
 	{
 			chomp $line;
 			print $line;
-			if($line =~ /^>(.+)/)
+			if($line =~ /^>(.+?)\s/)
 			{
 				$hData->{$1} = $id;
 				#print $fhLookup $1." : ".$id."\n";
@@ -56,7 +81,7 @@ sub make_lookup
 
 sub read_ali
 {
-	
+
 		$ali_file =~ /(.+)\.ali/;
 		my $number = $1;
 		print $alidir."/".$ali_file."\n";
@@ -97,7 +122,7 @@ sub read_ali
 		$q_seq = $line;
 		$q_seq =~ s/\*$//;
 		chomp $q_seq;
-		
+
 		#get the target data
 		 $line = $fhIn->getline;
 		if($line =~ />P1;(.+)/)
@@ -115,36 +140,36 @@ sub read_ali
 		$s_seq = $line;
 		$s_seq =~ s/\*$//;
 		chomp $s_seq;
-		
+
 		#if($modelid !~ /A0SXL3/){next;}
-		
 		my $modelfile = $modelid.".B99990001.pdb";
 		my $model = '';
 		if(-e $modeldir.$modelfile)
 		{
 			my $fhMod = new FileHandle($modeldir.$modelfile,"r");
-			
+
 			while(my $line2 = $fhMod->getline)
 			{
 				$model.=$line2;
 			}
-			
+
 		}
 		else
 		{
 			print STDERR $modelid." NO MODEL\n";
 			next;
 		}
+
 		reprintModel($model, $modelid, $targetid,$s_seq,$q_seq,$q_start,$q_stop,$s_start,$s_stop);
 		#exit;
-	
+
 }
 
 sub reprintModel
 {
 	my($model, $modelid, $targetid,$s_seq,$q_seq,$q_start,$q_stop,$s_start,$s_stop) = @ARG;
 	$modelid =~ s/_.+$//;
-	
+
 	my $full_seq = get_full_seq($modelid);
 	#print $full_seq;
 	my $ctx = Digest::MD5->new;
@@ -154,7 +179,7 @@ sub reprintModel
     $year+=1900;
     $mon = $abbr[$mon];
     $mday=~ s/^(\d)$/0$1/;
-	
+
 	my $genome3d_remarks = '';
 	$genome3d_remarks.="REMARK GENOME3D NAME ".$modelid."_".$q_start."_".$q_stop."\n";
 	$genome3d_remarks.="REMARK GENOME3D UNIPROT_ID ".$modelid."\n";
@@ -178,27 +203,25 @@ sub reprintModel
 	{
 		$genome3d_remarks.="REMARK GENOME3D ".$seg."\n";
 	}
-	
+
 	$genome3d_remarks.="REMARK GENOME3D >".$targetid.":".$s_start."-".$s_stop."\n";
 	@$aSegments = ( $sstr =~ m/.{1,60}/g );
 	foreach my $seg (@$aSegments)
 	{
 		$genome3d_remarks.="REMARK GENOME3D ".$seg."\n";
 	}
-	
 	#print $genome3d_remarks;
 	if($q_start == 0 || $q_stop == 0){print STDERR $modelid." BAD BOUNDARIES\n";return;}
 	my $fhOut = new FileHandle($rewritedir.$modelid."_".$q_start."_".$q_stop.".pdb","w");
 	print "Printing: ".$modelid."_".$q_start."_".$q_stop."\n";
 	print $fhOut $genome3d_remarks;
-	
 	my $aLines = [];
 	@$aLines = split /\n/, $model;
 	my $res_count = 0;
 	my $atom_count = 0;
 	my $res_id = '';
 	my $res_number = 0;
-			
+
 	foreach my $line (@$aLines)
 	{
 		if($line =~ /^ATOM\s+(\d+)\s+.+?\s+(.{3})\s+(\d+)\s+/)
@@ -223,7 +246,7 @@ sub reprintModel
 			print $fhOut $line."\n";
 		}
 	}
-			
+
 }
 
 sub convertA2M
@@ -235,15 +258,18 @@ sub convertA2M
 	print $fhOut $query."\n";
 	print $fhOut ">Subjct\n";
 	print $fhOut $subject."\n";
-	my $cmd = "/webdata/binaries/current/domserf/reformat.pl fas a2m ".$alidir."/".$modelid."_".$time.".fsa ".$alidir."/".$modelid."_".$time.".a2m";
-	#print $cmd."\n";
+
+	my $this_modelid = $modelid;
+	my $cmd = $reformat_bin." fas a2m '".$alidir."/".$this_modelid."_".$time.".fsa' '".$alidir."/".$this_modelid."_".$time.".a2m'";
+  print $cmd."\n";
+	#exit;
 	`$cmd`;
 	sleep 1;
-	
-	my $rmcmd = "rm ".$alidir."/".$modelid."_".$time.".fsa";
+#exit;
+	my $rmcmd = "rm '".$alidir."/".$modelid."_".$time.".fsa'";
 	`$rmcmd`;
 	$fhOut ->close;
-	
+
 	my $fhIn = new FileHandle($alidir."/".$modelid."_".$time.".a2m","r");
 	my $sub_found = 0;
 	while(my $line = $fhIn->getline)
@@ -269,11 +295,11 @@ sub convertA2M
 				$query.=$line;
 			}
 		}
-	} 
+	}
 	$fhIn->close;
-	$rmcmd = "rm ".$alidir."/".$modelid."_".$time.".a2m";
+	$rmcmd = "rm '".$alidir."/".$modelid."_".$time.".a2m'";
 	`$rmcmd`;
-	
+
 	return($query,$subject);
 }
 
@@ -283,7 +309,7 @@ sub convertA2M
 sub get_full_seq
 {
 	#my($modelid) = @ARG;
-	
+
 	my $seq = '';
 	#if(exists $hLookup->{$modelid})
 	#{
