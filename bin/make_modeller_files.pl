@@ -22,13 +22,13 @@ my $py_dir = $tmpDir;
 my $mod_lookups = $ARGV[4];
 my $fasta_file = $ARGV[5];
 my $fhLook = new FileHandle($mod_lookups,"w");
-
+my $id = '';
 my $hSsf = read_ssf();
 my $hLookup = make_lookup();
 #my $hLookup = read_lookup();
 #print Dumper $hLookup;
 #print Dumper $hSsf;
-#exit;
+#exit
 my $hDomCount = {};
 #aligns are converted to PIR format and output
 my $output_count = 0;
@@ -41,17 +41,36 @@ sub make_lookup
 {
 	#my $dhIn = new DirHandle($fasta_files);
 	my $hData = {};
-	my $id = '';
-	
-	$fasta_file =~ /^(.+)\.pfilt/;
-	$id = $1;
+
+  if($fasta_file =~ /\//)
+  {
+    if($fasta_file =~ /^.+\/(.+)\.pfilt/){$id = $1;}
+  	elsif($fasta_file =~ /^.+\/(.+)\.fasta/){$id = $1;}
+  	elsif($fasta_file =~ /^.+\/(.+)\.fa/){$id = $1;}
+  	else
+  	{
+  		print "COULD NOT GET ID FROM FASTA FILE\n";
+  		exit;
+  	}
+  }
+  else
+  {
+  	if ($fasta_file =~ /^(.+)\.fasta/ ){$id = $1;}
+  	elsif ($fasta_file =~ /^(.+)\.pfilt/){$id = $1;}
+  	elsif ($fasta_file =~ /^(.+)\.fa/){$id = $1;}
+  	else
+  	{
+  		print "COULD NOT GET ID FROM FASTA FILE\n";
+  		exit;
+  	}
+  }
 	my $fhIn = new FileHandle($fasta_file,"r");
-	
+
 	LOOP: while(my $line = $fhIn->getline)
 	{
 			chomp $line;
-			print $line;
-			if($line =~ /^>(.+)/)
+			# print $line;
+			if($line =~ /^>(.+?)\s/)
 			{
 				$hData->{$1} = $id;
 				#print $fhLookup $1." : ".$id."\n";
@@ -72,11 +91,11 @@ sub read_pdom_aligns
 	my $pdb_id = '';
 	my $q_seq = '';
 	my $s_seq = '';
-	
+
 	while(my $line = $fhIn->getline)
 	{
 		chomp $line;
-		if($line =~ /^(.+\sPDOM\|.+)/)	
+		if($line =~ /^(.+\sPDOM\|.+)/)
 		{
 			my $name = $1;
 			if($align_name !~ /START/ && $get_align==1)
@@ -91,9 +110,9 @@ sub read_pdom_aligns
 				$s_seq = '';
 				#exit;
 			}
-			
+
 			$align_name = $name;
-			
+
 			if(exists $hSsf->{$align_name})
 			{
 				$get_align = 1;
@@ -105,8 +124,8 @@ sub read_pdom_aligns
 				$get_align = 0;
 			}
 		}
-		
-		if($line =~ /^Query\s+(.+)/ && $get_align ==1)
+
+		if($line =~ /^$id\s+(.+)/ && $get_align ==1)
 		{
 			$q_seq.=$1;
 		}
@@ -114,7 +133,7 @@ sub read_pdom_aligns
 		{
 			$s_seq.=$1;
 		}
-		
+
 	}
 }
 
@@ -130,11 +149,11 @@ sub read_blast_aligns
 	my $q_seq = '';
 	my $s_seq = '';
 	my $align_name = 'START';
-			
+
 	while(my $line = $fhIn->getline)
 	{
 		chomp $line;
-		if($line =~ /^(.+\sCDOM\|.+)/)	
+		if($line =~ /^(.+\sCDOM\|.+)/)
 		{
 			my $name = $1;
 			if($align_name !~ /START/ && $get_align==1)
@@ -155,7 +174,7 @@ sub read_blast_aligns
 				#exit;
 			}
 			$align_name = $name;
-			
+
 			if(exists $hSsf->{$align_name})
 			{
 				$get_align = 1;
@@ -165,7 +184,7 @@ sub read_blast_aligns
 			{
 				$get_align = 0;
 			}
-			
+
 		}
 		if($line =~ /^Query\s+(\d+)\s+(.+?)\s+(\d+)/ && $get_align ==1)
 		{
@@ -202,10 +221,10 @@ sub read_domain_start
 {
 	my($align_name) = @ARG;
 	$align_name =~ /^(.+?)\sCDOM\|(.{4})(.{1})(.{2}):\d+/;
-	
+
 	my $seq_id = $1;
 	my $pdb_id = $2.$3.$4;
-	
+
 	my $fhIn = new FileHandle($dompdb.$pdb_id,"r");
 	my $line = $fhIn->getline;
 	$line =~ /^ATOM.{7}\s\s.{4}.{3}.{2}(.{4})/;
@@ -254,14 +273,14 @@ sub print_py
 sub print_ali
 {
 	my($align_name,$q_start,$q_stop,$s_start,$s_stop,$q_seq,$s_seq,$pdom_ctrl) = @ARG;
- 
+
          if($pdom_ctrl != 0)
         {
                 ($q_start,$q_stop) = get_coords($q_seq,$s_seq);
         }
-	
+
 	($q_seq, $s_seq) = remove_unaligned_ends($q_seq, $s_seq);
-	
+
 	$align_name =~ /^(.+?)\s(.+)/;
 	my $uniprot_id = $1;
 	my $struct_id = $2;
@@ -287,7 +306,7 @@ sub print_ali
 	{
 		$hDomCount->{$uniprot_id} = 1;
 	}
-	
+
 	print $fhOut ">P1;".$uniprot_id."_".$hDomCount->{$uniprot_id}."\n";
 	if($pdom_ctrl == 0)
 	{
@@ -297,10 +316,10 @@ sub print_ali
 	else
 	{
 		print $fhOut "sequence:::::::::\n";
-		
+
 #		($q_start,$q_stop) = get_coords($q_seq,$s_seq);
 		print $fhLook $uniprot_id."_".$hDomCount->{$uniprot_id}." ".$q_start." ".$q_stop."\n";
-		
+
 	}
 	print $fhOut $q_seq."*\n";
 	print $fhOut ">P1;".$pdb_id."\n";
@@ -321,12 +340,12 @@ sub get_coords
 	my($q_seq,$s_seq) = @ARG;
 	my $start = 0;
 	my $stop = 0;
-	
+
 	my $aSseq = [];
 	@$aSseq = split //, $s_seq;
 	my $aQseq = [];
 	@$aQseq = split //, $q_seq;
-	
+
 	my $res_count = 0;
 	my $align_pos = 0;
 	foreach my $res (@$aQseq)
@@ -348,7 +367,7 @@ sub get_coords
 		}
 		$align_pos++;
 	}
-	
+
 	return($start,$stop);
 }
 
@@ -368,7 +387,7 @@ sub read_ssf
 		@$aEntries[14] =~ /(\d+):(\d+)/;
 		$hData->{$align_name}{START} = $1;
 		$hData->{$align_name}{STOP} = $2;
-	}	
+	}
 	return($hData);
 }
 
@@ -376,14 +395,14 @@ sub read_ssf
 sub remove_unaligned_ends
 {
 	my($q_seq, $s_seq) = @ARG;
-	
+
 	$q_seq =~ s/\s//g;
 	$s_seq =~ s/\s//g;
-	
+
 	#print $q_seq."\n";
 	#print $s_seq."\n";
 	($q_seq, $s_seq) = remove_leading($q_seq, $s_seq);
-	
+
 	$q_seq = reverse $q_seq;
 	$s_seq = reverse $s_seq;
 	#print $q_seq."\n";
@@ -401,25 +420,25 @@ sub remove_unaligned_ends
 sub remove_leading
 {
 	my($q_seq, $s_seq) = @ARG;
-	
+
 	my $align_length = length $s_seq;
 	my $s_res = [];
 	@$s_res = split //, $s_seq;
 	my $q_res = [];
 	@$q_res = split //, $q_seq;
-	
+
 	my $res_count = 0;
-	
+
 	foreach my $res (@$s_res)
 	{
 		if($res !~ /-/ && @$q_res[$res_count] !~ /-/)
 		{
-			
+
 			last;
 		}
 		$res_count++;
 	}
-	
+
 	my $new_q = '';
 	my $new_s = '';
 	if($res_count > 0 && $res_count != ($align_length-1))
@@ -432,5 +451,5 @@ sub remove_leading
 	{
 		return($q_seq, $s_seq);
 	}
-	
+
 }

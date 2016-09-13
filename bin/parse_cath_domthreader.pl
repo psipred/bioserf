@@ -33,7 +33,31 @@ $hPDomData = {};
 #if($i != 15){next;}
 my $file = $ARGV[1];
 my $fasta = $ARGV[2];
-print $fasta."\n";
+my $prot_id = '';
+
+if($fasta =~ /\//)
+{
+  if($fasta =~ /^.+\/(.+)\.pfilt/){$prot_id = $1;}
+	elsif($fasta =~ /^.+\/(.+)\.fasta/){$prot_id = $1;}
+	elsif($fasta =~ /^.+\/(.+)\.fa/){$prot_id = $1;}
+	else
+	{
+		print "COULD NOT ID FASTA FILE\n";
+		exit;
+	}
+}
+else
+{
+	if ($fasta =~ /^(.+)\.fasta/ ){$prot_id = $1;}
+	elsif ($fasta =~ /^(.+)\.pfilt/){$prot_id = $1;}
+	elsif ($fasta =~ /^(.+)\.fa/){$prot_id = $1;}
+	else
+	{
+		print "COULD NOT ID FASTA FILE\n";
+		exit;
+	}
+}
+#exit;
 if(-e $file)
 {
 	print $fhBlastAlignOut $file."\n";
@@ -277,7 +301,7 @@ sub read_pdom_data
 		}
 		if(exists $hData->{$current_id})
 		{
-			if($line =~ /^Query/)
+			if($line =~ /^$prot_id/)
 			{
 				$hData->{$current_id}{ALIGNMENT}.=$line;
 			}

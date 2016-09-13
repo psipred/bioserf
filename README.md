@@ -5,7 +5,7 @@
 3. pGenTHREADER
 4. HHBlits (c.f. HH-Suite)
 5. Complete PDB and as fasta db
-6. CATH db and as fasta db
+6. CATH dompain pdbs and as a fasta db
 
 # BioSerf
 
@@ -95,6 +95,6 @@ Run domTHREADER
 Run runParseCathDomthreader
 `> ../bin/parse_cath_domthreader.pl /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/data/CathDomainSummary_3.5 B0R5N0.domserf.cath.bls ../example/B0R5N0.fasta ./B0R5N0.pdom.presults ./B0R5N0.pdom.align ./ B0R5N0.blastaligns B0R5N0.ssf B0R5N0.pdomaligns`
 `> ../bin/DomainFinder3 -i B0R5N0.ssf -o B0R5N0.dfout`
-`> runMakeModeller`
+`> ../bin/make_modeller_files.pl B0R5N0.ssf B0R5N0.blastaligns B0R5N0.pdomaligns ./B0R5N0 B0R5N0.mod_lookups ../example/B0R5N0.fasta /scratch0/NOT_BACKED_UP/dbuchan/dompdb`
 `modeller`
 rewrite
