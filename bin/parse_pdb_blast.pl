@@ -536,13 +536,14 @@ sub readCathDomainSummary
 	my $fh = new FileHandle($CathDomainSummary,"r");
 	while(my $line = $fh->getline)
 	{
+		if($line =~ /^#/){next;}
 		my $aEntries = [];
 		@$aEntries = split /\s+/, $line;
 		@$aEntries[0] =~ /^(.{5})/;
 		my $pdb_code = $1;
-		$hCathSummary->{$pdb_code}{@$aEntries[0]}{CATHCODE}=@$aEntries[1];
-		$hCathSummary->{$pdb_code}{@$aEntries[0]}{START}=@$aEntries[2];
-		$hCathSummary->{$pdb_code}{@$aEntries[0]}{STOP}=@$aEntries[3];
+		$hCathSummary->{$pdb_code}{@$aEntries[0]}{CATHCODE}=@$aEntries[1].".".@$aEntries[2].".".@$aEntries[3].".".@$aEntries[4];
+		$hCathSummary->{$pdb_code}{@$aEntries[0]}{START}=@$aEntries[9];
+		$hCathSummary->{$pdb_code}{@$aEntries[0]}{STOP}=@$aEntries[10];
 	}
 }
 

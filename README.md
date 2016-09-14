@@ -6,6 +6,8 @@
 4. HHBlits (c.f. HH-Suite)
 5. Complete PDB and as fasta db
 6. CATH dompain pdbs and as a fasta db
+   http://download.cathdb.info/cath/releases/latest-release/sequence-data/cath-domain-seqs-S100.fa
+   http://download.cathdb.info/cath/releases/latest-release/cath-classification-data/cath-domain-list.txt
 
 # BioSerf
 
@@ -75,7 +77,7 @@ B0R5N0.final.pdb
 
 2. Run parse_pdb_blast.pl
 
-`> ../bin/parse_pdb_blast.pl /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/data/CathDomainSummary_3.5 ../example/B0R5N0.fasta B0R5N0.domserf.pdb.bls /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta . /scratch0/NOT_BACKED_UP/dbuchan/pdb/ /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/bin/reformat.pl ~/bin/modeller9.17/bin/mod9.17`
+`> ../bin/parse_pdb_blast.pl /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/data/cath-domain-list.txt ../example/B0R5N0.fasta B0R5N0.domserf.pdb.bls /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta . /scratch0/NOT_BACKED_UP/dbuchan/pdb/ /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/bin/reformat.pl ~/bin/modeller9.17/bin/mod9.17`
 
 CathDomainSummary_3.5 :  a list of cath domain IDS, CATH codes, and start stop regions
 B0R5N0.domserf.pdb.bls: PDB blast output from step 1
@@ -93,7 +95,7 @@ domain that CATH
 Run domTHREADER
 `> ./GenThreader.sh -i B0R5N0.fasta -j B0R5N0 -d -s`
 Run runParseCathDomthreader
-`> ../bin/parse_cath_domthreader.pl /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/data/CathDomainSummary_3.5 B0R5N0.domserf.cath.bls ../example/B0R5N0.fasta ./B0R5N0.pdom.presults ./B0R5N0.pdom.align ./ B0R5N0.blastaligns B0R5N0.ssf B0R5N0.pdomaligns`
+`> ../bin/parse_cath_domthreader.pl /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/data/cath-domain-list.txt B0R5N0.domserf.cath.bls ../example/B0R5N0.fasta ./B0R5N0.pdom.presults ./B0R5N0.pdom.align ./ B0R5N0.blastaligns B0R5N0.ssf B0R5N0.pdomaligns`
 `> ../bin/DomainFinder3 -i B0R5N0.ssf -o B0R5N0.dfout`
 `> ../bin/make_modeller_files.pl B0R5N0.dfout B0R5N0.blastaligns B0R5N0.pdomaligns ./B0R5N0 B0R5N0.mod_lookups ../example/B0R5N0.fasta /scratch0/NOT_BACKED_UP/dbuchan/dompdb/`
 

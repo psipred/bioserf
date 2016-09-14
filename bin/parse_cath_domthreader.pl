@@ -316,16 +316,17 @@ sub read_pdom_data
 
 sub readCathDomainSummary
 {
-        my $fh = new FileHandle($CathDomainSummary,"r");
-        while(my $line = $fh->getline)
-        {
-                my $aEntries = [];
-                @$aEntries = split /\s+/, $line;
-                @$aEntries[0] =~ /^(.{7})/;
-                my $pdb_code = $1;
-                $hCathSummary->{$pdb_code}{CATHCODE}=@$aEntries[1];
-				$hCathSummary->{$pdb_code}{START}=@$aEntries[2];
-                $hCathSummary->{$pdb_code}{STOP}=@$aEntries[3];
-				$hCathSummary->{$pdb_code}{LENGTH}=@$aEntries[3]-@$aEntries[2];
-        }
+	my $fh = new FileHandle($CathDomainSummary,"r");
+	while(my $line = $fh->getline)
+	{
+		if($line =~ /^#/){next;}
+		my $aEntries = [];
+		@$aEntries = split /\s+/, $line;
+		@$aEntries[0] =~ /^(.{7})/;
+		my $pdb_code = $1;
+		$hCathSummary->{$pdb_code}{CATHCODE}=@$aEntries[1].".".@$aEntries[2].".".@$aEntries[3].".".@$aEntries[4];
+		$hCathSummary->{$pdb_code}{START}=@$aEntries[9];
+		$hCathSummary->{$pdb_code}{STOP}=@$aEntries[10];
+    $hCathSummary->{$pdb_code}{LENGTH}=@$aEntries[10]-@$aEntries[9];
+	}
 }
