@@ -6,10 +6,8 @@
 4. HHBlits (c.f. HH-Suite)
 5. Complete PDB and as fasta db
 6. CATH dompain pdbs and as a fasta db
-
-   http://download.cathdb.info/cath/releases/latest-release/sequence-data/cath-domain-seqs-S100.fa
-
-   http://download.cathdb.info/cath/releases/latest-release/cath-classification-data/cath-domain-list.txt
+  - http://download.cathdb.info/cath/releases/latest-release/sequence-data/cath-domain-seqs-S100.fa
+  - http://download.cathdb.info/cath/releases/latest-release/cath-classification-data/cath-domain-list.txt
 
 # BioSerf
 
@@ -21,6 +19,7 @@ S.Ward, M.Sadowski, D.Jones, D.Buchan
 
 1. Run blast over the PDBAA to find out which pdbs your sequence may hit!
 TODO: THIS NEEDS CHANGED TO BLAST+
+
 `> /scratch0/NOT_BACKED_UP/dbuchan/Applications/blast-2.2.26/bin/blastpgp -h 0.001 -d /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta -o bioserf_out.bls -i example/B0R5N0.fasta`
 
 2. Create a set of pGenTHREADER models
@@ -38,8 +37,9 @@ dir you will run HHBlits in. More the presults file to the dir you will run runB
 
 `hhsearch -realign -mact 0 -cpu 1 -E 0.001 -i B0R5N0.hhblits.a3m -d /scratch0/NOT_BACKED_UP/dbuchan/hhblitsdb/pdb70 -o B0R5N0.hhr`
 
-note that hhmakemodel will hang if the hhr file references pdbs which are not present in the
+note that hhmakemodel may hang if the hhr file references pdbs which are not present in the
 pdb dir.
+
 `hhmakemodel.pl -m 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 -d /scratch0/NOT_BACKED_UP/dbuchan/pdb -i B0R5N0.hhr -ts B0R5N0.hh.pdb`
 
 4. Parse blast and output modeller mod.py files and tidy up the set of pGenTHREADER models
@@ -95,6 +95,7 @@ domain that CATH
 3. If no domain pdb files were produced (i.e. we couldn't find a PDB match which was already classified in CATH). Then we run the following.
 
 Run domTHREADER
+
 `> ./GenThreader.sh -i B0R5N0.fasta -j B0R5N0 -d -s`
 
 Run runParseCathDomthreader
@@ -108,6 +109,6 @@ Run runParseCathDomthreader
 
 `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/bin/modeller9.17/lib/x86_64-intel8/`
 
-`for i in `ls *.py | sed -e 's/\.py//'`; do echo $i; ~/bin/modeller9.17/bin/mod9.17 $i.py; done;`
+`for i in ``ls *.py | sed -e 's/\.py//'``; do echo $i; ~/bin/modeller9.17/bin/mod9.17 $i.py; done;`
 
-`for i in `ls *.ali | sed -e 's/\.ali//'`; do echo $i; ../bin/rewrite_modeller.pl ./  B0R5N0.mod_lookups  B0R5N0.blastaligns B0R5N0.pdomaligns ../example/B0R5N0.fasta $i.ali ../bin/reformat.pl; done;`
+`for i in ``ls *.ali | sed -e 's/\.ali//'``; do echo $i; ../bin/rewrite_modeller.pl ./  B0R5N0.mod_lookups  B0R5N0.blastaligns B0R5N0.pdomaligns ../example/B0R5N0.fasta $i.ali ../bin/reformat.pl; done;`
