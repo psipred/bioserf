@@ -6,7 +6,9 @@
 4. HHBlits (c.f. HH-Suite)
 5. Complete PDB and as fasta db
 6. CATH dompain pdbs and as a fasta db
+
    http://download.cathdb.info/cath/releases/latest-release/sequence-data/cath-domain-seqs-S100.fa
+
    http://download.cathdb.info/cath/releases/latest-release/cath-classification-data/cath-domain-list.txt
 
 # BioSerf
@@ -28,7 +30,7 @@ TODO: THIS NEEDS CHANGED TO BLAST+
 you need the presults (for runBioserf) and ss2 files (for HHBlits), more the ss and ss2 files to the
 dir you will run HHBlits in. More the presults file to the dir you will run runBioserf in
 
-3. Creat a set of models using HHBlits (HHSuite3 btw)
+3. Create a set of models using HHBlits (HHSuite3 btw)
 
 `hhblits -i ../example/B0R5N0.fasta -n 3 -cpu 1 -d /scratch0/NOT_BACKED_UP/dbuchan/hhblitsdb/pdb70 -oa3m B0R5N0.hhblits.a3m`
 
