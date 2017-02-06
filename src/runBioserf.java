@@ -17,7 +17,7 @@ import java.io.InputStreamReader;
 import java.nio.channels.FileChannel;
 import org.xml.sax.SAXException;
 import org.xml.sax.InputSource;
-import org.biojava.bio.program.sax.BlastLikeSAXParser;
+import org.biojava.bio.program.sax.*;
 import org.biojava.bio.program.ssbind.BlastLikeSearchBuilder;
 import org.biojava.bio.program.ssbind.SeqSimilarityAdapter;
 import org.biojava.bio.search.*;
@@ -25,6 +25,7 @@ import org.biojava.bio.seq.db.*;
 import org.biojava.bio.symbol.Alignment;
 import org.ucl.util.Utils;
 import org.ucl.util.ExternalProcess;
+import org.xml.sax.*;
 
 class runBioserf
 {

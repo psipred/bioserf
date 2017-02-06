@@ -47,6 +47,7 @@ sub make_lookup
     if($fasta_file =~ /^.+\/(.+)\.pfilt/){$id = $1;}
   	elsif($fasta_file =~ /^.+\/(.+)\.fasta/){$id = $1;}
   	elsif($fasta_file =~ /^.+\/(.+)\.fa/){$id = $1;}
+		elsif($fasta_file =~ /^.+\/(.+)\.input/){$id = $1;}
   	else
   	{
   		print "COULD NOT GET ID FROM FASTA FILE\n";
@@ -57,8 +58,9 @@ sub make_lookup
   {
   	if ($fasta_file =~ /^(.+)\.fasta/ ){$id = $1;}
   	elsif ($fasta_file =~ /^(.+)\.pfilt/){$id = $1;}
-  	elsif ($fasta_file =~ /^(.+)\.fa/){$id = $1;}
-  	else
+		elsif ($fasta_file =~ /^(.+)\.fa/){$id = $1;}
+		elsif ($fasta_file =~ /^(.+)\.input/){$id = $1;}
+		  	else
   	{
   		print "COULD NOT GET ID FROM FASTA FILE\n";
   		exit;
@@ -95,9 +97,12 @@ sub read_pdom_aligns
 	while(my $line = $fhIn->getline)
 	{
 		chomp $line;
+		print("PDB:".$pdb_id."\n");
+
 		if($line =~ /^(.+\sPDOM\|.+)/)
 		{
 			my $name = $1;
+			$align_name = $name;
 			if($align_name !~ /START/ && $get_align==1)
 			{
 				print $align_name."\n";
@@ -111,8 +116,6 @@ sub read_pdom_aligns
 				#exit;
 			}
 
-			$align_name = $name;
-
 			if(exists $hSsf->{$align_name})
 			{
 				$get_align = 1;
@@ -123,17 +126,29 @@ sub read_pdom_aligns
 			{
 				$get_align = 0;
 			}
-		}
 
-		if($line =~ /^$id\s+(.+)/ && $get_align ==1)
+		}
+		if($line =~ /^($id|Query)\s+(.+)/ && $get_align ==1)
 		{
-			$q_seq.=$1;
+			$q_seq.=$2;
 		}
 		if($line =~ /^$pdb_id\s+(.+)/ && $get_align ==1)
 		{
 			$s_seq.=$1;
 		}
 
+	}
+	if($align_name !~ /START/ && $get_align==1)
+	{
+				print $align_name."\n";
+				$output_count++;
+				#DO STUFF HERE, edit/generalise these functions
+				print_ali($align_name,0,0,0,0,$q_seq,$s_seq,1);
+				print_py($align_name,1);
+				$pdb_id = '';
+				$q_seq = '';
+				$s_seq = '';
+				#exit;
 	}
 }
 
@@ -161,7 +176,6 @@ sub read_blast_aligns
 				print $align_name."\n";
 				$output_count++;
 				my $start = read_domain_start($align_name);
-				#print $start."\n";
 				print_ali($align_name,$q_start,$q_stop,($s_start+$start)-1,($s_stop+$start)-1,$q_seq,$s_seq,0);
 				print_py($align_name,0);
 				$get_align = 0;
@@ -171,6 +185,7 @@ sub read_blast_aligns
 				$s_stop = 0;
 				$q_seq = '';
 				$s_seq = '';
+				$get_align = 0;
 				#exit;
 			}
 			$align_name = $name;
@@ -215,6 +230,23 @@ sub read_blast_aligns
 			}
 		}
 	}
+	if($align_name !~ /START/ && $get_align==1)
+			{
+				print $align_name."\n";
+				$output_count++;
+				my $start = read_domain_start($align_name);
+				print_ali($align_name,$q_start,$q_stop,($s_start+$start)-1,($s_stop+$start)-1,$q_seq,$s_seq,0);
+				print_py($align_name,0);
+				$get_align = 0;
+				$q_start = 0;
+				$q_stop = 0;
+				$s_start = 0;
+				$s_stop = 0;
+				$q_seq = '';
+				$s_seq = '';
+				$get_align = 0;
+				#exit;
+			}
 }
 
 sub read_domain_start
@@ -274,10 +306,10 @@ sub print_ali
 {
 	my($align_name,$q_start,$q_stop,$s_start,$s_stop,$q_seq,$s_seq,$pdom_ctrl) = @ARG;
 
-         if($pdom_ctrl != 0)
-        {
-                ($q_start,$q_stop) = get_coords($q_seq,$s_seq);
-        }
+	if($pdom_ctrl != 0)
+  {
+      ($q_start,$q_stop) = get_coords($q_seq,$s_seq);
+  }
 
 	($q_seq, $s_seq) = remove_unaligned_ends($q_seq, $s_seq);
 

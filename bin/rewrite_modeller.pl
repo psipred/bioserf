@@ -42,7 +42,8 @@ sub make_lookup
 	  {
 	    if($fasta_file =~ /^.+\/(.+)\.pfilt/){$id = $1;}
 	  	elsif($fasta_file =~ /^.+\/(.+)\.fasta/){$id = $1;}
-	  	elsif($fasta_file =~ /^.+\/(.+)\.fa/){$id = $1;}
+			elsif($fasta_file =~ /^.+\/(.+)\.fa/){$id = $1;}
+			elsif($fasta_file =~ /^.+\/(.+)\.input/){$id = $1;}
 	  	else
 	  	{
 	  		print "COULD NOT GET ID FROM FASTA FILE\n";
@@ -53,7 +54,8 @@ sub make_lookup
 	  {
 	  	if ($fasta_file =~ /^(.+)\.fasta/ ){$id = $1;}
 	  	elsif ($fasta_file =~ /^(.+)\.pfilt/){$id = $1;}
-	  	elsif ($fasta_file =~ /^(.+)\.fa/){$id = $1;}
+			elsif ($fasta_file =~ /^(.+)\.fa/){$id = $1;}
+			elsif ($fasta_file =~ /^(.+)\.input/){$id = $1;}
 	  	else
 	  	{
 	  		print "COULD NOT GET ID FROM FASTA FILE\n";
@@ -65,7 +67,7 @@ sub make_lookup
 	LOOP: while(my $line = $fhIn->getline)
 	{
 			chomp $line;
-			print $line;
+			# print $line;
 			if($line =~ /^>(.+?)\s/)
 			{
 				$hData->{$1} = $id;
@@ -142,8 +144,10 @@ sub read_ali
 		chomp $s_seq;
 
 		#if($modelid !~ /A0SXL3/){next;}
+		# print $modelid."\n";
 		my $modelfile = $modelid.".B99990001.pdb";
 		my $model = '';
+		print $modeldir.$modelfile."\n";
 		if(-e $modeldir.$modelfile)
 		{
 			my $fhMod = new FileHandle($modeldir.$modelfile,"r");

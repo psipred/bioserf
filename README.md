@@ -28,7 +28,7 @@ TODO: THIS NEEDS CHANGED TO BLAST+
 you need the presults (for runBioserf) and ss2 files (for HHBlits), more the ss and ss2 files to the
 dir you will run HHBlits in. More the presults file to the dir you will run runBioserf in
 
-3. Creat a set of models using HHBlits (HHSuite3 btw)
+3. Create a set of models using HHBlits (HHSuite3 btw)
 
 `hhblits -i ../example/B0R5N0.fasta -n 3 -cpu 1 -d /scratch0/NOT_BACKED_UP/dbuchan/hhblitsdb/pdb70 -oa3m B0R5N0.hhblits.a3m`
 
@@ -70,10 +70,9 @@ B0R5N0.final.pdb
 
 1. Run blast against the CATH db sequences and PDB
 
-`> /scratch0/NOT_BACKED_UP/dbuchan/Applications/ncbi-blast-2.2.31+/bin/psiblast -num_threads 1 -num_alignments 1000 -outfmt 0 -num_iterations 5 -inclusion_ethresh 0.001 -db /scratch0/NOT_BACKED_UP/dbuchan/uniref/CathDomainSeqs.S100.ATOM -query ../example/B0R5N0.fasta -out  B0R5N0.domserf.cath.bls`
+`> /scratch0/NOT_BACKED_UP/dbuchan/Applications/ncbi-blast-2.2.31+/bin/psiblast -num_threads 1 -num_alignments 1000 -outfmt 0 -num_iterations 5 -inclusion_ethresh 0.001 -db /scratch0/NOT_BACKED_UP/dbuchan/uniref/CathDomainSeqs.S100.ATOM -query ../example/B0R5N0.fasta -out B0R5N0.domserf.cath.bls`
 
-`> /scratch0/NOT_BACKED_UP/dbuchan/Applications/ncbi-blast-2.2.31+/bin/psiblast -num_threads 1 -num_alignments 1000 -outfmt 0 -num_iterations 5 -inclusion_ethresh 0.001 -db /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta -query ../example/B0R5N0.fasta -out  B0R5N0.domserf.pdb.bls`
-
+`> /scratch0/NOT_BACKED_UP/dbuchan/Applications/ncbi-blast-2.2.31+/bin/psiblast -num_threads 1 -num_alignments 1000 -outfmt 0 -num_iterations 5 -inclusion_ethresh 0.001 -db /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta -query ../example/B0R5N0.fasta -out B0R5N0.domserf.pdb.bls`
 
 2. Run parse_pdb_blast.pl
 
@@ -85,10 +84,9 @@ pdb_aa.fasta: the PDB blast db used in step 1
 ./ : tmp dir for models and whatnot
 pdb/ : location of pdb files
 reformat.pl : location of reformat.pl
-mod9.17 : locatin of Modeller binary
+mod9.17 : location of Modeller binary
 
-If a good hit is found pdb files of the form NAME_start_stop.pdb will be produced for each
-domain that CATH
+If a good hit is found pdb files of the form NAME_start_stop.2pdb will be produced for each domain that CATH
 
 3. If no domain pdb files were produced (i.e. we couldn't find a PDB match which was already classified in CATH). Then we run the following.
 
@@ -99,7 +97,7 @@ Run runParseCathDomthreader
 `> ../bin/DomainFinder3 -i B0R5N0.ssf -o B0R5N0.dfout`
 `> ../bin/make_modeller_files.pl B0R5N0.dfout B0R5N0.blastaligns B0R5N0.pdomaligns ./B0R5N0 B0R5N0.mod_lookups ../example/B0R5N0.fasta /scratch0/NOT_BACKED_UP/dbuchan/dompdb/`
 
-`export PYTHONPATH=~bin/modeller9.17/modlib:~/bin/modeller9.17/lib/x86_64-intel8/`
+`export PYTHONPATH=~/bin/modeller9.17/modlib:~/bin/modeller9.17/lib/x86_64-intel8/`
 `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/bin/modeller9.17/lib/x86_64-intel8/`
 `for i in `ls *.py | sed -e 's/\.py//'`; do echo $i; ~/bin/modeller9.17/bin/mod9.17 $i.py; done;`
 

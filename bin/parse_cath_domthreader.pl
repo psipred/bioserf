@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/bin/perl -w
 
 use strict;
 use FileHandle;
@@ -18,7 +18,6 @@ my $fhSSF = new FileHandle($tmpPath.$ARGV[7],"w");
 my $fhAligns = new FileHandle($tmpPath.$ARGV[8],"w");
 my $hBlastData ={};
 my $length = 0;
-my $ID = '';
 my $hPDomData = {};
 
 my $hCathSummary = {};
@@ -27,19 +26,19 @@ readCathDomainSummary();
 
 $hBlastData ={};
 $length = 0;
-$ID = '';
+my $ID = '';
 $hPDomData = {};
 
 #if($i != 15){next;}
 my $file = $ARGV[1];
 my $fasta = $ARGV[2];
 my $prot_id = '';
-
 if($fasta =~ /\//)
 {
   if($fasta =~ /^.+\/(.+)\.pfilt/){$prot_id = $1;}
 	elsif($fasta =~ /^.+\/(.+)\.fasta/){$prot_id = $1;}
-	elsif($fasta =~ /^.+\/(.+)\.fa/){$prot_id = $1;}
+  elsif($fasta =~ /^.+\/(.+)\.fa/){$prot_id = $1;}
+  elsif($fasta =~ /^.+\/(.+)\.input/){$prot_id = $1;}
 	else
 	{
 		print "COULD NOT ID FASTA FILE\n";
@@ -51,6 +50,7 @@ else
 	if ($fasta =~ /^(.+)\.fasta/ ){$prot_id = $1;}
 	elsif ($fasta =~ /^(.+)\.pfilt/){$prot_id = $1;}
 	elsif ($fasta =~ /^(.+)\.fa/){$prot_id = $1;}
+  elsif($fasta =~ /^(.+)\.input/){$prot_id = $1;}
 	else
 	{
 		print "COULD NOT ID FASTA FILE\n";
@@ -71,6 +71,7 @@ my $align_file = $ARGV[4];
 
 if(-e $pgen_file && -e $align_file)
 {
+  # print($pgen_file);
 	$hPDomData = read_pdom_data($pgen_file);
 }
 #print Dumper $hBlastData;
@@ -147,8 +148,6 @@ sub remove_low_overlaps
 	}
 }
 
-
-
 $fhBlastAlignOut->close;
 
 sub read_fasta
@@ -168,6 +167,14 @@ sub read_fasta
 	}
 	my $length = length $seq;
 
+  # before we return in the input files starts with an
+  # we'll use the first
+  # portion as the name instead
+  if($ffile =~ /(.{8})-.{4}-.{4}-.{4}-.{12}/)
+  {
+    $ID=$1;
+  }
+  #print($ID);
 	return($length);
 }
 
@@ -259,14 +266,15 @@ sub read_pdom_data
 	my ($pfile) = @ARG;
 
 	$pfile =~ s/bls/pdom.presults/;
-	my $fhIn = new FileHandle($pfile,"r");
+  my $fhIn = new FileHandle($pfile,"r");
 	my $hit_count = 0;
 	my $hData = {};
 	#print $pfile."\n";
 	while(my $line = $fhIn->getline)
 	{
-		if($line =~ /^CERT|^HIGH/)
-		{
+		#if($line =~ /^CERT|^HIGH/)
+    if($line =~ /^CERT|^HIGH|^MEDIUM/)
+    {
 			$hit_count++;
 			chomp $line;
 			my $aEntries = [];
@@ -299,9 +307,10 @@ sub read_pdom_data
 				$hData->{$current_id}{ALIGNMENT} = '';
 			}
 		}
+    # print $prot_id."\n";
 		if(exists $hData->{$current_id})
 		{
-			if($line =~ /^$prot_id/)
+			if($line =~ /^$prot_id|^Query/)
 			{
 				$hData->{$current_id}{ALIGNMENT}.=$line;
 			}
@@ -311,6 +320,7 @@ sub read_pdom_data
 			}
 		}
 	}
+  #print Dumper $hData;
 	return($hData);
 }
 

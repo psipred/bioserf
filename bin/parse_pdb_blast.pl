@@ -352,7 +352,7 @@ sub runModeller
 	print $fhOut "key = 'molpdf'\nok_models.sort(lambda a,b: cmp(a[key], b[key]))\nm = ok_models[0]\nprint \"Top model:%s\" % m['name']\n";
 	chdir $modellerDir;
 	my $cmd = $modellerBin." ".$modellerDir.$query_id.".py";
-	print $cmd."\n";
+	print STDERR $cmd."\n";
 	`$cmd`;
 
 }
@@ -443,7 +443,7 @@ sub readBlast
     my $found_align = 0;
     my $hData = {};
     my $current_id = '';
-	while(my $line = $fhIn->getline)
+	  while(my $line = $fhIn->getline)
     {
         chomp $line;
 		#if($line =~ /^\s\s(\d.{3}[A-Z]\d)\s+.+\s+(\S+?)\s+(\S+?)\s*$/)
