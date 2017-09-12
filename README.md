@@ -87,7 +87,7 @@ B0R5N0.final.pdb
 * ./ : tmp dir for models and whatnot
 * pdb/ : location of pdb files
 * reformat.pl : location of reformat.pl
-* mod9.17 : locatin of Modeller binary
+* mod9.17 : location of Modeller binary
 
 If a good hit is found pdb files of the form NAME_start_stop.pdb will be produced for each
 domain that CATH
@@ -101,6 +101,7 @@ Run domTHREADER
 Run runParseCathDomthreader
 
 `> ../bin/parse_cath_domthreader.pl /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/data/cath-domain-list.txt B0R5N0.domserf.cath.bls ../example/B0R5N0.fasta ./B0R5N0.pdom.presults ./B0R5N0.pdom.align ./ B0R5N0.blastaligns B0R5N0.ssf B0R5N0.pdomaligns`
+
 `> ../bin/DomainFinder3 -i B0R5N0.ssf -o B0R5N0.dfout`
 
 `> ../bin/make_modeller_files.pl B0R5N0.dfout B0R5N0.blastaligns B0R5N0.pdomaligns ./B0R5N0 B0R5N0.mod_lookups ../example/B0R5N0.fasta /scratch0/NOT_BACKED_UP/dbuchan/dompdb/`
