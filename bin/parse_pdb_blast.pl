@@ -28,16 +28,18 @@ my $query_length = length $query_seq;
 my $blast_data = $ARGV[2];
 print("READING BLAST RESULTS\n");
 my $hBlastData = readBlast();
-#print Dumper $hBlastData;
+print Dumper $hBlastData;
 my $pdb_fasta = $ARGV[3];
 print("GETTING PDB LENGTHS\n");
 getPdbLengths();
 
 my $aData = transformData();
+
 my $hBestHit = {};
 print("FINDING BEST HITS\n");
+print Dumper $aData;
 $hBestHit = findBestHit();
-print Dumper $hCathSummary;
+# print Dumper $hCathSummary;
 print Dumper $hBestHit;
 
 my $modellerDir = $ARGV[4];
