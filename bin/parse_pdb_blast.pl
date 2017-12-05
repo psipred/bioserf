@@ -327,8 +327,8 @@ sub runModeller
 	#print Dumper $hCathSummary->{$pdb_code};
 
 	my ($query_str, $sub_str) = getAlignStrings($hBestHit->{ALIGNMENT});
-	#print $query_str."\n";
-	#print $sub_str."\n";
+	print $query_str."\n";
+	print $sub_str."\n";
 
 	$pdb_code =~ /(.{4})(.)/;
 	my $chain = $2;
