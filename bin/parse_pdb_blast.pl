@@ -28,7 +28,7 @@ my $query_length = length $query_seq;
 my $blast_data = $ARGV[2];
 print("READING BLAST RESULTS\n");
 my $hBlastData = readBlast();
-print Dumper $hBlastData;
+#print Dumper $hBlastData;
 my $pdb_fasta = $ARGV[3];
 print("GETTING PDB LENGTHS\n");
 getPdbLengths();
@@ -37,10 +37,10 @@ my $aData = transformData();
 
 my $hBestHit = {};
 print("FINDING BEST HITS\n");
-print Dumper $aData;
+#print Dumper $aData;
 $hBestHit = findBestHit();
-# print Dumper $hCathSummary;
-print Dumper $hBestHit;
+print Dumper $hCathSummary;
+#print Dumper $hBestHit;
 
 my $modellerDir = $ARGV[4];
 $modellerDir =~ s!/*$!/!;
@@ -82,6 +82,7 @@ sub chopDomains
 	my $pdb_first_residue = getPdbFirstRes($pdb,$chain);
 	my $alignment_offset = $hBestHit->{SSTART};
 	my $query_offset = $hBestHit->{SSTART}-$hBestHit->{QSTART};
+	print($pdb_code."\n");
 	print Dumper $hCathSummary->{$pdb_code};
 	print Dumper $hBestHit;
 
