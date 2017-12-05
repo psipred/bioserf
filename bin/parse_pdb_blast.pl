@@ -450,90 +450,84 @@ sub readBlast
     my $found_align = 0;
     my $hData = {};
     my $current_id = '';
-	  while(my $line = $fhIn->getline)
+    while ( my $line = $fhIn->getline )
     {
         chomp $line;
-		#if($line =~ /^\s\s(\d.{3}[A-Z]\d)\s+.+\s+(\S+?)\s+(\S+?)\s*$/)
-        if($line =~ /^\s\s(\d.{3}[A-Z]\d*)\s+.+\s+(\d+?)\s+(\S+?)\s*$/)
+        #if($line =~ /^\s\s(\d.{3}[A-Z]\d)\s+.+\s+(\S+?)\s+(\S+?)\s*$/)
+        if ( $line =~ /^\s\s(\d.{3}[A-Z]\d*)\s+.+\s+(.+?)\s+(\S+?)\s*$/ )
         {
-
-			my $id = $1;
-			my $score = $2;
-            my $eval = $3;
-			#if($id !~ /3eo1G0/){next;}
-
+            my $id    = $1;
+            my $score = $2;
+            my $eval  = $3;
+            #if($id !~ /3eo1G0/){next;}
             #print $id." S: ".$score." E:".$eval."\n";
-            if($eval == 0.0 || $eval < 0.00005)
-            {
-
-			    $current_id = $id;
-				if(! exists $hData->{$current_id})
-				{
-                $hData->{$current_id}{SCORE} = $score;
-                $hData->{$current_id}{EVAL} = $eval;
-                $hData->{$current_id}{QSTART} = 0;
-                $hData->{$current_id}{QSTOP} = 0;
-				$hData->{$current_id}{SSTART} = 0;
-                $hData->{$current_id}{SSTOP} = 0;
-				$hData->{$current_id}{ALIGNMENT} = '';
-                $hData->{$current_id}{DOMAINID} = lc $id;
-				$hData->{$current_id}{COUNT}  = $passed_count;
-				$passed_count++;
-				}
+            if ( $eval == 0.0 || $eval < 0.00005 ) {
+                $current_id = $id;
+                if ( !exists $hData->{$current_id} ) {
+                    $hData->{$current_id}{SCORE}     = $score;
+                    $hData->{$current_id}{EVAL}      = $eval;
+                    $hData->{$current_id}{QSTART}    = 0;
+                    $hData->{$current_id}{QSTOP}     = 0;
+                    $hData->{$current_id}{SSTART}    = 0;
+                    $hData->{$current_id}{SSTOP}     = 0;
+                    $hData->{$current_id}{ALIGNMENT} = '';
+                    $hData->{$current_id}{DOMAINID}  = lc $id;
+                    $hData->{$current_id}{COUNT}     = $passed_count;
+                    $passed_count++;
+                }
             }
-
         }
-        if($line =~ /^>\s(.{5,6})\s/)
+        if ( $line =~ /^>\s(.{5,6})\s/ )
         {
             $current_id = $1;
-            if($found_align < $passed_count && exists $hData->{$current_id})
+            if ( $found_align < $passed_count
+                && exists $hData->{$current_id} )
             {
                 $hData->{$current_id}{ALIGNMENT_HEADER} = $line;
             }
             $found_align++;
-
         }
-        if($line =~ /^(Query|Sbjct)\s/ && $found_align <= $passed_count && exists $hData->{$current_id})
+        if (   $line =~ /^(Query|Sbjct)\s/
+            && $found_align <= $passed_count
+            && exists $hData->{$current_id} )
         {
-            $hData->{$current_id}{ALIGNMENT} .= $line."\n";
-            if($line =~ /^Query\s+(\d+)\s.+\s(\d+)/)
+            $hData->{$current_id}{ALIGNMENT} .= $line . "\n";
+            if ( $line =~ /^Query\s+(\d+)\s.+\s(\d+)/ )
             {
                 my $tmp_start = $1;
-                my $tmp_stop = $2;
-                if($hData->{$current_id}{QSTART} == 0)
+                my $tmp_stop  = $2;
+                if ( $hData->{$current_id}{QSTART} == 0 )
                 {
-                    $hData->{$current_id}{QSTART} =$tmp_start;
+                    $hData->{$current_id}{QSTART} = $tmp_start;
                 }
-                if($tmp_stop > $hData->{$current_id}{QSTOP})
-                {
+                if ( $tmp_stop > $hData->{$current_id}{QSTOP} ) {
                     $hData->{$current_id}{QSTOP} = $tmp_stop;
                 }
-
             }
-			if($line =~ /^Sbjct\s+(\d+)\s.+\s(\d+)/ && exists $hData->{$current_id})
+            if ( $line =~ /^Sbjct\s+(\d+)\s.+\s(\d+)/
+                && exists $hData->{$current_id} )
             {
                 my $tmp_start = $1;
-                my $tmp_stop = $2;
-                if($hData->{$current_id}{SSTART} == 0)
-                {
-                    $hData->{$current_id}{SSTART} =$tmp_start;
+                my $tmp_stop  = $2;
+                if ( $hData->{$current_id}{SSTART} == 0 ) {
+                    $hData->{$current_id}{SSTART} = $tmp_start;
                 }
-                if($tmp_stop > $hData->{$current_id}{SSTOP})
-                {
+                if ( $tmp_stop > $hData->{$current_id}{SSTOP} ) {
                     $hData->{$current_id}{SSTOP} = $tmp_stop;
                 }
-
             }
         }
-		if($line =~ /Positives\s=\s(\d+)\/\d+/ && $found_align <= $passed_count && exists $hData->{$current_id})
+        if (   $line =~ /Positives\s=\s(\d+)\/\d+/
+            && $found_align <= $passed_count
+            && exists $hData->{$current_id} )
         {
-			$hData->{$current_id}{POSITIVES} = $1;
-			$hData->{$current_id}{QUERY_OVERLAP} = ($1/$query_length)*100;
-
-		}
-
+            $hData->{$current_id}{POSITIVES} = $1;
+            $hData->{$current_id}{QUERY_OVERLAP} =
+              ( $1 / $query_length ) * 100;
+        }
     }
-    return($hData);
+    return ($hData);
+
 }
 
 
