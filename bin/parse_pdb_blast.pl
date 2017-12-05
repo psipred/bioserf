@@ -30,15 +30,15 @@ print("READING BLAST RESULTS\n");
 my $hBlastData = readBlast();
 #print Dumper $hBlastData;
 my $pdb_fasta = $ARGV[3];
-print("GETTING PDB LENGHTS\n");
+print("GETTING PDB LENGTHS\n");
 getPdbLengths();
 
 my $aData = transformData();
 my $hBestHit = {};
 print("FINDING BEST HITS\n");
 $hBestHit = findBestHit();
-#print Dumper $hCathSummary;
-#print Dumper $hBestHit;
+print Dumper $hCathSummary;
+print Dumper $hBestHit;
 
 my $modellerDir = $ARGV[4];
 $modellerDir =~ s!/*$!/!;
