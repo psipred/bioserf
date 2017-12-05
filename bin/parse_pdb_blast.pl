@@ -15,23 +15,27 @@ use Digest::MD5;
 
 my $hCathSummary = {};
 my $CathDomainSummary = $ARGV[0];
+print("READING CATH DOMAIN SUMMARY DATA\n");
 readCathDomainSummary();
 
 my $query_id = '';
 my $query_seq = '';
 my $query = $ARGV[1];
+print("READING FASTA SEQ\n");
 read_fasta();
 my $query_length = length $query_seq;
 
 my $blast_data = $ARGV[2];
+print("READING BLAST RESULTS\n");
 my $hBlastData = readBlast();
 #print Dumper $hBlastData;
 my $pdb_fasta = $ARGV[3];
+print("GETTING PDB LENGHTS\n");
 getPdbLengths();
 
 my $aData = transformData();
 my $hBestHit = {};
-
+print("FINDING BEST HITS\n");
 $hBestHit = findBestHit();
 #print Dumper $hCathSummary;
 #print Dumper $hBestHit;
@@ -45,6 +49,7 @@ my $modellerBin = $ARGV[7];
 
 if(ref($hBestHit) eq 'HASH')
 {
+	print("FOUND BEST HIT AND MODELLING\n");
 	runModeller();
 	chopDomains();
 }

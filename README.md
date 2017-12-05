@@ -5,9 +5,11 @@
 3. pGenTHREADER
 4. HHBlits (c.f. HH-Suite)
 5. Complete PDB and as fasta db
+      We get pdbaa from dunbrack lab
+      http://dunbrack.fccc.edu/Guoli/culledpdb_hh/pdbaa.gz
 6. CATH dompain pdbs and as a fasta db
-   http://download.cathdb.info/cath/releases/latest-release/sequence-data/cath-domain-seqs-S100.fa
-   http://download.cathdb.info/cath/releases/latest-release/cath-classification-data/cath-domain-list.txt
+    http://download.cathdb.info/cath/releases/all-releases/v4_1_0/sequence-data/cath-domain-seqs-S100-v4_1_0.fa
+    http://download.cathdb.info/cath/releases/all-releases/v4_1_0/non-redundant-data-sets/cath-dataset-nonredundant-S40-v4_1_0.pdb.tgz
 
 # BioSerf
 
@@ -74,6 +76,9 @@ B0R5N0.final.pdb
 
 `> /scratch0/NOT_BACKED_UP/dbuchan/Applications/ncbi-blast-2.2.31+/bin/psiblast -num_threads 1 -num_alignments 1000 -outfmt 0 -num_iterations 5 -inclusion_ethresh 0.001 -db /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta -query ../example/B0R5N0.fasta -out B0R5N0.domserf.pdb.bls`
 
+## SLURM:
+run_domain_blast.sh
+
 2. Run parse_pdb_blast.pl
 
 `> ../bin/parse_pdb_blast.pl /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/data/cath-domain-list.txt ../example/B0R5N0.fasta B0R5N0.domserf.pdb.bls /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta . /scratch0/NOT_BACKED_UP/dbuchan/pdb/ /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/bin/reformat.pl ~/bin/modeller9.17/bin/mod9.17`
@@ -87,6 +92,8 @@ reformat.pl : location of reformat.pl
 mod9.17 : location of Modeller binary
 
 If a good hit is found pdb files of the form NAME_start_stop.2pdb will be produced for each domain that CATH
+
+## SLURM
 
 3. If no domain pdb files were produced (i.e. we couldn't find a PDB match which was already classified in CATH). Then we run the following.
 
