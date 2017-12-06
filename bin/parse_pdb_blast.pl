@@ -82,9 +82,9 @@ sub chopDomains
 	my $pdb_first_residue = getPdbFirstRes($pdb,$chain);
 	my $alignment_offset = $hBestHit->{SSTART};
 	my $query_offset = $hBestHit->{SSTART}-$hBestHit->{QSTART};
-	print Dumper $hCathSummary;
-	print($pdb_code."\n");
-	print Dumper $hCathSummary->{$pdb_code};
+	#print Dumper $hCathSummary;
+	#print($pdb_code."\n");
+	#print Dumper $hCathSummary->{$pdb_code};
 	# print Dumper $hBestHit;
 
 	my $fhTemplates = new FileHandle($modellerDir.$query_id."_pdb_templates.txt","w");
@@ -164,26 +164,26 @@ sub chopDomains
 		#print $s_segment."\n";
 
 		my $ctx = Digest::MD5->new;
-        $ctx->add($query_seq);
+    $ctx->add($query_seq);
 		my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
-        my @abbr = qw( 01 02 03 04 05 06 07 08 09 10 11 12 );
-        $year+=1900;
-        $mon = $abbr[$mon];
-        $mday=~ s/^(\d)$/0$1/;
+    my @abbr = qw( 01 02 03 04 05 06 07 08 09 10 11 12 );
+    $year+=1900;
+    $mon = $abbr[$mon];
+    $mday=~ s/^(\d)$/0$1/;
 
 		my $genome3d_remarks = '';
 		$genome3d_remarks.="REMARK GENOME3D NAME ".$query_id."_".$query_domain_start."_".$query_domain_stop."\n";
 		$genome3d_remarks.="REMARK GENOME3D UNIPROT_ID ".$query_id."\n";
 		$genome3d_remarks.="REMARK GENOME3D UNIPROT_MD5 .".$ctx->hexdigest()."\n";
 		$genome3d_remarks.="REMARK GENOME3D TIMESTAMP ".$year."-".$mon."-".$mday."\n";
-        $genome3d_remarks.="REMARK GENOME3D TOTAL TEMPLATES 1\n";
-        $genome3d_remarks.="REMARK GENOME3D SELECTION psiblast\n";
-        $genome3d_remarks.="REMARK GENOME3D SELECTION pDomTHREADER\n";
-        $genome3d_remarks.="REMARK GENOME3D SELECTION DomainFinder3\n";
-        $genome3d_remarks.="REMARK GENOME3D MODELLING modeller\n";
-        $genome3d_remarks.="REMARK GENOME3D ALIGNMENT_SOURCE t_coffee\n";
-        $genome3d_remarks.="REMARK GENOME3D START ".$query_domain_start."\n";
-        $genome3d_remarks.="REMARK GENOME3D STOP ".$query_domain_stop."\n";
+    $genome3d_remarks.="REMARK GENOME3D TOTAL TEMPLATES 1\n";
+    $genome3d_remarks.="REMARK GENOME3D SELECTION psiblast\n";
+    $genome3d_remarks.="REMARK GENOME3D SELECTION pDomTHREADER\n";
+    $genome3d_remarks.="REMARK GENOME3D SELECTION DomainFinder3\n";
+    $genome3d_remarks.="REMARK GENOME3D MODELLING modeller\n";
+    $genome3d_remarks.="REMARK GENOME3D ALIGNMENT_SOURCE t_coffee\n";
+    $genome3d_remarks.="REMARK GENOME3D START ".$query_domain_start."\n";
+    $genome3d_remarks.="REMARK GENOME3D STOP ".$query_domain_stop."\n";
 
 		$genome3d_remarks.="REMARK GENOME3D >".$query_id.":".$query_domain_start."-".$query_domain_stop."\n";
 		($qstr, $sstr) = convertA2M($q_segment, $s_segment);
@@ -255,6 +255,7 @@ sub convertA2M
 	print $fhOut ">Subjct\n";
 	print $fhOut $subject."\n";
 	my $cmd = $reformatBin." fas a2m ".$modellerDir.$query_id."_".$time.".fsa ".$modellerDir.$query_id."_".$time.".a2m";
+	print($cmd);
 	`$cmd`;
 	sleep 1;
 
