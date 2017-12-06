@@ -293,7 +293,7 @@ sub convertA2M
 		}
 	}
 	$fhIn->close;
-	$rmcmd = "rm ".$modellerDir.$local_query_id."_".$time.".a2m";
+	$rmcmd = "rm ".$modellerDir.$query_file_id."_".$time.".a2m";
 	`$rmcmd`;
 
 	return($query,$subject);
