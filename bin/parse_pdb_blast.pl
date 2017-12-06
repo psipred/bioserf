@@ -52,8 +52,8 @@ my $modellerBin = $ARGV[7];
 if(ref($hBestHit) eq 'HASH')
 {
 	print("FOUND BEST HIT AND MODELLING\n");
-	runModeller();
-	chopDomains();
+	#runModeller();
+	# chopDomains();
 }
 
 sub testOverlap
@@ -339,7 +339,8 @@ sub runModeller
 	my $fhOut = new FileHandle($modellerDir.$query_id.".ali","w");
 	print $fhOut ">P1;$pdb\n";
 	print $fhOut "structure:".$pdb."::".$chain."::".$chain."::::\n";
-	print $fhOut $sub_str."*\n";
+	# print $fhOut $sub_str."*\n";
+  print $fhOut "*\n";
 
 	print $fhOut ">P1;$query_id\n";
 	print $fhOut "sequence:".$query_id."::::::::\n";
@@ -362,7 +363,7 @@ sub runModeller
 	my $cmd = $modellerBin." ".$modellerDir.$query_id.".py";
 	print STDERR $cmd."\n";
 	`$cmd`;
-
+j
 }
 
 sub getAlignStrings
