@@ -183,7 +183,8 @@ sub chopDomains
     $genome3d_remarks.="REMARK GENOME3D SELECTION pDomTHREADER\n";
     $genome3d_remarks.="REMARK GENOME3D SELECTION DomainFinder3\n";
     $genome3d_remarks.="REMARK GENOME3D MODELLING modeller\n";
-    $genome3d_remarks.="REMARK GENOME3D ALIGNMENT_SOURCE t_coffee\n";
+    $genome3d_remarks.="REMARK GENOME3D ALIGNMENT_SOURCE psi_blast\n";
+    $genome3d_remarks.="REMARK GENOME3D ALIGNMENT_SOURCE modeller\n";
     $genome3d_remarks.="REMARK GENOME3D START ".$query_domain_start."\n";
     $genome3d_remarks.="REMARK GENOME3D STOP ".$query_domain_stop."\n";
 
@@ -339,7 +340,6 @@ sub runModeller
 	my $chain = $2;
 	$chain = uc $chain;
 	my $pdb = $1;
-	$query_id =~ s/\|/_/g;
 	print "Printing: ".$query_file_id.".ali\n";
 	my $fhOut = new FileHandle($modellerDir.$query_file_id.".ali","w");
 	print $fhOut ">P1;$pdb\n";
