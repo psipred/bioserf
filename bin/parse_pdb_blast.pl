@@ -53,7 +53,7 @@ if(ref($hBestHit) eq 'HASH')
 {
 	print("FOUND BEST HIT AND MODELLING\n");
 	runModeller();
-	# chopDomains();
+	chopDomains();
 }
 
 sub testOverlap
