@@ -252,7 +252,7 @@ sub convertA2M
 	my $time = time;
 
 	my $local_query_id = $query_id;
-	$local_query_id =~ tr/\|/_/g;
+	$local_query_id =~ tr/\|/_/;
 	my $fhOut = new FileHandle($modellerDir.$local_query_id."_".$time.".fsa","w");
 	print $fhOut ">Query\n";
 	print $fhOut $query."\n";
