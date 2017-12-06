@@ -19,6 +19,7 @@ print("READING CATH DOMAIN SUMMARY DATA\n");
 readCathDomainSummary();
 
 my $query_id = '';
+my $query_file_id = '';
 my $query_seq = '';
 my $query = $ARGV[1];
 print("READING FASTA SEQ\n");
@@ -88,7 +89,7 @@ sub chopDomains
 	#print Dumper $hCathSummary->{$pdb_code};
 	# print Dumper $hBestHit;
 
-	my $fhTemplates = new FileHandle($modellerDir.$query_id."_pdb_templates.txt","w");
+	my $fhTemplates = new FileHandle($modellerDir.$query_file_id."_pdb_templates.txt","w");
 	print $fhTemplates "PDB CHAIN,CATH DOMAIN,Q START,Q STOP,S START,S STOP,EVALUE\n";
 	foreach my $dom_id (keys %{$hCathSummary->{$pdb_code}})
 	{
@@ -205,12 +206,12 @@ sub chopDomains
 		print $fhTemplates $pdb_code.",".$dom_id.",".$query_domain_start.",".$query_domain_stop.",".$sbjct_domain_start.",".$sbjct_domain_stop.",".$hBestHit->{EVAL}."\n";
 
 		#if(-e "/cluster/project2/domserf/modeller_out/".$query_id.".B99990001.pdb")
-		if(-e $modellerDir.$query_id.".B99990001.pdb")
+		if(-e $modellerDir.$query_file_id.".B99990001.pdb")
 		{
-			my $fhOut = new FileHandle($modellerDir.$query_id."_".$query_domain_start."_".$query_domain_stop.".pdb","w");
+			my $fhOut = new FileHandle($modellerDir.$query_file_id."_".$query_domain_start."_".$query_domain_stop.".pdb","w");
 			print $fhOut $genome3d_remarks;
 
-			my $fhIn = new FileHandle($modellerDir.$query_id.".B99990001.pdb", "r");
+			my $fhIn = new FileHandle($modellerDir.$query_file_id.".B99990001.pdb", "r");
 			my $res_count = 0;
 			my $atom_count = 0;
 			my $res_id = '';
@@ -251,23 +252,21 @@ sub convertA2M
 	my($query,$subject) = @ARG;
 	my $time = time;
 
-	my $local_query_id = $query_id;
-	$local_query_id =~ tr/\|/_/;
-	my $fhOut = new FileHandle($modellerDir.$local_query_id."_".$time.".fsa","w");
+	my $fhOut = new FileHandle($modellerDir.$query_file_id."_".$time.".fsa","w");
 	print $fhOut ">Query\n";
 	print $fhOut $query."\n";
 	print $fhOut ">Subjct\n";
 	print $fhOut $subject."\n";
-	my $cmd = $reformatBin." fas a2m ".$modellerDir.$local_query_id."_".$time.".fsa ".$modellerDir.$local_query_id."_".$time.".a2m";
+	my $cmd = $reformatBin." fas a2m ".$modellerDir.$query_file_id."_".$time.".fsa ".$modellerDir.$query_file_id."_".$time.".a2m";
 	print($cmd);
 	`$cmd`;
 	sleep 1;
 
-	my $rmcmd = "rm ".$modellerDir.$local_query_id."_".$time.".fsa";
+	my $rmcmd = "rm ".$modellerDir.$query_file_id."_".$time.".fsa";
 	`$rmcmd`;
 	$fhOut ->close;
 
-	my $fhIn = new FileHandle($modellerDir.$local_query_id."_".$time.".a2m","r");
+	my $fhIn = new FileHandle($modellerDir.$query_file_id."_".$time.".a2m","r");
 	my $sub_found = 0;
 	while(my $line = $fhIn->getline)
 	{
@@ -304,8 +303,8 @@ sub getPdbFirstRes
 {
 	my($pdb,$chain) = @ARG;
 	my $pdb_first_residue = '';
-	print $modellerDir.$query_id.".B99990001.pdb\n";
-	if(-e $modellerDir.$query_id.".B99990001.pdb")
+	print $modellerDir.$query_file_id.".B99990001.pdb\n";
+	if(-e $modellerDir.$query_file_id.".B99990001.pdb")
 	{
 		#open the pdb file find out the offset for the chains so we can map the
 		if(-e $pdbDir."pdb".$pdb.".ent")
@@ -341,8 +340,8 @@ sub runModeller
 	$chain = uc $chain;
 	my $pdb = $1;
 	$query_id =~ s/\|/_/g;
-	print "Printing: ".$query_id.".ali\n";
-	my $fhOut = new FileHandle($modellerDir.$query_id.".ali","w");
+	print "Printing: ".$query_file_id.".ali\n";
+	my $fhOut = new FileHandle($modellerDir.$query_file_id.".ali","w");
 	print $fhOut ">P1;$pdb\n";
 	print $fhOut "structure:".$pdb.":FIRST:".$chain.":LAST:".$chain."::::\n";
 	# print $fhOut $sub_str."*\n";
@@ -353,7 +352,7 @@ sub runModeller
 	print $fhOut $query_str."*\n";
 	$fhOut->close;
 
-	print "Printing: ".$query_id.".py\n";
+	print "Printing: ".$query_file_id.".py\n";
 	$fhOut = new FileHandle($modellerDir.$query_id.".py","w");
 	print $fhOut "from modeller import *\nfrom modeller.automodel import *\n\nenv = environ()\n";
 	print $fhOut "env.io.atom_files_directory = '".$pdbDir."'\n";
@@ -365,7 +364,7 @@ sub runModeller
 	print $fhOut "a.starting_model = 1\na.ending_model = 1\na.auto_align()\na.make()\nok_models = filter(lambda x: x['failure'] is None, a.outputs)\n";
 	print $fhOut "key = 'molpdf'\nok_models.sort(lambda a,b: cmp(a[key], b[key]))\nm = ok_models[0]\nprint \"Top model:%s\" % m['name']\n";
 	chdir $modellerDir;
-	my $cmd = $modellerBin." ".$modellerDir.$query_id.".py";
+	my $cmd = $modellerBin." ".$modellerDir.$query_file_id.".py";
 	print STDERR $cmd."\n";
 	`$cmd`;
 }
@@ -543,7 +542,7 @@ sub readCathDomainSummary
 	my $fh = new FileHandle($CathDomainSummary,"r");
 	while(my $line = $fh->getline)
 	{
-		if($line =~ /^#/){next;}
+    if($line =~ /^#/){next;}
 		my $aEntries = [];
 		@$aEntries = split /\s+/, $line;
 		@$aEntries[0] =~ /^(.{5})/;
@@ -559,9 +558,14 @@ sub read_fasta
     my $fhIn = new FileHandle($query,"r");
     while(my $line = $fhIn->getline)
     {
-        if($line =~ /^>\s*(.+?)\s+/){$query_id = $1;next;}
+        if($line =~ /^>\s*(.+?)\s+/)
+        {
+          $query_id = $1;
+          $query_file_id=$query_id;
+          $query_file_id =~ tr/\|/_/;
+          next
+        }
         chomp $line;
         $query_seq.=$line;
-
     }
 }
