@@ -258,7 +258,7 @@ sub convertA2M
 	print $fhOut ">Subjct\n";
 	print $fhOut $subject."\n";
 	my $cmd = $reformatBin." fas a2m ".$modellerDir.$query_file_id."_".$time.".fsa ".$modellerDir.$query_file_id."_".$time.".a2m";
-	print($cmd);
+	#print($cmd);
 	`$cmd`;
 	sleep 1;
 
