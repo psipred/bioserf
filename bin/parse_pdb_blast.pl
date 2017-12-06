@@ -344,7 +344,6 @@ sub runModeller
 
 	print $fhOut ">P1;$query_id\n";
 	print $fhOut "sequence:".$query_id."::::::::\n";
-
 	print $fhOut $query_str."*\n";
 	$fhOut->close;
 
@@ -357,7 +356,7 @@ sub runModeller
     print $fhOut "  knowns=('".$pdb."'),\n";
     print $fhOut "  sequence='".$query_id."')\n";
 
-	print $fhOut "a.starting_model = 1\na.ending_model = 1\na.make()\nok_models = filter(lambda x: x['failure'] is None, a.outputs)\n";
+	print $fhOut "a.starting_model = 1\na.ending_model = 1\na.auto_align()\na.make()\nok_models = filter(lambda x: x['failure'] is None, a.outputs)\n";
 	print $fhOut "key = 'molpdf'\nok_models.sort(lambda a,b: cmp(a[key], b[key]))\nm = ok_models[0]\nprint \"Top model:%s\" % m['name']\n";
 	chdir $modellerDir;
 	my $cmd = $modellerBin." ".$modellerDir.$query_id.".py";
