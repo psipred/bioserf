@@ -23,6 +23,7 @@ my $query_seq = '';
 my $query = $ARGV[1];
 print("READING FASTA SEQ\n");
 read_fasta();
+print($query_id);
 my $query_length = length $query_seq;
 
 my $blast_data = $ARGV[2];
@@ -249,21 +250,24 @@ sub convertA2M
 {
 	my($query,$subject) = @ARG;
 	my $time = time;
-	my $fhOut = new FileHandle($modellerDir.$query_id."_".$time.".fsa","w");
+
+	my $local_query_id = $query_id;
+	$local_query_id =~ tr/\|/_/g;
+	my $fhOut = new FileHandle($modellerDir.$local_query_id."_".$time.".fsa","w");
 	print $fhOut ">Query\n";
 	print $fhOut $query."\n";
 	print $fhOut ">Subjct\n";
 	print $fhOut $subject."\n";
-	my $cmd = $reformatBin." fas a2m ".$modellerDir.$query_id."_".$time.".fsa ".$modellerDir.$query_id."_".$time.".a2m";
+	my $cmd = $reformatBin." fas a2m ".$modellerDir.$local_query_id."_".$time.".fsa ".$modellerDir.$local_query_id."_".$time.".a2m";
 	print($cmd);
 	`$cmd`;
 	sleep 1;
 
-	my $rmcmd = "rm ".$modellerDir.$query_id."_".$time.".fsa";
+	my $rmcmd = "rm ".$modellerDir.$local_query_id."_".$time.".fsa";
 	`$rmcmd`;
 	$fhOut ->close;
 
-	my $fhIn = new FileHandle($modellerDir.$query_id."_".$time.".a2m","r");
+	my $fhIn = new FileHandle($modellerDir.$local_query_id."_".$time.".a2m","r");
 	my $sub_found = 0;
 	while(my $line = $fhIn->getline)
 	{
@@ -290,7 +294,7 @@ sub convertA2M
 		}
 	}
 	$fhIn->close;
-	$rmcmd = "rm ".$modellerDir.$query_id."_".$time.".a2m";
+	$rmcmd = "rm ".$modellerDir.$local_query_id."_".$time.".a2m";
 	`$rmcmd`;
 
 	return($query,$subject);
