@@ -52,7 +52,7 @@ my $modellerBin = $ARGV[7];
 if(ref($hBestHit) eq 'HASH')
 {
 	print("FOUND BEST HIT AND MODELLING\n");
-	#runModeller();
+	runModeller();
 	# chopDomains();
 }
 
@@ -361,7 +361,7 @@ sub runModeller
 	chdir $modellerDir;
 	my $cmd = $modellerBin." ".$modellerDir.$query_id.".py";
 	print STDERR $cmd."\n";
-	`$cmd`;
+	# `$cmd`;
 }
 
 sub getAlignStrings
