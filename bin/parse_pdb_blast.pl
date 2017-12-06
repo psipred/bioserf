@@ -340,6 +340,7 @@ sub runModeller
 	my $chain = $2;
 	$chain = uc $chain;
 	my $pdb = $1;
+	$query_id =~ s/\|/_/g;
 	print "Printing: ".$query_file_id.".ali\n";
 	my $fhOut = new FileHandle($modellerDir.$query_file_id.".ali","w");
 	print $fhOut ">P1;$pdb\n";
@@ -367,6 +368,7 @@ sub runModeller
 	my $cmd = $modellerBin." ".$modellerDir.$query_file_id.".py";
 	print STDERR $cmd."\n";
 	`$cmd`;
+  $query_id =~ s/_/\|/g;
 }
 
 sub getAlignStrings
