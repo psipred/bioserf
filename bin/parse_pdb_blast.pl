@@ -24,7 +24,7 @@ my $query_seq = '';
 my $query = $ARGV[1];
 print("READING FASTA SEQ\n");
 read_fasta();
-print($query_id);
+# print($query_id);
 my $query_length = length $query_seq;
 
 my $blast_data = $ARGV[2];
@@ -54,7 +54,7 @@ my $modellerBin = $ARGV[7];
 if(ref($hBestHit) eq 'HASH')
 {
 	print("FOUND BEST HIT AND MODELLING\n");
-	# runModeller();
+	runModeller();
 	chopDomains();
 }
 
