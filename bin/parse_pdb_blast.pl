@@ -363,7 +363,6 @@ sub runModeller
 	my $cmd = $modellerBin." ".$modellerDir.$query_id.".py";
 	print STDERR $cmd."\n";
 	`$cmd`;
-j
 }
 
 sub getAlignStrings
