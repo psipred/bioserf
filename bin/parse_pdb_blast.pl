@@ -52,7 +52,7 @@ my $modellerBin = $ARGV[7];
 if(ref($hBestHit) eq 'HASH')
 {
 	print("FOUND BEST HIT AND MODELLING\n");
-	runModeller();
+	# runModeller();
 	chopDomains();
 }
 
@@ -82,9 +82,10 @@ sub chopDomains
 	my $pdb_first_residue = getPdbFirstRes($pdb,$chain);
 	my $alignment_offset = $hBestHit->{SSTART};
 	my $query_offset = $hBestHit->{SSTART}-$hBestHit->{QSTART};
+	print Dumper $hCathSummary;
 	print($pdb_code."\n");
 	print Dumper $hCathSummary->{$pdb_code};
-	print Dumper $hBestHit;
+	# print Dumper $hBestHit;
 
 	my $fhTemplates = new FileHandle($modellerDir.$query_id."_pdb_templates.txt","w");
 	print $fhTemplates "PDB CHAIN,CATH DOMAIN,Q START,Q STOP,S START,S STOP,EVALUE\n";
