@@ -550,8 +550,8 @@ sub readCathDomainSummary
 		@$aEntries[0] =~ /^(.{5})/;
 		my $pdb_code = $1;
 		$hCathSummary->{$pdb_code}{@$aEntries[0]}{CATHCODE}=@$aEntries[1].".".@$aEntries[2].".".@$aEntries[3].".".@$aEntries[4];
-		$hCathSummary->{$pdb_code}{@$aEntries[0]}{START}=@$aEntries[9];
-		$hCathSummary->{$pdb_code}{@$aEntries[0]}{STOP}=@$aEntries[10];
+		$hCathSummary->{$pdb_code}{@$aEntries[0]}{START}=@$aEntries[12];
+		$hCathSummary->{$pdb_code}{@$aEntries[0]}{STOP}=@$aEntries[13];
 	}
 }
 

@@ -1,0 +1,76 @@
+import sys
+
+
+# we read in the cath domain list and the cath domall file and produce
+# an annotated version of the domain list
+#
+# For the sake of sanity we only handle contiguous chains whose starts
+# as positive integers
+
+
+class Vividict(dict):
+    def __missing__(self, key):
+        value = self[key] = type(self)()
+        return value
+
+
+def read_domall(domall_file):
+    domains = Vividict()
+    with open(domall_file, 'r') as dfh:
+        for line in dfh:
+            domain_count = 0
+            line = line.rstrip()
+            if line.startswith('#'):
+                continue
+            else:
+                # print(line)
+                leader = line[0:15]
+                data = line[15:]
+                leader_entries = leader.split()
+                total_domains = int(leader_entries[1].lstrip('D'))
+                while domain_count != total_domains:
+                    seg_number = int(data[0])
+                    entry_length = (seg_number*19)+3
+                    domain_entry = data[0:entry_length]
+                    data = data[entry_length:]
+                    # print(domain_entry)
+                    seg_count = 0
+                    total_segs = int(domain_entry[0])
+                    domain_count += 1
+                    while seg_count != total_segs:
+                        seg_data = domain_entry[1:]
+                        start = int(seg_data[3+(seg_count*19):9+(seg_count*19)])
+                        stop = int(seg_data[12+(seg_count*19):17+(seg_count*19)])
+                        seg_count += 1
+                        if start > 0:
+                            domains[leader_entries[0]][domain_count][seg_count]['start']=start
+                            domains[leader_entries[0]][domain_count][seg_count]['stop']=stop
+
+    return(domains)
+
+
+def read_domain_list(domall, domain_file):
+    with open(domain_file, 'r') as dfh:
+        for line in dfh:
+            if line.startswith('#'):
+                continue
+            line = line.rstrip()
+            entries = line.split()
+            if entries[0][0:5] in domall.keys():
+                # print(domall[entries[0][0:5]])
+                if entries[0][5:7] == '00':
+                    if len(domall[entries[0][0:5]][1]) == 1:
+                        print(line+" "+str(domall[entries[0][0:5]][1][1]['start'])+" "+str(domall[entries[0][0:5]][1][1]['stop']))
+                    # handle single domain chain
+                else:
+                    i = int(entries[0][5:7])
+                    if len(domall[entries[0][0:5]][i]) == 1:
+                        print(line+" "+str(domall[entries[0][0:5]][i][1]['start'])+" "+str(domall[entries[0][0:5]][i][1]['stop']))
+
+
+domain_list = sys.argv[1]
+domall_list = sys.argv[2]
+
+domall = read_domall(domall_list)
+#print(domall)
+read_domain_list(domall, domain_list)

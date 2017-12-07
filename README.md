@@ -73,6 +73,11 @@ B0R5N0.final.pdb
 
 # DomSerf protocol
 
+Before this you need to process the CATH domain list and CATH domall files to
+build an annotated domain-list.
+
+`> python bin/process_cath_data.py cath-domain-list-v4_2_0.txt cath-domain-boundaries-v4_2_0.txt > data/cath-domain-list-v4_2_0_annotated.txt`
+
 1. Run blast against the CATH db sequences and PDB
 
 `> /scratch0/NOT_BACKED_UP/dbuchan/Applications/ncbi-blast-2.2.31+/bin/psiblast -num_threads 1 -num_alignments 1000 -outfmt 0 -num_iterations 5 -inclusion_ethresh 0.001 -db /scratch0/NOT_BACKED_UP/dbuchan/uniref/CathDomainSeqs.S100.ATOM -query ../example/B0R5N0.fasta -out B0R5N0.domserf.cath.bls`
