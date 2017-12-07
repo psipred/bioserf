@@ -60,7 +60,7 @@ def read_domain_list(domall, domain_file):
             # if entries[0][0:5] != '4q43F':
             #     continue
             if entries[0][0:5] in domall.keys():
-                print(domall[entries[0][0:5]])
+                # print(domall[entries[0][0:5]])
                 if entries[0][5:7] == '00':
                     if len(domall[entries[0][0:5]][1]) == 1:
                         print(line+" "+str(domall[entries[0][0:5]][1][1]['start'])+" "+str(domall[entries[0][0:5]][1][1]['stop']))
