@@ -12,6 +12,7 @@ for path in glob.glob(sys.argv[1]+"*_*_*.pdb"):
 
 fasta_str = ".+/(.+?).fasta"
 fasta_re = re.compile(fasta_str)
+todo_count = 0
 for path in glob.glob(sys.argv[2]+"/*"):
     for fasta in glob.glob(path+"/*"):
         m = fasta_re.search(fasta)
@@ -20,3 +21,6 @@ for path in glob.glob(sys.argv[2]+"/*"):
                 print("Found: "+m.group(1))
             else:
                 print("TODO: "+m.group(1))
+                todo_count += 1
+
+print("TODO: "+todo_count)
