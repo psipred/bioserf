@@ -1,6 +1,7 @@
 import glob
 import sys
 import re
+import os
 
 pdb_str = ".+/(.+?)_\d+_\d+\.pdb"
 pdb_re = re.compile(pdb_str)
@@ -19,6 +20,7 @@ for path in glob.glob(sys.argv[2]+"/*"):
         if m:
             if m.group(1) in complete_genes:
                 print("Found: "+m.group(1))
+                os.remove(fasta)
             else:
                 print("TODO: "+m.group(1))
                 todo_count += 1
