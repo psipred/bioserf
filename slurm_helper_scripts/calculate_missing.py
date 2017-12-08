@@ -14,6 +14,6 @@ fasta_str = ".+/(.+?).fasta"
 fasta_re = re.compile(fasta_str)
 for path in glob.glob(sys.argv[2]+"/*"):
     for fasta in glob.glob(path+"/*"):
-        m = fasta.re.search(fasta)
+        m = fasta_re.search(fasta)
         if m:
             print(m.group(1))
