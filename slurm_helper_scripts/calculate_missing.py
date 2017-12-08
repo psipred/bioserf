@@ -11,6 +11,6 @@ for path in glob.glob(sys.argv[1]+"*_*_*.pdb"):
         print(m.group(1))
 
 
-for path in glob.glob(sys.argv[2]):
-    for fasta in glob.glob(path):
+for path in glob.glob(sys.argv[2]+"/*"):
+    for fasta in glob.glob(path+"/*"):
         print(fasta)
