@@ -16,7 +16,7 @@ for path in glob.glob(sys.argv[2]+"/*"):
     for fasta in glob.glob(path+"/*"):
         m = fasta_re.search(fasta)
         if m:
-            if m.group(1)) in complete_genes:
+            if m.group(1) in complete_genes:
                 print("Found: "+m.group(1))
             else:
                 print("TODO: "+m.group(1))
