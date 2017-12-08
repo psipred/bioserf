@@ -23,4 +23,4 @@ for path in glob.glob(sys.argv[2]+"/*"):
                 print("TODO: "+m.group(1))
                 todo_count += 1
 
-print("TODO: "+todo_count)
+print("TODO: "+str(todo_count))
