@@ -106,13 +106,16 @@ If a good hit is found pdb files of the form NAME_start_stop.2pdb will be produc
 sbatch run_parse_pdb.sh
 
 ## Work out which proteins need to pass through to step 3
-
+calculate_missing.py
 
 3. If no domain pdb files were produced (i.e. we couldn't find a PDB match which was already classified in CATH). Then we run the following.
 
 Run domTHREADER
 
 `> ./GenThreader.sh -i B0R5N0.fasta -j B0R5N0 -d -s`
+
+## SLURM
+sbatch
 
 Run runParseCathDomthreader
 
