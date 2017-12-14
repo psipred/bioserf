@@ -117,6 +117,7 @@ sub remove_low_overlaps
 		my $domId=$hBlastData->{$id}{DOMAINID};
 		if(! exists $hCathSummary->{$domId})
 		{
+      print($domID."\n");
 			delete $hBlastData->{$id};
 			next;
 		}
