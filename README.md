@@ -112,12 +112,12 @@ calculate_missing.py
 
 Run domTHREADER
 
-`> ./GenThreader.sh -i B0R5N0.fasta -j B0R5N0 -d -s`
+`> ./GenThreader.sh -i B0R5N0.fasta -j B0R5N0 -d`
 
 ## SLURM
-sbatch
+sbatch run_domthreader.sh
 
-Run runParseCathDomthreader
+4. Run runParseCathDomthreader
 
 `> ../bin/parse_cath_domthreader.pl /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/data/cath-domain-list.txt B0R5N0.domserf.cath.bls ../example/B0R5N0.fasta ./B0R5N0.pdom.presults ./B0R5N0.pdom.align ./ B0R5N0.blastaligns B0R5N0.ssf B0R5N0.pdomaligns`
 
