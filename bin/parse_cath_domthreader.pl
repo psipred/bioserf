@@ -23,7 +23,7 @@ my $hPDomData = {};
 my $hCathSummary = {};
 print("Reading CATH summary\n");
 readCathDomainSummary();
-
+print Dumper $hCathSummary;
 $hBlastData ={};
 $length = 0;
 my $ID = '';
@@ -75,9 +75,9 @@ if(-e $pgen_file && -e $align_file)
 	$hPDomData = read_pdom_data($pgen_file);
 }
 print Dumper $hBlastData;
-
+print Dumper $hPDomData;
 remove_low_overlaps();
-print Dumper $hBlastData;
+
 
 print_ssf();
 print_alignments();
