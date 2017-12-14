@@ -23,7 +23,7 @@ my $hPDomData = {};
 my $hCathSummary = {};
 print("Reading CATH summary\n");
 readCathDomainSummary();
-print Dumper $hCathSummary;
+# print Dumper $hCathSummary;
 $hBlastData ={};
 $length = 0;
 my $ID = '';
@@ -78,10 +78,8 @@ print Dumper $hBlastData;
 print Dumper $hPDomData;
 remove_low_overlaps();
 
-
 print_ssf();
 print_alignments();
-#exit;
 
 
 sub print_alignments
@@ -125,6 +123,7 @@ sub remove_low_overlaps
 		my $align_length = $hBlastData->{$id}{STOP}-$hBlastData->{$id}{START};
 		#print $domId."\n";
 		my $ratio = $align_length/$hCathSummary->{$domId}{LENGTH};
+    print $ratio."\n";
 		if($ratio < 0.4)
 		{
 				delete $hBlastData->{$id};
@@ -141,6 +140,7 @@ sub remove_low_overlaps
 		}
 		my $align_length =$hPDomData->{$id}{STOP}-$hPDomData->{$id}{START};
 		my $ratio = $align_length/$hCathSummary->{$domId}{LENGTH};
+    print $ratio."\n";
 		if($ratio < 0.4)
 		{
 			delete $hPDomData->{$id};
