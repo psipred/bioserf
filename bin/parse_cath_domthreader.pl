@@ -205,6 +205,15 @@ sub read_blast_data
 			$align_count=-1;
 			$get_align = 0;
 		}
+		if($line =~ /^>\s\scath\|4_1_0\|(.{7})\/.+/)
+		{
+			$current_id = "CDOM|".$1.":";
+			$pdb_id = $1;
+			$found_alignments = 1;
+			$align_count=-1;
+			$get_align = 0;
+		}
+
 		if($line =~ /^Length=(\d+)/)
 		{
 			$current_length = $1;
