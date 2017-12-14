@@ -23,7 +23,6 @@ my $hPDomData = {};
 my $hCathSummary = {};
 print("Reading CATH summary\n");
 readCathDomainSummary();
-print Dumper($hCathSummary);
 
 $hBlastData ={};
 $length = 0;
