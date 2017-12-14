@@ -8,7 +8,7 @@ use Data::Dumper;
 
 my $CathDomainSummary = $ARGV[0];
 my $tmpPath = $ARGV[5];
-print Dumper $CathDomainSummary;
+
 # print $tmpRoot.".blastaligns\n";
 # my $fhBlastAlignOut = new FileHandle($tmpRoot.".blastaligns","w");
 # my $fhSSF = new FileHandle($tmpRoot.".ssf","w");
@@ -23,6 +23,7 @@ my $hPDomData = {};
 my $hCathSummary = {};
 print("Reading CATH summary\n");
 readCathDomainSummary();
+print($hCathSummary);
 
 $hBlastData ={};
 $length = 0;
