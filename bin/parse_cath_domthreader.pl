@@ -9,7 +9,7 @@ use Data::Dumper;
 my $CathDomainSummary = $ARGV[0];
 my $tmpPath = $ARGV[5];
 my $dom_lib = $ARGV[9];
-$line_counts = `wc -l $dom_lib/*`;
+my $line_counts = `wc -l $dom_lib/*`;
 print($line_counts);
 exit();
 # print $tmpRoot.".blastaligns\n";
