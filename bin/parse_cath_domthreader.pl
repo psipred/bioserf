@@ -16,7 +16,7 @@ foreach my $tdb (@$tdb_files)
   print($tdb);
   my $tdb_len = `wc -l $tdb`;
   $tdb_len -= 1;
-  print($tdb_len-1."\n");
+  print($tdb_len."\n");
 }
 exit();
 # print $tmpRoot.".blastaligns\n";
