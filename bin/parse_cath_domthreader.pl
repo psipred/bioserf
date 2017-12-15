@@ -8,7 +8,9 @@ use Data::Dumper;
 
 my $CathDomainSummary = $ARGV[0];
 my $tmpPath = $ARGV[5];
-
+my $dom_lib = $ARGV[9];
+print($dom_lib);
+exit();
 # print $tmpRoot.".blastaligns\n";
 # my $fhBlastAlignOut = new FileHandle($tmpRoot.".blastaligns","w");
 # my $fhSSF = new FileHandle($tmpRoot.".ssf","w");
