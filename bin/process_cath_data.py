@@ -1,5 +1,5 @@
 import sys
-
+import glob
 
 # we read in the cath domain list and the cath domall file and produce
 # an annotated version of the domain list
@@ -71,10 +71,26 @@ def read_domain_list(domall, domain_file):
                         print(line+" "+str(domall[entries[0][0:5]][i][1]['start'])+" "+str(domall[entries[0][0:5]][i][1]['stop']))
 
 
+def file_len(fname):
+    with open(fname) as f:
+        for i, l in enumerate(f):
+            pass
+    return i
+
+
+def read_tdb(domall, tdb_list):
+    tdb_files = glob.glob(tdb_list+"/*.tdb")
+    for tdb in tdb_files:
+        domain = tdb[-11:-4]
+        domain_len = file_len(tdb)
+        print(domain, domain_len)
+        exit()
+
 domain_list = sys.argv[1]
 domall_list = sys.argv[2]
 tdb_list = sys.argv[3]
 
 domall = read_domall(domall_list)
-#print(domall)
-read_domain_list(domall, domain_list)
+domall = read_tdb(domall, tdb_list)
+# print(domall)
+#read_domain_list(domall, domain_list)
