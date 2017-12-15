@@ -10,7 +10,7 @@ my $CathDomainSummary = $ARGV[0];
 my $tmpPath = $ARGV[5];
 my $dom_lib = $ARGV[9];
 opendir my $dir, $dom_lib or die "Cannot open directory: $!";
-my $tdb_files = readdir $dir;
+my @$tdb_files = readdir $dir;
 closedir $dir;
 print Dumper ($tdb_files);
 exit();
