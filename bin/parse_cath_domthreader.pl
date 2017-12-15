@@ -15,7 +15,8 @@ foreach my $tdb (@$tdb_files)
 {
   print($tdb);
   my $tdb_len = `wc -l $tdb`;
-  $tdb_len -= 1;
+  $tdb_len ~ /^(\d+\s.+/;
+  $tdb_len = $1-1;
   print($tdb_len."\n");
 }
 exit();
