@@ -76,7 +76,7 @@ B0R5N0.final.pdb
 Before this you need to process the CATH domain list and CATH domall files to
 build an annotated domain-list.
 
-`> python bin/process_cath_data.py cath-domain-list-v4_2_0.txt cath-domain-boundaries-v4_2_0.txt > data/cath-domain-list-v4_2_0_annotated.txt`
+`> python bin/process_cath_data.py cath-domain-list-v4_2_0.txt cath-domain-boundaries-v4_2_0.txt > data/cath-domain-list-v4_2_0_annotated.txt working/cath4.1/domlib/cath_domain_tdb/`
 
 1. Run blast against the CATH db sequences and PDB
 
