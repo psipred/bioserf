@@ -81,7 +81,7 @@ def file_len(fname):
 def read_tdb(domall, tdb_list):
     tdb_files = glob.glob(tdb_list+"/*.tdb")
     for tdb in tdb_files:
-        domain = tdb[-11:-4]
+        domain = tdb[-11:-6]
         domain_len = file_len(tdb)
         print(domain, domain_len)
         continue
