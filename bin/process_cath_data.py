@@ -95,7 +95,7 @@ def read_tdb(domall, tdb_list):
         domain_len = file_len(tdb)
         if domain_number == 0:
             domain_number == 1
-        print(domid, chainid, domain_number)
+        # print(domid, chainid, domain_number)
         if chainid in domall:
             if domain_number in domall[chainid]:
                 pass
