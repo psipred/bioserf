@@ -96,7 +96,7 @@ def read_tdb(domall, tdb_list):
         if domain_number == 0:
             domain_number == 1
         print(domid, chainid, domain_number)
-        if domain in domall:
+        if chainid in domall:
             if domain_number in domall[domain]:
                 pass
             else:
@@ -105,8 +105,6 @@ def read_tdb(domall, tdb_list):
                 domall[domain][domain_number][length] = domain_len
 
 
-        exit()
-
 domain_list = sys.argv[1]
 domall_list = sys.argv[2]
 tdb_list = sys.argv[3]
@@ -114,4 +112,4 @@ tdb_list = sys.argv[3]
 domall = read_domall(domall_list)
 #print(domall)
 domall = read_tdb(domall, tdb_list)
-#read_domain_list(domall, domain_list)
+read_domain_list(domall, domain_list)
