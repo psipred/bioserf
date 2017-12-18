@@ -97,7 +97,7 @@ def read_tdb(domall, tdb_list):
             domain_number == 1
         print(domid, chainid, domain_number)
         if domain in domall:
-             if domain_number in domall[domain]:
+            if domain_number in domall[domain]:
                 pass
             else:
                 domall[domain][domain_number][start] = '-'
