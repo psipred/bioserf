@@ -81,9 +81,13 @@ def file_len(fname):
 def read_tdb(domall, tdb_list):
     tdb_files = glob.glob(tdb_list+"/*.tdb")
     for tdb in tdb_files:
-        domain = tdb[-11:-6]
+        domid = tdb[-11:-4]
+        chainid = tdb[-11:-6]
+        domain_number = int(tdb[-14:-2])
         domain_len = file_len(tdb)
-        print(domain, domain_len)
+        print(domid, chainid, domain_number)
+        if domain in domall:
+            pass
         continue
 
 domain_list = sys.argv[1]
@@ -91,6 +95,6 @@ domall_list = sys.argv[2]
 tdb_list = sys.argv[3]
 
 domall = read_domall(domall_list)
-print(domall)
+#print(domall)
 domall = read_tdb(domall, tdb_list)
 #read_domain_list(domall, domain_list)
