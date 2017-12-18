@@ -65,17 +65,19 @@ def read_domain_list(domall, domain_file):
                 # print(domall[entries[0][0:5]])
                 if entries[0][5:7] == '00':
                     if len(domall[entries[0][0:5]][1]) == 1:
-                        print(line,str(domall[entries[0][0:5]][1][1]['start']),
-                              str(domall[entries[0][0:5]][1][1]['stop']),
+                        print(line+" " +
+                              str(domall[entries[0][0:5]][1][1]['start'])+" " +
+                              str(domall[entries[0][0:5]][1][1]['stop'])+" " +
                               str(domall[entries[0][0:5]][1][1]['length'])
                               )
                     # handle single domain chain
                 else:
                     i = int(entries[0][5:7])
                     if len(domall[entries[0][0:5]][i]) == 1:
-                        print(line, str(domall[entries[0][0:5]][i][1]['start']),
-                              str(domall[entries[0][0:5]][i][1]['stop']),
-                              str(domall[entries[0][0:5]][1][1]['length']),
+                        print(line+" " +
+                              str(domall[entries[0][0:5]][i][1]['start'])+" " +
+                              str(domall[entries[0][0:5]][i][1]['stop'])+" " +
+                              str(domall[entries[0][0:5]][1][1]['length'])
                               )
 
 
