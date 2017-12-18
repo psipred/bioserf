@@ -46,7 +46,7 @@ def read_domall(domall_file):
                             start = 1
                         domains[leader_entries[0]][domain_count][seg_count]['start']=start
                         domains[leader_entries[0]][domain_count][seg_count]['stop']=stop
-                        domains[leader_entries[0]][domain_count][seg_count]['length']=stop-start
+                        domains[leader_entries[0]][domain_count][seg_count]['length']=stop-start+1
 
 
     return(domains)
@@ -100,9 +100,9 @@ def read_tdb(domall, tdb_list):
             if domain_number in domall[chainid]:
                 pass
             else:
-                domall[domain][domain_number][start] = '-'
-                domall[domain][domain_number][stop] = '-'
-                domall[domain][domain_number][length] = domain_len
+                domall[domain][domain_number][1][start] = '-'
+                domall[domain][domain_number][1][stop] = '-'
+                domall[domain][domain_number][1][length] = domain_len
 
 
 domain_list = sys.argv[1]
@@ -110,7 +110,6 @@ domall_list = sys.argv[2]
 tdb_list = sys.argv[3]
 
 domall = read_domall(domall_list)
-print(domall)
-
-#domall = read_tdb(domall, tdb_list)
+#print(domall)
+domall = read_tdb(domall, tdb_list)
 read_domain_list(domall, domain_list)
