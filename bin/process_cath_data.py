@@ -83,14 +83,15 @@ def read_tdb(domall, tdb_list):
     for tdb in tdb_files:
         domain = tdb[-11:-4]
         domain_len = file_len(tdb)
-        print(domain, domain_len)
-        exit()
+        # print(domain, domain_len)
+        continue
 
 domain_list = sys.argv[1]
 domall_list = sys.argv[2]
+print(domall)
 tdb_list = sys.argv[3]
 
 domall = read_domall(domall_list)
+print(domall)
 domall = read_tdb(domall, tdb_list)
-# print(domall)
 #read_domain_list(domall, domain_list)
