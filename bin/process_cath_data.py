@@ -46,6 +46,8 @@ def read_domall(domall_file):
                             start = 1
                         domains[leader_entries[0]][domain_count][seg_count]['start']=start
                         domains[leader_entries[0]][domain_count][seg_count]['stop']=stop
+                        domains[leader_entries[0]][domain_count][seg_count]['length']=stop-start
+
 
     return(domains)
 
@@ -63,12 +65,18 @@ def read_domain_list(domall, domain_file):
                 # print(domall[entries[0][0:5]])
                 if entries[0][5:7] == '00':
                     if len(domall[entries[0][0:5]][1]) == 1:
-                        print(line+" "+str(domall[entries[0][0:5]][1][1]['start'])+" "+str(domall[entries[0][0:5]][1][1]['stop']))
+                        print(line,str(domall[entries[0][0:5]][1][1]['start']),
+                              str(domall[entries[0][0:5]][1][1]['stop']),
+                              str(domall[entries[0][0:5]][1][1]['length'])
+                              )
                     # handle single domain chain
                 else:
                     i = int(entries[0][5:7])
                     if len(domall[entries[0][0:5]][i]) == 1:
-                        print(line+" "+str(domall[entries[0][0:5]][i][1]['start'])+" "+str(domall[entries[0][0:5]][i][1]['stop']))
+                        print(line, str(domall[entries[0][0:5]][i][1]['start']),
+                              str(domall[entries[0][0:5]][i][1]['stop']),
+                              str(domall[entries[0][0:5]][1][1]['length']),
+                              )
 
 
 def file_len(fname):
@@ -83,13 +91,20 @@ def read_tdb(domall, tdb_list):
     for tdb in tdb_files:
         domid = tdb[-11:-4]
         chainid = tdb[-11:-6]
-        domain_number = tdb[-6:-4]
+        domain_number = int(tdb[-6:-4])
         domain_len = file_len(tdb)
-        if int(domain_number) == 0:
-            pass
+        if domain_number == 0:
+            domain_number == 1
         print(domid, chainid, domain_number)
-        # if domain in domall:
-        #     pass
+        if domain in domall:
+             if domain_number in domall[domain]:
+                pass
+            else:
+                domall[domain][domain_number][start] = '-'
+                domall[domain][domain_number][stop] = '-'
+                domall[domain][domain_number][length] = domain_len
+
+
         exit()
 
 domain_list = sys.argv[1]
