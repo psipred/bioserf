@@ -88,7 +88,6 @@ def read_tdb(domall, tdb_list):
 
 domain_list = sys.argv[1]
 domall_list = sys.argv[2]
-print(domall)
 tdb_list = sys.argv[3]
 
 domall = read_domall(domall_list)
