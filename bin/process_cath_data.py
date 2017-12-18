@@ -86,9 +86,9 @@ def read_tdb(domall, tdb_list):
         domain_number = int(tdb[-6:-4])
         domain_len = file_len(tdb)
         print(domid, chainid, domain_number)
-        if domain in domall:
-            pass
-        continue
+        # if domain in domall:
+        #     pass
+        exit()
 
 domain_list = sys.argv[1]
 domall_list = sys.argv[2]
