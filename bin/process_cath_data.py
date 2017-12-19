@@ -94,8 +94,10 @@ def read_tdb(domall, tdb_list):
         domid = tdb[-11:-4]
         chainid = tdb[-11:-6]
         domain_number = int(tdb[-6:-4])
+        print(domain_number)
         domain_len = file_len(tdb)
         if domain_number == 0:
+            print("hi")
             domain_number == 1
         print(domid, chainid, domain_number)
         if chainid in domall:
