@@ -115,7 +115,7 @@ domall_list = sys.argv[2]
 tdb_list = sys.argv[3]
 
 domall = read_domall(domall_list)
-# print(domall)
+print(domall['2h1yA'])
 domall = read_tdb(domall, tdb_list)
 print(domall['2h1yA'])
 # read_domain_list(domall, domain_list)
