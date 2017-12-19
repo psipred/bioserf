@@ -105,6 +105,7 @@ def read_tdb(domall, tdb_list):
                 domall[chainid][domain_number][1]['start'] = '-'
                 domall[chainid][domain_number][1]['stop'] = '-'
                 domall[chainid][domain_number][1]['length'] = domain_len
+        continue
 
 
 domain_list = sys.argv[1]
