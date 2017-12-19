@@ -93,8 +93,8 @@ def read_tdb(domall, tdb_list):
     for tdb in tdb_files:
         domid = tdb[-11:-4]
         chainid = tdb[-11:-6]
-        if chainid != '2h1yA':
-            continue
+        # if chainid != '2h1yA':
+        #     continue
         domain_number = int(tdb[-6:-4])
         domain_len = file_len(tdb)
         # print(domid, chainid, domain_number)
