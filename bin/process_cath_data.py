@@ -103,9 +103,11 @@ def read_tdb(domall, tdb_list):
             if domain_number in domall[chainid]:
                 pass
             else:
-                domall[chainid][domain_number][1]['start'] = '-'
-                domall[chainid][domain_number][1]['stop'] = '-'
-                domall[chainid][domain_number][1]['length'] = domain_len
+                if len(domall[chainid][domain_number]) > 1:
+                    domall[chainid][domain_number] = {}
+                    domall[chainid][domain_number][1]['start'] = '-'
+                    domall[chainid][domain_number][1]['stop'] = '-'
+                    domall[chainid][domain_number][1]['length'] = domain_len
         # break
     return(domall)
 
