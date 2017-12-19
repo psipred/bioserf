@@ -102,7 +102,7 @@ def read_tdb(domall, tdb_list):
             domain_number = 1
         if chainid in domall:
             if len(domall[chainid][domain_number]) > 1:
-                domall[chainid][domain_number] = {}
+                domall[chainid][domain_number] =  Vividict()
                 domall[chainid][domain_number][1]['start'] = '-'
                 domall[chainid][domain_number][1]['stop'] = '-'
                 domall[chainid][domain_number][1]['length'] = domain_len
