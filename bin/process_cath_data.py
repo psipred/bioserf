@@ -97,12 +97,12 @@ def read_tdb(domall, tdb_list):
             continue
         domain_number = int(tdb[-6:-4])
         domain_len = file_len(tdb)
-        print(domid, chainid, domain_number)
+        # print(domid, chainid, domain_number)
         if domain_number == 0:
             domain_number = 1
         if chainid in domall:
             if len(domall[chainid][domain_number]) > 1:
-                domall[chainid][domain_number] =  Vividict()
+                domall[chainid][domain_number] = Vividict()
                 domall[chainid][domain_number][1]['start'] = '-'
                 domall[chainid][domain_number][1]['stop'] = '-'
                 domall[chainid][domain_number][1]['length'] = domain_len
@@ -115,7 +115,7 @@ domall_list = sys.argv[2]
 tdb_list = sys.argv[3]
 
 domall = read_domall(domall_list)
-print(domall['2h1yA'])
+# print(domall['2h1yA'])
 domall = read_tdb(domall, tdb_list)
-print(domall['2h1yA'])
-# read_domain_list(domall, domain_list)
+# print(domall['2h1yA'])
+read_domain_list(domall, domain_list)
