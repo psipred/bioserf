@@ -95,6 +95,7 @@ def read_tdb(domall, tdb_list):
         chainid = tdb[-11:-6]
         domain_number = int(tdb[-6:-4])
         domain_len = file_len(tdb)
+        print(chainid)
         if domain_number == 0:
             domain_number == 1
         # print(domid, chainid, domain_number)
