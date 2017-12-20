@@ -549,9 +549,13 @@ sub readCathDomainSummary
 		@$aEntries = split /\s+/, $line;
 		@$aEntries[0] =~ /^(.{5})/;
 		my $pdb_code = $1;
-		$hCathSummary->{$pdb_code}{@$aEntries[0]}{CATHCODE}=@$aEntries[1].".".@$aEntries[2].".".@$aEntries[3].".".@$aEntries[4];
-		$hCathSummary->{$pdb_code}{@$aEntries[0]}{START}=@$aEntries[12];
-		$hCathSummary->{$pdb_code}{@$aEntries[0]}{STOP}=@$aEntries[13];
+    if(@$aEntries[14] > 0)
+    {
+		  $hCathSummary->{$pdb_code}{@$aEntries[0]}{CATHCODE}=@$aEntries[1].".".@$aEntries[2].".".@$aEntries[3].".".@$aEntries[4];
+		  $hCathSummary->{$pdb_code}{@$aEntries[0]}{START}=@$aEntries[12];
+		  $hCathSummary->{$pdb_code}{@$aEntries[0]}{STOP}=@$aEntries[13];
+		  $hCathSummary->{$pdb_code}{@$aEntries[0]}{LENGTH}=@$aEntries[13];
+    }
 	}
 }
 
