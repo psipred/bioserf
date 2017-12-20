@@ -74,8 +74,8 @@ if(-e $pgen_file && -e $align_file)
   # print($pgen_file);
 	$hPDomData = read_pdom_data($pgen_file);
 }
-print Dumper $hBlastData;
-print Dumper $hPDomData;
+# print Dumper $hBlastData;
+# print Dumper $hPDomData;
 remove_low_overlaps();
 
 print_ssf();
