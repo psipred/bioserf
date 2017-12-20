@@ -293,6 +293,7 @@ sub print_py
 	print $fhOut "\t\tsequence=\'".$seq_id."_".$hDomCount->{$seq_id}."\')\n";
 	print $fhOut "a.starting_model = 1\n";
 	print $fhOut "a.ending_model = 1\n";
+  print $fhOut "a.auto_align()\n";
 	print $fhOut "a.make()\n";
 	print $fhOut "ok_models = filter(lambda x: x[\'failure\'] is None, a.outputs)\n";
 	print $fhOut "key = \'molpdf\'\n";

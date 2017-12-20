@@ -125,6 +125,9 @@ sbatch run_domthreader.sh
 
 `> ../bin/make_modeller_files.pl B0R5N0.dfout B0R5N0.blastaligns B0R5N0.pdomaligns ./B0R5N0 B0R5N0.mod_lookups ../example/B0R5N0.fasta /scratch0/NOT_BACKED_UP/dbuchan/dompdb/`
 
+# SLURM
+sbatch run_parse_cath.sh
+
 `export PYTHONPATH=~/bin/modeller9.17/modlib:~/bin/modeller9.17/lib/x86_64-intel8/`
 `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/bin/modeller9.17/lib/x86_64-intel8/`
 
