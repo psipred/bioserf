@@ -129,66 +129,85 @@ sub read_pdom_aligns
     	print_py($thisid,1);
     }
   }
-  # print Dumper $hData;
-	# 	if($line =~ /^(.+\sPDOM\|.+)/)
-	# 	{
-	# 		my $name = $1;
-	# 		$align_name = $name;
-	# 		if($align_name !~ /START/ && $get_align==1)
-	# 		{
-	# 			print $align_name."\n";
-	# 			$output_count++;
-	# 			#DO STUFF HERE, edit/generalise these functions
-	# 			#print($align_name."\n");
-	# 			print_ali($align_name,0,0,0,0,$q_seq,$s_seq,1);
-	# 			print_py($align_name,1);
-	# 			$pdb_id = '';
-	# 			$q_seq = '';
-	# 			$s_seq = '';
-	# 			$get_align = 0;
-	# 			#exit;
-	# 		}
-  #
-	# 		if(exists $hSsf->{$align_name})
-	# 		{
-	# 			$get_align = 1;
-	# 			print Dumper $hSsf;
-	# 			print $align_name."\n";
-	# 			$align_name =~ /^.+?\sPDOM\|(.{4})(.{1})(.{2}):\d+/;
-	# 			$pdb_id = $1.$2.$3;
-	# 		}
-	# 		else
-	# 		{
-	# 			$get_align = 0;
-	# 		}
-  #
-	# 	}
-	# 	if($line =~ /^($id|Query)\s+(.+)/ && $get_align ==1)
-	# 	{
-	# 		$q_seq.=$2;
-	# 	}
-	# 	if($line =~ /^$pdb_id\s+(.+)/ && $get_align ==1)
-	# 	{
-	# 		$s_seq.=$1;
-	# 	}
-  #
-	# }
-	# if($align_name !~ /START/ && $get_align==1)
-	# {
-	# 			print "WUT:".$align_name."\n";
-	# 			$output_count++;
-	# 			#DO STUFF HERE, edit/generalise these functions
-	# 			print_ali($align_name,0,0,0,0,$q_seq,$s_seq,1);
-	# 			print_py($align_name,1);
-	# 			$pdb_id = '';
-	# 			$q_seq = '';
-	# 			$s_seq = '';
-	# 			$get_align = 0;
-	# 			#exit;
-	# }
 }
 
 sub read_blast_aligns
+{
+	my $fhIn = new FileHandle($pdom_aligns, "r");
+	my $hData = {};
+	my $align_name = 'START';
+	my $get_align = 0;
+	my $pdb_id = '';
+	my $q_seq = '';
+	my $s_seq = '';
+
+	while(my $line = $fhIn->getline)
+	{
+		chomp $line;
+		# print("PDB:".$pdb_id."\n");
+    if($line =~ /^(.+\sCDOM\|.+)/)
+    {
+        my $name = $1;
+        $align_name = $name;
+        # print($align_name."\n");
+        $hData->{$align_name}{'q_seq'} = '';
+        $hData->{$align_name}{'q_start'} = 0;
+        $hData->{$align_name}{'q_stop'} = 0;
+        $hData->{$align_name}{'s_seq'} = '';
+        $hData->{$align_name}{'s_start'} = 0;
+        $hData->{$align_name}{'s_stop'} = 0;
+        if($align_name =~ /CDOM\|(.+):\d+/)
+        {
+          $pdb_id=$1;
+          # print($pdb_id."\n");
+        }
+    }
+    if($line =~ /^Query\s+(\d+)\s+(.+?)\s+(\d+)/)
+  	{
+      my $start = $1;
+    	my $stop = $3;
+  		$hData->{$align_name}{'q_seq'}.= $2;
+      if($hData->{$align_name}{'q_start'} == 0)
+    	{
+    		$hData->{$align_name}{'q_start'} = $start;
+    	}
+    	if($stop > $hData->{$align_name}{'q_stop'})
+    	{
+    		$hData->{$align_name}{'q_stop'} = $stop;
+    	}
+  	}
+  	if($line =~ /^Sbjct\s+(\d+)\s+(.+?)\s+(\d+)/)
+  	{
+      my $start = $1;
+    	my $stop = $3;
+  		$hData->{$align_name}{'s_seq'}.= $2;
+      if($hData->{$align_name}{'s_start'} == 0)
+    	{
+    		$hData->{$align_name}{'s_start'} = $start;
+    	}
+    	if($stop > $hData->{$align_name}{'s_stop'})
+    	{
+    		$hData->{$align_name}{'s_stop'} = $stop;
+    	}
+  	}
+	}
+  foreach my $thisid (keys $hData)
+  {
+    if(exists $hSsf->{$thisid})
+  	{
+      $output_count++;
+      my $start = read_domain_start($thisid);
+      print_ali($thisid,$hData->{$thisid}{'q_start'},
+                $hData->{$thisid}{'q_stop'},
+                ($hData->{$thisid}{'s_start'}+$start)-1,
+                ($hData->{$thisid}{'s_stop'}+$start)-1,
+                $hData->{$thisid}{'q_seq'},$hData->{$thisid}{'s_seq'},0);
+    	print_py($thisid,0);
+    }
+  }
+}
+
+sub read_blast_aligns_old
 {
 	my $fhIn = new FileHandle($blast_aligns, "r");
 	my $hData = {};
