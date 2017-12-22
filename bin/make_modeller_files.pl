@@ -102,13 +102,13 @@ sub read_pdom_aligns
     {
         my $name = $1;
         $align_name = $name;
-        print($align_name."\n");
+        # print($align_name."\n");
         $hData->{$align_name}{'q_seq'} = '';
         $hData->{$align_name}{'s_seq'} = '';
         if($align_name =~ /PDOM\|(.+):\d+/)
         {
           $pdb_id=$1;
-          print($pdb_id."\n");
+          # print($pdb_id."\n");
         }
     }
     if($line =~ /^Query\s+(.+)/)
