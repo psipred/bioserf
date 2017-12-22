@@ -120,11 +120,11 @@ sub read_pdom_aligns
   		$hData->{$align_name}{'s_seq'}.= $1;
   	}
 	}
-  foreach my $id (keys $hData)
+  foreach my $thisid (keys $hData)
   {
-    if(exists $hSsf->{$align_name})
+    if(exists $hSsf->{$thisid})
   	{
-      print($id."\n");
+      print($thisid."\n");
     }
   }
   # print Dumper $hData;
