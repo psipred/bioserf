@@ -483,6 +483,8 @@ sub read_ssf
 sub remove_unaligned_ends
 {
 	my($q_seq, $s_seq) = @ARG;
+  print("Q".$q_seq."\n");
+  print("S".$s_seq."\n");
 
 	$q_seq =~ s/\s//g;
 	$s_seq =~ s/\s//g;
@@ -508,8 +510,6 @@ sub remove_unaligned_ends
 sub remove_leading
 {
 	my($q_seq, $s_seq) = @ARG;
-  print("Q".$q_seq."\n");
-  print("S".$s_seq."\n");
 
 	my $align_length = length $s_seq;
 	my $s_res = [];
