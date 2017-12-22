@@ -133,7 +133,7 @@ sub read_pdom_aligns
 
 sub read_blast_aligns
 {
-	my $fhIn = new FileHandle($pdom_aligns, "r");
+	my $fhIn = new FileHandle($blast_aligns, "r");
 	my $hData = {};
 	my $align_name = 'START';
 	my $get_align = 0;
