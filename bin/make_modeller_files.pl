@@ -28,7 +28,7 @@ my $hLookup = make_lookup();
 #my $hLookup = read_lookup();
 print Dumper $hLookup;
 print Dumper $hSsf;
-exit():
+exit:
 my $hDomCount = {};
 #aligns are converted to PIR format and output
 my $output_count = 0;
