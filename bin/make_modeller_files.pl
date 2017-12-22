@@ -122,9 +122,12 @@ sub read_pdom_aligns
 	}
   foreach my $id (keys $hData)
   {
-    print $id."\n";
+    if(exists $hSsf->{$align_name})
+  	{
+      print($id)
+    }
   }
-  print Dumper $hData;
+  # print Dumper $hData;
 	# 	if($line =~ /^(.+\sPDOM\|.+)/)
 	# 	{
 	# 		my $name = $1;
