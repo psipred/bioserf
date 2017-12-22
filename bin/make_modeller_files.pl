@@ -124,7 +124,8 @@ sub read_pdom_aligns
   {
     if(exists $hSsf->{$thisid})
   	{
-      print($thisid."\n");
+      print_ali($thisid,0,0,0,0,$hData->{$thisid}{'q_seq'},$hData->{$thisid}{'s_seq'},1);
+    	print_py($thisid,1);
     }
   }
   # print Dumper $hData;
