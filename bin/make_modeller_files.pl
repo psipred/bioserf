@@ -191,6 +191,7 @@ sub read_blast_aligns
     	}
   	}
 	}
+  print Dumper $hData;
   foreach my $thisid (keys $hData)
   {
     if(exists $hSsf->{$thisid})
@@ -205,103 +206,6 @@ sub read_blast_aligns
     	print_py($thisid,0);
     }
   }
-}
-
-sub read_blast_aligns_alt
-{
-	my $fhIn = new FileHandle($blast_aligns, "r");
-	my $hData = {};
-	my $get_align = 0;
-	my $q_start = 0;
-	my $q_stop = 0;
-	my $s_start = 0;
-	my $s_stop = 0;
-	my $q_seq = '';
-	my $s_seq = '';
-	my $align_name = 'START';
-
-	while(my $line = $fhIn->getline)
-	{
-		chomp $line;
-		if($line =~ /^(.+\sCDOM\|.+)/)
-		{
-			my $name = $1;
-			if($align_name !~ /START/ && $get_align==1)
-			{
-				print $align_name."\n";
-				$output_count++;
-				my $start = read_domain_start($align_name);
-				print_ali($align_name,$q_start,$q_stop,($s_start+$start)-1,($s_stop+$start)-1,$q_seq,$s_seq,0);
-				print_py($align_name,0);
-				$get_align = 0;
-				$q_start = 0;
-				$q_stop = 0;
-				$s_start = 0;
-				$s_stop = 0;
-				$q_seq = '';
-				$s_seq = '';
-				$get_align = 0;
-				#exit;
-			}
-			$align_name = $name;
-
-			if(exists $hSsf->{$align_name})
-			{
-				$get_align = 1;
-				#if($line !~ /^Q86XP0\sCATHDOM\|1cjyB02:0/){$get_align=0}
-			}
-			else
-			{
-				$get_align = 0;
-			}
-
-		}
-		if($line =~ /^Query\s+(\d+)\s+(.+?)\s+(\d+)/ && $get_align ==1)
-		{
-			my $start = $1;
-			my $stop = $3;
-			$q_seq.=$2;
-			if($q_start == 0)
-			{
-				$q_start = $start;
-			}
-			if($stop > $q_stop)
-			{
-				$q_stop = $stop;
-			}
-		}
-		if($line =~ /^Sbjct\s+(\d+)\s+(.+?)\s+(\d+)/ && $get_align ==1)
-		{
-			my $start = $1;
-			my $stop = $3;
-			$s_seq.=$2;
-			if($s_start == 0)
-			{
-				$s_start = $start;
-			}
-			if($stop > $s_stop)
-			{
-				$s_stop = $stop;
-			}
-		}
-	}
-	if($align_name !~ /START/ && $get_align==1)
-			{
-				print $align_name."\n";
-				$output_count++;
-				my $start = read_domain_start($align_name);
-				print_ali($align_name,$q_start,$q_stop,($s_start+$start)-1,($s_stop+$start)-1,$q_seq,$s_seq,0);
-				print_py($align_name,0);
-				$get_align = 0;
-				$q_start = 0;
-				$q_stop = 0;
-				$s_start = 0;
-				$s_stop = 0;
-				$q_seq = '';
-				$s_seq = '';
-				$get_align = 0;
-				#exit;
-			}
 }
 
 sub read_domain_start
@@ -361,8 +265,6 @@ sub print_py
 sub print_ali
 {
 	my($align_name,$q_start,$q_stop,$s_start,$s_stop,$q_seq,$s_seq,$pdom_ctrl) = @ARG;
-  print("Q: ".$q_seq."\n");
-  print("S: ".$s_seq."\n");
 
 	if($pdom_ctrl != 0)
   {
