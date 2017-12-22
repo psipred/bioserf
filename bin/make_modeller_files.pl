@@ -149,7 +149,7 @@ sub read_blast_aligns
     {
         my $name = $1;
         $align_name = $name;
-        print($align_name."\n");
+        #print($align_name."\n");
         $hData->{$align_name}{'q_seq'} = '';
         $hData->{$align_name}{'q_start'} = 0;
         $hData->{$align_name}{'q_stop'} = 0;
