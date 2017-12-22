@@ -120,6 +120,7 @@ sub read_pdom_aligns
   		$hData->{$align_name}{'s_seq'}.= $1;
   	}
 	}
+  print Dumper $hData;
   foreach my $thisid (keys $hData)
   {
     if(exists $hSsf->{$thisid})
