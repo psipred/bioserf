@@ -108,7 +108,7 @@ sub read_pdom_aligns
 				print $align_name."\n";
 				$output_count++;
 				#DO STUFF HERE, edit/generalise these functions
-				print($align_name."\n");
+				#print($align_name."\n");
 				print_ali($align_name,0,0,0,0,$q_seq,$s_seq,1);
 				print_py($align_name,1);
 				$pdb_id = '';
@@ -121,6 +121,8 @@ sub read_pdom_aligns
 			if(exists $hSsf->{$align_name})
 			{
 				$get_align = 1;
+				print Dumper $hSsf;
+				print $align_name."\n";
 				$align_name =~ /^.+?\sPDOM\|(.{4})(.{1})(.{2}):\d+/;
 				$pdb_id = $1.$2.$3;
 			}
