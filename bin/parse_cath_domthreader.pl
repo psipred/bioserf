@@ -321,7 +321,7 @@ sub read_pdom_data
     # print $prot_id."\n";
 		if(exists $hData->{$current_id})
 		{
-			if($line =~ /^$prot_id|^Query/)
+			if($line =~ /^$prot_id|^Query|\/home\/ca/)
 			{
 				$hData->{$current_id}{ALIGNMENT}.=$line;
 			}
