@@ -361,6 +361,8 @@ sub print_py
 sub print_ali
 {
 	my($align_name,$q_start,$q_stop,$s_start,$s_stop,$q_seq,$s_seq,$pdom_ctrl) = @ARG;
+  print("Q: ".$q_seq."\n");
+  print("S: ".$s_seq."\n");
 
 	if($pdom_ctrl != 0)
   {
@@ -483,8 +485,6 @@ sub read_ssf
 sub remove_unaligned_ends
 {
 	my($q_seq, $s_seq) = @ARG;
-  print("Q: ".$q_seq."\n");
-  print("S: ".$s_seq."\n");
 
 	$q_seq =~ s/\s//g;
 	$s_seq =~ s/\s//g;
