@@ -113,7 +113,7 @@ sub read_pdom_aligns
     }
     if($line =~ /^Query\s+(.+)/)
   	{
-  		$hData->{$align_name}{'q_seq'}.= $2;
+  		$hData->{$align_name}{'q_seq'}.= $1;
   	}
   	if($line =~ /^$pdb_id\s+(.+)/)
   	{
