@@ -124,7 +124,7 @@ sub read_pdom_aligns
   {
     if(exists $hSsf->{$align_name})
   	{
-      print($id)
+      print($id."\n");
     }
   }
   # print Dumper $hData;
