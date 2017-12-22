@@ -27,7 +27,7 @@ my $hSsf = read_ssf();
 my $hLookup = make_lookup();
 #my $hLookup = read_lookup();
 #print Dumper $hLookup;
-print Dumper $hSsf;
+#print Dumper $hSsf;
 #exit:
 my $hDomCount = {};
 #aligns are converted to PIR format and output
@@ -98,63 +98,69 @@ sub read_pdom_aligns
 	{
 		chomp $line;
 		# print("PDB:".$pdb_id."\n");
-
-		if($line =~ /^(.+\sPDOM\|.+)/)
-		{
-			my $name = $1;
-			$align_name = $name;
-			if($align_name !~ /START/ && $get_align==1)
-			{
-				print $align_name."\n";
-				$output_count++;
-				#DO STUFF HERE, edit/generalise these functions
-				#print($align_name."\n");
-				print_ali($align_name,0,0,0,0,$q_seq,$s_seq,1);
-				print_py($align_name,1);
-				$pdb_id = '';
-				$q_seq = '';
-				$s_seq = '';
-				$get_align = 0;
-				#exit;
-			}
-
-			if(exists $hSsf->{$align_name})
-			{
-				$get_align = 1;
-				print Dumper $hSsf;
-				print $align_name."\n";
-				$align_name =~ /^.+?\sPDOM\|(.{4})(.{1})(.{2}):\d+/;
-				$pdb_id = $1.$2.$3;
-			}
-			else
-			{
-				$get_align = 0;
-			}
-
-		}
-		if($line =~ /^($id|Query)\s+(.+)/ && $get_align ==1)
-		{
-			$q_seq.=$2;
-		}
-		if($line =~ /^$pdb_id\s+(.+)/ && $get_align ==1)
-		{
-			$s_seq.=$1;
-		}
-
+    if($line =~ /^(.+\sPDOM\|.+)/)
+    {
+        my $name = $1;
+        $align_name = $name;
+        print($align_name);
+    }
 	}
-	if($align_name !~ /START/ && $get_align==1)
-	{
-				print "WUT:".$align_name."\n";
-				$output_count++;
-				#DO STUFF HERE, edit/generalise these functions
-				print_ali($align_name,0,0,0,0,$q_seq,$s_seq,1);
-				print_py($align_name,1);
-				$pdb_id = '';
-				$q_seq = '';
-				$s_seq = '';
-				$get_align = 0;
-				#exit;
-	}
+	# 	if($line =~ /^(.+\sPDOM\|.+)/)
+	# 	{
+	# 		my $name = $1;
+	# 		$align_name = $name;
+	# 		if($align_name !~ /START/ && $get_align==1)
+	# 		{
+	# 			print $align_name."\n";
+	# 			$output_count++;
+	# 			#DO STUFF HERE, edit/generalise these functions
+	# 			#print($align_name."\n");
+	# 			print_ali($align_name,0,0,0,0,$q_seq,$s_seq,1);
+	# 			print_py($align_name,1);
+	# 			$pdb_id = '';
+	# 			$q_seq = '';
+	# 			$s_seq = '';
+	# 			$get_align = 0;
+	# 			#exit;
+	# 		}
+  #
+	# 		if(exists $hSsf->{$align_name})
+	# 		{
+	# 			$get_align = 1;
+	# 			print Dumper $hSsf;
+	# 			print $align_name."\n";
+	# 			$align_name =~ /^.+?\sPDOM\|(.{4})(.{1})(.{2}):\d+/;
+	# 			$pdb_id = $1.$2.$3;
+	# 		}
+	# 		else
+	# 		{
+	# 			$get_align = 0;
+	# 		}
+  #
+	# 	}
+	# 	if($line =~ /^($id|Query)\s+(.+)/ && $get_align ==1)
+	# 	{
+	# 		$q_seq.=$2;
+	# 	}
+	# 	if($line =~ /^$pdb_id\s+(.+)/ && $get_align ==1)
+	# 	{
+	# 		$s_seq.=$1;
+	# 	}
+  #
+	# }
+	# if($align_name !~ /START/ && $get_align==1)
+	# {
+	# 			print "WUT:".$align_name."\n";
+	# 			$output_count++;
+	# 			#DO STUFF HERE, edit/generalise these functions
+	# 			print_ali($align_name,0,0,0,0,$q_seq,$s_seq,1);
+	# 			print_py($align_name,1);
+	# 			$pdb_id = '';
+	# 			$q_seq = '';
+	# 			$s_seq = '';
+	# 			$get_align = 0;
+	# 			#exit;
+	# }
 }
 
 sub read_blast_aligns
