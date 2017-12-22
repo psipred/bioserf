@@ -120,7 +120,7 @@ sub read_pdom_aligns
   		$hData->{$align_name}{'s_seq'}.= $1;
   	}
 	}
-  print Dumper $hData;
+  #print Dumper $hData;
   foreach my $thisid (keys $hData)
   {
     if(exists $hSsf->{$thisid})
@@ -192,7 +192,7 @@ sub read_blast_aligns
     	}
   	}
 	}
-  print Dumper $hData;
+  # print Dumper $hData;
   foreach my $thisid (keys $hData)
   {
     if(exists $hSsf->{$thisid})
