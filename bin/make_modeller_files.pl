@@ -131,7 +131,7 @@ sub read_pdom_aligns
   }
 }
 
-sub read_blast_aligns
+sub read_blast_aligns_alt
 {
 	my $fhIn = new FileHandle($pdom_aligns, "r");
 	my $hData = {};
@@ -207,7 +207,7 @@ sub read_blast_aligns
   }
 }
 
-sub read_blast_aligns_alt
+sub read_blast_aligns
 {
 	my $fhIn = new FileHandle($blast_aligns, "r");
 	my $hData = {};
