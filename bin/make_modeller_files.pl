@@ -120,6 +120,10 @@ sub read_pdom_aligns
   		$hData->{$align_name}{'s_seq'}.= $1;
   	}
 	}
+  foreach my $id (keys $hData)
+  {
+    print $id."\n";
+  }
   print Dumper $hData;
 	# 	if($line =~ /^(.+\sPDOM\|.+)/)
 	# 	{
