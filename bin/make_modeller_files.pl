@@ -113,6 +113,7 @@ sub read_pdom_aligns
 				$pdb_id = '';
 				$q_seq = '';
 				$s_seq = '';
+				$get_align = 0;
 				#exit;
 			}
 
@@ -148,6 +149,7 @@ sub read_pdom_aligns
 				$pdb_id = '';
 				$q_seq = '';
 				$s_seq = '';
+				$get_align = 0;
 				#exit;
 	}
 }
