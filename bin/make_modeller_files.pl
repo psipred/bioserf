@@ -109,7 +109,16 @@ sub read_pdom_aligns
           print($pdb_id."\n");
         }
     }
+    if($line =~ /^($id|Query)\s+(.+)/)
+  	{
+  		$hData->{$align_name}{'q_seq'} = $1;
+  	}
+  	if($line =~ /^$pdb_id\s+(.+)/)
+  	{
+  		$hData->{$align_name}{'s_seq'} = $1;
+  	}
 	}
+  print Dumper $hData;
 	# 	if($line =~ /^(.+\sPDOM\|.+)/)
 	# 	{
 	# 		my $name = $1;
