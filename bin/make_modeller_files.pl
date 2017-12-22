@@ -97,7 +97,7 @@ sub read_pdom_aligns
 	while(my $line = $fhIn->getline)
 	{
 		chomp $line;
-		print("PDB:".$pdb_id."\n");
+		# print("PDB:".$pdb_id."\n");
 
 		if($line =~ /^(.+\sPDOM\|.+)/)
 		{
@@ -108,6 +108,7 @@ sub read_pdom_aligns
 				print $align_name."\n";
 				$output_count++;
 				#DO STUFF HERE, edit/generalise these functions
+				print($align_name."\n");
 				print_ali($align_name,0,0,0,0,$q_seq,$s_seq,1);
 				print_py($align_name,1);
 				$pdb_id = '';
@@ -141,7 +142,7 @@ sub read_pdom_aligns
 	}
 	if($align_name !~ /START/ && $get_align==1)
 	{
-				print $align_name."\n";
+				print "WUT:".$align_name."\n";
 				$output_count++;
 				#DO STUFF HERE, edit/generalise these functions
 				print_ali($align_name,0,0,0,0,$q_seq,$s_seq,1);
