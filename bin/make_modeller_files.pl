@@ -26,15 +26,15 @@ my $id = '';
 my $hSsf = read_ssf();
 my $hLookup = make_lookup();
 #my $hLookup = read_lookup();
-print Dumper $hLookup;
+#print Dumper $hLookup;
 print Dumper $hSsf;
-exit:
+#exit:
 my $hDomCount = {};
 #aligns are converted to PIR format and output
 my $output_count = 0;
-read_blast_aligns();
+# read_blast_aligns();
 read_pdom_aligns();
-print $output_count." FILES OUTPUT\n";
+#print $output_count." FILES OUTPUT\n";
 
 
 sub make_lookup
