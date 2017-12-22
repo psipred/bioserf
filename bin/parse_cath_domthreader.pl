@@ -323,7 +323,7 @@ sub read_pdom_data
 		{
 			if($line =~ /^$prot_id|^Query|\/home\/ca/)
 			{
-        $line =~ s/\/home\/ca/Query/
+        $line =~ s/\/home\/ca/Query/;
 				$hData->{$current_id}{ALIGNMENT}.=$line;
 			}
 			if($line =~ /^$id/)
