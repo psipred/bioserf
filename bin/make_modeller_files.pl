@@ -131,7 +131,7 @@ sub read_pdom_aligns
   }
 }
 
-sub read_blast_aligns_alt
+sub read_blast_aligns
 {
 	my $fhIn = new FileHandle($pdom_aligns, "r");
 	my $hData = {};
@@ -149,7 +149,7 @@ sub read_blast_aligns_alt
     {
         my $name = $1;
         $align_name = $name;
-        # print($align_name."\n");
+        print($align_name."\n");
         $hData->{$align_name}{'q_seq'} = '';
         $hData->{$align_name}{'q_start'} = 0;
         $hData->{$align_name}{'q_stop'} = 0;
@@ -207,7 +207,7 @@ sub read_blast_aligns_alt
   }
 }
 
-sub read_blast_aligns
+sub read_blast_aligns_alt
 {
 	my $fhIn = new FileHandle($blast_aligns, "r");
 	my $hData = {};
