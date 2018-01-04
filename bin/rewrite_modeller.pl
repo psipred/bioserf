@@ -101,7 +101,7 @@ sub read_ali
 
     while(my $line = $fhIn->getline)
   	{
-      if($line =~ />P1;(.+)/
+      if($line =~ />P1;(.+)/)
       {
         my $temp_id = $1;
         $line = $fhIn->getline;
@@ -132,7 +132,7 @@ sub read_ali
           $s_stop =~ s/\s+$//;
           if($s_stop =~ /^+(.+)/)
           {
-            $stop = $1+$s_start;
+            $s_stop = $1+$s_start;
           }
           $line = $fhIn->getline;
       		$s_seq = $line;
