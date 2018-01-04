@@ -340,7 +340,7 @@ sub read_coords
 		chomp $line;
 		$line =~ /(.+)\s(\d+)\s(\d+)/;
     my $id = $1;
-    $id =~ s/\|/_/g;
+    #$id =~ s/\|/_/g;
 		$hData->{$id}{START} = $2;
 		$hData->{$id}{STOP} = $3;
 	}
