@@ -130,7 +130,7 @@ sub read_ali
     			$s_stop = $2;
           $s_start =~ s/\s+$//;
           $s_stop =~ s/\s+$//;
-          if($s_stop =~ /^+(.+)/)
+          if($s_stop =~ /^\+(.+)/)
           {
             $s_stop = $1+$s_start;
           }
