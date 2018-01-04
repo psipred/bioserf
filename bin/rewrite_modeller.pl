@@ -104,16 +104,14 @@ sub read_ali
 		if($line =~ />P1;(.+)/)
 		{
 			$modelid = $1;
-      my $lookupid = $modelid;
-      $lookupid =~ s/\|/_/g;
-      if(exists $hCoords->{$lookupid})
+      if(exists $hCoords->{$modelid})
 			{
-				$q_start = $hCoords->{$lookupid}{START};
-				$q_stop  = $hCoords->{$lookupid}{STOP};
+				$q_start = $hCoords->{$modelid}{START};
+				$q_stop  = $hCoords->{$modelid}{STOP};
 			}
 			else
 			{
-				print STDERR $lookupid." NO COORD LOOKUP\n";
+				print STDERR $modelid." NO COORD LOOKUP\n";
 				next;
 			}
 		}
