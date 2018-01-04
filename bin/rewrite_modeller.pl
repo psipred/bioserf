@@ -106,10 +106,10 @@ sub read_ali
 			$modelid = $1;
       my $lookupid = $modelid;
       $lookupid =~ s/\|/_/g;
-      if(exists $hCoords->{$modelid})
+      if(exists $hCoords->{$lookupid})
 			{
-				$q_start = $hCoords->{$modelid}{START};
-				$q_stop  = $hCoords->{$modelid}{STOP};
+				$q_start = $hCoords->{$lookupid}{START};
+				$q_stop  = $hCoords->{$lookupid}{STOP};
 			}
 			else
 			{
