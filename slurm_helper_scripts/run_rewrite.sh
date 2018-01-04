@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-#SBATCH --job-name=run_modeller
-#SBATCH --output=run_modeller.out
-#SBATCH --error=run_modeller.err
+#SBATCH --job-name=run_rewrite
+#SBATCH --output=run_rewrite.out
+#SBATCH --error=run_rewrite.err
 #
 #SBATCH --ntasks=1
 #SBATCH --time=6:00:00
