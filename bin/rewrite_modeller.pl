@@ -98,52 +98,49 @@ sub read_ali
 		my $s_stop = 0;
 		my $s_start = 0;
 		my $targetid = '';
-		#also need to get the start and stop regions of the query seq
-		#get the query data
-		my $line = $fhIn->getline;
-		if($line =~ />P1;(.+)/)
-		{
-			$modelid = $1;
-      if(exists $hCoords->{$modelid})
-			{
-				$q_start = $hCoords->{$modelid}{START};
-				$q_stop  = $hCoords->{$modelid}{STOP};
-			}
-			else
-			{
-				print STDERR $modelid." NO COORD LOOKUP\n";
-				next;
-			}
-		}
-		$line = $fhIn->getline;
-		#if($line =~ /sequence:::::::::/)
-		#{
-		#	$q_start = $1;
-		#	$q_stop = $2;
-		#}
-		$line = $fhIn->getline;
-		$q_seq = $line;
-		$q_seq =~ s/\*$//;
-		chomp $q_seq;
 
-		#get the target data
-		 $line = $fhIn->getline;
-		if($line =~ />P1;(.+)/)
-		{
-			$targetid = $1;
-		}
-		$line = $fhIn->getline;
-		if($line =~ /StructureX:.+:(\d+):.:(\d+):.::::/)
-		{
-			$s_start = $1;
-			$s_stop = $2;
-		}
-		#print $s_start." ".$s_stop."\n";
-		$line = $fhIn->getline;
-		$s_seq = $line;
-		$s_seq =~ s/\*$//;
-		chomp $s_seq;
-
+    while(my $line = $fhIn->getline)
+  	{
+      if($line =~ />P1;(.+)/
+      {
+        my $temp_id = $1;
+        $line = $fhIn->getline;
+        if($line =~ /^sequence:/)
+        {
+          $modelid = $temp_id;
+          if(exists $hCoords->{$modelid})
+          {
+    			  $q_start = $hCoords->{$modelid}{START};
+    		  	$q_stop  = $hCoords->{$modelid}{STOP};
+    		  }
+    		  else
+    		  {
+    			  print STDERR $modelid." NO COORD LOOKUP\n";
+    			  next;
+    		  }
+          $line = $fhIn->getline;
+    		  $q_seq = $line;
+    		  $q_seq =~ s/\*$//;
+    		  chomp $q_seq;
+        }
+        if($line =~ /StructureX:.+:(\d+):.:(\d+):.::::/)
+    		{
+          $targetid = $temp_id;
+          $s_start = $1;
+    			$s_stop = $2;
+          $s_start =~ s/\s+$//;
+          $s_stop =~ s/\s+$//;
+          if($s_stop =~ /^+(.+)/)
+          {
+            $stop = $1+$s_start;
+          }
+          $line = $fhIn->getline;
+      		$s_seq = $line;
+      		$s_seq =~ s/\*$//;
+      		chomp $s_seq;
+        }
+      }
+    }
 		#if($modelid !~ /A0SXL3/){next;}
 		# print $modelid."\n";
 		my $modelfile = $modelid.".B99990001.pdb";
@@ -167,7 +164,6 @@ sub read_ali
 
 		reprintModel($model, $modelid, $targetid,$s_seq,$q_seq,$q_start,$q_stop,$s_start,$s_stop);
 		#exit;
-
 }
 
 sub reprintModel
