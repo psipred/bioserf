@@ -135,7 +135,7 @@ sbatch run_parse_cath.sh
 
 `for i in ``ls *.py | sed -e 's/\.py//'``; do echo $i; ~/bin/modeller9.17/bin/mod9.17 $i.py; done;`
 
-`for i in ``ls *.ali | sed -e 's/\.ali//'``; do echo $i; ../bin/rewrite_modeller.pl ./  B0R5N0.mod_lookups  B0R5N0.blastaligns B0R5N0.pdomaligns ../example/B0R5N0.fasta $i.ali ../bin/reformat.pl; done;`
+`for i in ``ls *.ali | sed -e 's/\.ali//'``; do echo $i; ../bin/rewrite_modeller.pl ./  B0R5N0.mod_lookups B0R5N0.blastaligns B0R5N0.pdomaligns ../example/B0R5N0.fasta $i.ali ../bin/reformat.pl; done;`
 
 # SLURM
 sbatch run_modeller.sh

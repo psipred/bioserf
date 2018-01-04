@@ -83,7 +83,6 @@ sub make_lookup
 
 sub read_ali
 {
-
 		$ali_file =~ /(.+)\.ali/;
 		my $number = $1;
 		print $alidir."/".$ali_file."\n";
@@ -103,6 +102,7 @@ sub read_ali
 		if($line =~ />P1;(.+)/)
 		{
 			$modelid = $1;
+      $modelid =~ s/\|/_/g;
 			if(exists $hCoords->{$modelid})
 			{
 				$q_start = $hCoords->{$modelid}{START};
