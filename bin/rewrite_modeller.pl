@@ -26,7 +26,9 @@ my $reformat_bin = $ARGV[6];
 my $hLookup = make_lookup();
 my $hCoords = read_coords();
 
-#print Dumper $hLookup;
+print Dumper $hLookup;
+print Dumper $hCoords;
+
 read_ali();
 
 sub make_lookup
