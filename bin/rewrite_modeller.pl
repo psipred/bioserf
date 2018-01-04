@@ -113,7 +113,7 @@ sub read_ali
 			}
 			else
 			{
-				print STDERR $modelid." NO COORD LOOKUP\n";
+				print STDERR $lookupid." NO COORD LOOKUP\n";
 				next;
 			}
 		}
