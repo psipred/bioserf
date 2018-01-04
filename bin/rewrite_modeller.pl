@@ -104,8 +104,7 @@ sub read_ali
 		if($line =~ />P1;(.+)/)
 		{
 			$modelid = $1;
-      $modelid =~ s/\|/_/g;
-			if(exists $hCoords->{$modelid})
+      if(exists $hCoords->{$modelid})
 			{
 				$q_start = $hCoords->{$modelid}{START};
 				$q_stop  = $hCoords->{$modelid}{STOP};
