@@ -338,8 +338,10 @@ sub read_coords
 	{
 		chomp $line;
 		$line =~ /(.+)\s(\d+)\s(\d+)/;
-		$hData->{$1}{START} = $2;
-		$hData->{$1}{STOP} = $3;
+    my $id = $1;
+    $id =~ s/\|/_/g;
+		$hData->{$id}{START} = $2;
+		$hData->{$id}{STOP} = $3;
 	}
 	return($hData);
 }
