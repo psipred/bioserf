@@ -139,4 +139,5 @@ sbatch run_parse_cath.sh
 
 # SLURM
 sbatch run_modeller.sh
+python ~/bin/split_fasta.py ecoli.fa ecoli_fasta/all
 sbatch run_rewrite.sh
