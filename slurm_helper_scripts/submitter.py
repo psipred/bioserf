@@ -8,8 +8,8 @@ command = sys.argv[2]
 
 for directory in glob.glob(path+'/*'):
     set_number = directory[len(path)+1:]
-    #print(set_number)
-    #continue
+    # print(set_number)
+    # continue
     wait = True
     while wait:
         p = subprocess.Popen(['squeue', '--user', 'buchand'],
@@ -20,8 +20,8 @@ for directory in glob.glob(path+'/*'):
         if len(queue_deets.split('\n')) < 3:
             print("sending set: "+set_number)
             batch = subprocess.Popen(['sbatch', command, set_number],
-                                 stdout=subprocess.PIPE,
-                                 stderr=subprocess.PIPE)
+                                     stdout=subprocess.PIPE,
+                                     stderr=subprocess.PIPE)
             batch_deets, err = batch.communicate()
             print(batch_deets)
             sys.stdout.flush()
