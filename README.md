@@ -89,7 +89,7 @@ build an annotated domain-list.
 1. python ~/bin/split_fasta.py all.fa all_fasta 1000
 
 2. run_domain_blast.sh
-submitter /home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_fasta run_domain_blast.sh
+submitter /home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_fasta /home/camp/buchand/Applications/bioserf/slurm_helper_scripts/run_domain_blast.sh
 
 2. Run parse_pdb_blast.pl
 
