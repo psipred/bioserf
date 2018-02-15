@@ -85,8 +85,11 @@ build an annotated domain-list.
 `> /scratch0/NOT_BACKED_UP/dbuchan/Applications/ncbi-blast-2.2.31+/bin/psiblast -num_threads 1 -num_alignments 1000 -outfmt 0 -num_iterations 5 -inclusion_ethresh 0.001 -db /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta -query ../example/B0R5N0.fasta -out B0R5N0.domserf.pdb.bls`
 
 ## SLURM:
-python ~/bin/split_fasta.py ecoli.fa ecoli_fasta 1000
-run_domain_blast.sh
+
+1. python ~/bin/split_fasta.py all.fa all_fasta 1000
+
+2. run_domain_blast.sh
+submitter /home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_fasta run_domain_blast.sh
 
 2. Run parse_pdb_blast.pl
 
