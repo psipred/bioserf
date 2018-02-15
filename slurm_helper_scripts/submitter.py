@@ -8,8 +8,8 @@ command = sys.argv[2]
 
 for directory in glob.glob(path+'/*'):
     set_number = directory[len(path)+1:]
-    print(set_number)
-    continue
+    #print(set_number)
+    #continue
     wait = True
     while wait:
         p = subprocess.Popen(['squeue', '--user', 'buchand'],
