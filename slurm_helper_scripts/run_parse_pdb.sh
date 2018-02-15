@@ -9,7 +9,7 @@
 #
 #SBATCH --array=1-1000
 
-FILES=($HOME/working/genome3d/Genome3D.2017-09-05/ecoli_fasta/$1/*)
+FILES=($HOME/working/genome3d/Genome3D.2017-09-05/all_fasta/$1/*)
 out_name=${FILES[$SLURM_ARRAY_TASK_ID-1]}
 out_name=${out_name:70:-5}
 pdb_out_name=$out_name'domserf.pdb.bls'

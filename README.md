@@ -90,6 +90,7 @@ build an annotated domain-list.
 
 2. run_domain_blast.sh
 python submitter.py /home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_fasta /home/camp/buchand/Applications/bioserf/slurm_helper_scripts/run_domain_blast.sh
+*
 
 2. Run parse_pdb_blast.pl
 
