@@ -5,11 +5,9 @@ import sys
 
 path = sys.argv[1]
 command = sys.argv[2]
-print(path)
-print(command)
 
 for directory in glob.glob(path+'/*'):
-    set_number = directory[len(path):]
+    set_number = directory[len(path)+1:]
     print(set_number)
     continue
     wait = True
