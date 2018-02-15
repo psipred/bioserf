@@ -5,13 +5,13 @@ import sys
 
 path = sys.argv[1]
 command = sys.argv[2]
-print
-exit()
+print(path)
+print(command)
 
 for directory in glob.glob(path+'/*'):
     set_number = directory[len(path):]
     print(set_number)
-    exit
+    continue
     wait = True
     while wait:
         p = subprocess.Popen(['squeue', '--user', 'buchand'],
