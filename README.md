@@ -87,12 +87,14 @@ build an annotated domain-list.
 ## SLURM:
 
 1. python ~/bin/split_fasta.py all.fa all_fasta 1000
+see /home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_fasta
 
-2. run_domain_blast.sh
+2. run_domain_blast.sh, blasts pdbaa and cath to get easy to find structures
+
 python submitter.py /home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_fasta /home/camp/buchand/Applications/bioserf/slurm_helper_scripts/run_domain_blast.sh
-*
 
-2. Run parse_pdb_blast.pl
+
+3. Run parse_pdb_blast.pl, parse the earlier blasts and build any easy models
 
 `> ../bin/parse_pdb_blast.pl /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/data/cath-domain-list.txt ../example/B0R5N0.fasta B0R5N0.domserf.pdb.bls /scratch0/NOT_BACKED_UP/dbuchan/uniref/pdb_aa.fasta . /scratch0/NOT_BACKED_UP/dbuchan/pdb/ /cs/research/bioinf/home1/green/dbuchan/Code/bioserf/bin/reformat.pl ~/bin/modeller9.17/bin/mod9.17`
 
@@ -107,7 +109,10 @@ python submitter.py /home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_
 If a good hit is found pdb files of the form NAME_start_stop.2pdb will be produced for each domain that CATH
 
 ## SLURM
+
 sbatch run_parse_pdb.sh
+OR
+python submitter.py /home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_fasta /home/camp/buchand/Applications/bioserf/slurm_helper_scripts/run_parse_pdb.sh
 
 ## Work out which proteins need to pass through to step 3
 calculate_missing.py
