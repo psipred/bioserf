@@ -3,6 +3,8 @@ import sys
 import re
 import os
 
+#calculate_missing $HOME/working/genome3d/pdbaa_based_models $HOME/working/genome3d/Genome3D.2017-09-05/all_fasta
+
 pdb_str = ".+/(.+?)_\d+_\d+\.pdb"
 pdb_re = re.compile(pdb_str)
 complete_genes = []

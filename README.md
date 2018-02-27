@@ -116,6 +116,7 @@ python submitter.py /home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_
 
 ## Work out which proteins need to pass through to step 3
 calculate_missing.py
+calculate_missing $HOME/working/genome3d/pdbaa_based_models $HOME/working/genome3d/ $HOME/working/genome3d/Genome3D.2017-09-05/all_fasta > todo_list.txt
 
 3. If no domain pdb files were produced (i.e. we couldn't find a PDB match which was already classified in CATH). Then we run the following.
 
@@ -125,6 +126,9 @@ Run domTHREADER
 
 ## SLURM
 sbatch run_domthreader.sh
+or
+python Applications/bioserf/slurm_helper_scriptssubmitter.py /home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_fasta $HOME/Applications/bioserf/slurm_helper_scripts/run_domthreader.sh
+
 
 4. Run runParseCathDomthreader
 
