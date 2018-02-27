@@ -7,6 +7,9 @@ import sys
 # usage:
 #
 # python submitter [path to batch directories] [path to slurm bash script]
+#
+#
+#
 
 #
 # SLURM script must makre use of something like:
@@ -17,6 +20,7 @@ import sys
 #  out_name=${FILES[$SLURM_ARRAY_TASK_ID-1]}
 
 path = sys.argv[1]
+path = path.rstrip("/")
 command = sys.argv[2]
 
 for directory in glob.glob(path+'/*'):
