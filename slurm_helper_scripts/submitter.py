@@ -32,7 +32,7 @@ for directory in glob.glob(path+'/*'):
                              stderr=subprocess.PIPE)
         queue_deets, err = p.communicate()
         # print(queue_deets.split('\n'))
-        if len(queue_deets.split('\n')) < 3:
+        if len(queue_deets.split('\n')) < 2:
             print("sending set: "+set_number)
             batch = subprocess.Popen(['sbatch', command, set_number],
                                      stdout=subprocess.PIPE,
@@ -42,4 +42,4 @@ for directory in glob.glob(path+'/*'):
             print(err)
             sys.stdout.flush()
             wait = False
-    time.sleep(60)
+    time.sleep(600)
