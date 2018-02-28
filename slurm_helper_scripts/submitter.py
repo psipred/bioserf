@@ -8,8 +8,6 @@ import sys
 #
 # python submitter [path to batch directories] [path to slurm bash script]
 #
-#
-#
 
 #
 # SLURM script must makre use of something like:
@@ -41,6 +39,7 @@ for directory in glob.glob(path+'/*'):
                                      stderr=subprocess.PIPE)
             batch_deets, err = batch.communicate()
             print(batch_deets)
+            print(err)
             sys.stdout.flush()
             wait = False
     time.sleep(60)
