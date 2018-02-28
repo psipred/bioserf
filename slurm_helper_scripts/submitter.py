@@ -42,4 +42,4 @@ for directory in glob.glob(path+'/*'):
             print(err)
             sys.stdout.flush()
             wait = False
-        time.sleep(20)
+        time.sleep(600)
