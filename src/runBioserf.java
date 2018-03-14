@@ -63,11 +63,12 @@ class runBioserf
     File fPResults = new File(strPResults);
     File fFinalModel = new File(strTmpPath + strUUID + ".B99990001.pdb");
 
+    System.out.println(strSeqFile);
     seq = readSequence(strSeqFile);
     String strBlastData = Utils.fileToStr(fBlastOut.getCanonicalPath());
     outputPsiblastModellerInput(strBlastData, eValueThreshold,
-                                strTmpPath, strPDB, strPDBAA,
-                                strUUID, percentIDThreshold);
+                              strTmpPath, strPDB, strPDBAA,
+                              strUUID, percentIDThreshold);
     runModeller(strUUID, "psiblast", strTmpPath, strModellerBin);
     System.out.println("Built PSI-BLAST models!\n");
     System.out.println("Tidying pGenTHREADER models!\n");
@@ -84,7 +85,7 @@ class runBioserf
     //go to the tmp directory
     String strFinalModel = Utils.fileToStr(fFinalModel.getCanonicalPath());
     strFinalModel = toCASPFormat(strFinalModel, strUUID);
-    Utils.strToFile(strUUID+".final.pdb", strFinalModel);
+    Utils.strToFile(strUUID+".final_pdb", strFinalModel);
   }
 
   //TODO: add a chain ID if blank, for resubmission tasks
@@ -192,8 +193,11 @@ class runBioserf
       String strCurCmd = strPython + " " + strTmpPath + strUUID + ".jurymod.py";
       System.out.println("    "+strCurCmd);
       ExternalProcess epModPy = new ExternalProcess(strCurCmd.split(" "));
-      epModPy.setEnv("PYTHONPATH", strModLib+":"+strModArch);
+      epModPy.setEnv("PYTHONPATH", strModLib);
       epModPy.setEnv("LD_LIBRARY_PATH", strModArch);
+      // System.out.println(strModLib+":"+strModArch);
+      // System.out.println(strModArch);
+
       epModPy.setDir(new File(strTmpPath));
 
       int nRes = epModPy.call();
@@ -222,6 +226,7 @@ class runBioserf
 
   protected static File catModels (String strTmpPath, String strUUID) throws Exception {
       Pattern pattern = Pattern.compile(strUUID+".+\\.pdb$");
+      Pattern hhpattern = Pattern.compile(strUUID+"\\.hh_pdb$");
 
       System.out.println("    Catting PDB files matched to: "+  pattern.pattern());
 
@@ -232,8 +237,8 @@ class runBioserf
       for (int i = 0; i < files.length; i++) {
           String fileName = files[i].getName();
           Matcher matcher = pattern.matcher(fileName);
-          if (matcher.find())
-          //if (fileName.endsWith("pdb"))
+          Matcher hhmatcher = hhpattern.matcher(fileName);
+          if (matcher.find() || hhmatcher.find())
           {
               System.out.println("    Catting file: " +  files[i].getName());
               File file = new File(files[i].getPath());
@@ -374,9 +379,7 @@ protected static void outputPsiblastModellerInput(String strRes, Double eValueTh
           List<SeqSimilaritySearchHit> hits = i.getHits();
 
           for (SeqSimilaritySearchHit j : hits) {
-
               alignCount++;
-
               if (j.getEValue() < eValueThreshold) {
                   double pcntID = 0.0;
                   String strAlnQ = "", strAlnS = "";
