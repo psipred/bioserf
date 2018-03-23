@@ -9,6 +9,8 @@ use FileHandle;
 use DirHandle;
 use English;
 use Data::Dumper;
+use File::Fetch;
+use File::Copy;
 
 my $ssf_file = $ARGV[0];
 my $blast_aligns = $ARGV[1];
@@ -134,6 +136,7 @@ sub read_pdom_aligns
 
 sub read_blast_aligns
 {
+  # print($blast_aligns);
 	my $fhIn = new FileHandle($blast_aligns, "r");
 	my $hData = {};
 	my $align_name = 'START';
@@ -217,6 +220,13 @@ sub read_domain_start
 	my $seq_id = $1;
 	my $pdb_id = $2.$3.$4;
 
+  if(! -e $dompdb.$pdb_id)
+  {
+    my $ff = File::Fetch->new(uri => 'http://www.cathdb.info/version/v4_2_0/api/rest/id/'.$pdb_id.'.pdb');
+    my $where = $ff->fetch(to => $dompdb);
+    move($dompdb.$pdb_id.".pdb", $dompdb.$pdb_id);
+    print("GOT pdb to: ".$where."\n");
+  }
 	my $fhIn = new FileHandle($dompdb.$pdb_id,"r");
 	my $line = $fhIn->getline;
 	$line =~ /^ATOM.{7}\s\s.{4}.{3}.{2}(.{4})/;

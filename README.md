@@ -106,7 +106,7 @@ python submitter.py /home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_
 * reformat.pl : location of reformat.pl
 * mod9.17 : location of Modeller binary
 
-If a good hit is found pdb files of the form NAME_start_stop.2pdb will be produced for each domain that CATH
+If a good hit is found pdb files of the form NAME_start_stop.pdb will be produced for each domain that CATH
 
 ## SLURM
 

@@ -327,6 +327,7 @@ sub get_full_seq
 
 sub read_coords
 {
+  print($modeller_coords."\n");
 	my $fhLookup = new FileHandle($modeller_coords, "r");
 	my $hData = {};
 	while(my $line = $fhLookup->getline)
