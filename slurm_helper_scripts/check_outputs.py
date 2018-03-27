@@ -19,5 +19,5 @@ results = '/home/camp/buchand/working/genome3d/domthreader_output/'
 result_list = {}
 for dom_file in glob.glob(results+"*.presults"):
     print(dom_file)
-    dom_id = dom_file[dom_file.rfind("/"+1:-14)]
+    dom_id = dom_file[dom_file.rfind("/")+1:-14]
     print(dom_id)
