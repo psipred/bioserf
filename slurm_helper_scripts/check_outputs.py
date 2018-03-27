@@ -6,5 +6,6 @@ import glob
 # get a list of all the targets
 targets = '/home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_fasta/'
 target_list = []
-for target in glob.glob(targets+"*"):
-    print(target)
+for target_dir in glob.glob(targets+"*"):
+    for target in glob.glob(tagret_dir+"/*"):
+        print(target)
