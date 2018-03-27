@@ -27,3 +27,4 @@ for dom_file in glob.glob(results+"*.presults"):
 target_set = Set(target_list)
 result_set = Set(result_list)
 missing_set = target.difference(result_set)
+print(missing_set)
