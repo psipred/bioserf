@@ -14,3 +14,8 @@ for target_dir in glob.glob(targets+"*"):
         target_list[prot_id] = 0
 
 print(target_list)
+
+results = '/home/camp/buchand/working/genome3d/domthreader_output/'
+result_list = {}
+for dom_file in glob.glob(results+"*.presult"):
+    print(dom_file)
