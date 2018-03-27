@@ -19,12 +19,12 @@ for target_dir in glob.glob(targets+"*"):
 results = '/home/camp/buchand/working/genome3d/domthreader_output/'
 result_list = []
 for dom_file in glob.glob(results+"*.presults"):
-    print(dom_file)
+    # print(dom_file)
     dom_id = dom_file[dom_file.rfind("/")+1:-14]
     result_list.append(dom_id)
 
 
 target_set = Set(target_list)
 result_set = Set(result_list)
-missing_set = target.difference(result_set)
+missing_set = target_set.difference(result_set)
 print(missing_set)
