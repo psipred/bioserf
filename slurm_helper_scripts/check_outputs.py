@@ -12,10 +12,9 @@ for target_dir in glob.glob(targets+"*"):
         # print(target)
         # print(prot_id)
         target_list[prot_id] = 0
-
-print(target_list)
+#print(target_list)
 
 results = '/home/camp/buchand/working/genome3d/domthreader_output/'
 result_list = {}
-for dom_file in glob.glob(results+"*.presult"):
+for dom_file in glob.glob(results+"*.presults"):
     print(dom_file)
