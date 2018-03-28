@@ -14,7 +14,7 @@ import sys
 #
 #  #SBATCH --array=1-1000
 
-#  FILES=($HOME/working/genome3d/Genome3D.2017-09-05/all_fasta/$1/*)
+#  FILES=($HOME/working/genome3d/Genome3D.2017-09-05/all_fasta$1/*)
 #  out_name=${FILES[$SLURM_ARRAY_TASK_ID-1]}
 
 path = sys.argv[1]
@@ -42,4 +42,4 @@ for directory in glob.glob(path+'/*'):
             print(err)
             sys.stdout.flush()
             wait = False
-        time.sleep(600)
+        time.sleep(10)
