@@ -20,5 +20,5 @@ if [ -f $result_path ]; then
    echo "skipping $out_name"
 else
   echo "calculating $out_name"
-  echo $HOME/Applications/pGenTHREADER/GenThreader.sh -i ${FILES[$SLURM_ARRAY_TASK_ID-1]} -j $HOME/working/genome3d/domthreader_output/$out_name -d
+  $HOME/Applications/pGenTHREADER/GenThreader.sh -i ${FILES[$SLURM_ARRAY_TASK_ID-1]} -j $HOME/working/genome3d/domthreader_output/$out_name -d
 fi
