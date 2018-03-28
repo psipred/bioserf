@@ -34,6 +34,7 @@ for directory in glob.glob(path+'/*'):
         print(queue_deets.split('\n'))
         if len(queue_deets.split('\n')) < 3:
             print("sending set: "+set_number)
+            print("sbatch "+command+" "+set_number)
             batch = subprocess.Popen(['sbatch', command, set_number],
                                      stdout=subprocess.PIPE,
                                      stderr=subprocess.PIPE)
