@@ -23,7 +23,7 @@ for path in glob.glob(sys.argv[1]+"*.presults"):
     if m:
         complete_genes.append(m.group(1))
 
-print(complete_genes)
+# print(complete_genes)
 fasta_str = ".+/(.+?).fasta"
 fasta_re = re.compile(fasta_str)
 todo_count = 0
