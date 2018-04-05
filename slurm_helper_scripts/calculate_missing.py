@@ -28,14 +28,15 @@ fasta_str = ".+/(.+?).fasta"
 fasta_re = re.compile(fasta_str)
 todo_count = 0
 for path in glob.glob(sys.argv[2]+"/*"):
+    batch_number = path[path.rindex('/')-1:]
     for fasta in glob.glob(path+"/*"):
         m = fasta_re.search(fasta)
         if m:
             if m.group(1) in complete_genes:
-                print("Found: "+m.group(1))
+                print("Found:", batch_number, ":", m.group(1))
                 os.remove(fasta)
             else:
-                print("TODO: "+m.group(1))
+                print("TODO:", batch_number, ":", m.group(1))
                 todo_count += 1
 
 print("TODO: "+str(todo_count))
