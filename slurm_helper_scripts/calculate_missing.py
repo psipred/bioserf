@@ -9,6 +9,7 @@ pdb_str = ".+/(.+?)_\d+_\d+\.pdb"
 pdb_re = re.compile(pdb_str)
 complete_genes = []
 for path in glob.glob(sys.argv[1]+"*_*_*.pdb"):
+    print(path)
     m = pdb_re.search(path)
     if m:
         complete_genes.append(m.group(1))
