@@ -13,6 +13,7 @@ for path in glob.glob(sys.argv[1]+"*_*_*.pdb"):
     if m:
         complete_genes.append(m.group(1))
 
+print(complete_genes)
 fasta_str = ".+/(.+?).fasta"
 fasta_re = re.compile(fasta_str)
 todo_count = 0
@@ -24,7 +25,7 @@ for path in glob.glob(sys.argv[2]+"/*"):
                 print("Found: "+m.group(1))
                 os.remove(fasta)
             else:
-                print("TODO: "+m.group(1))
+                # print("TODO: "+m.group(1))
                 todo_count += 1
 
 print("TODO: "+str(todo_count))
