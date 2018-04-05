@@ -15,7 +15,7 @@ complete_genes = []
 #         complete_genes.append(m.group(1))
 
 
-pdb_str = "(.+?)\.pdom\.presults"
+pdb_str = ".+/(.+?)\.pdom\.presults"
 pdb_re = re.compile(pdb_str)
 for path in glob.glob(sys.argv[1]+"*.presults"):
     # print(path)
