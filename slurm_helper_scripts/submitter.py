@@ -23,6 +23,10 @@ command = sys.argv[2]
 
 for directory in glob.glob(path+'/*'):
     set_number = directory[len(path)+1:]
+    jobs_remaining = len(glob.glob(directory+"/*"))
+    if jobs_remaining == 0:
+        print("Skipping Set: "+str(set_number))
+        continue
     # print(set_number)
     # continue
     wait = True
