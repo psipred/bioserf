@@ -29,8 +29,8 @@ TODO: THIS NEEDS CHANGED TO BLAST+
 
 `> GenThreader.sh -i ~/Code/bioserf/example/B0R5N0.fasta -j B0R5N0 -s`
 
-you need the presults (for runBioserf) and ss2 files (for HHBlits), more the ss and ss2 files to the
-dir you will run HHBlits in. More the presults file to the dir you will run runBioserf in
+you need the presults (for runBioserf) and ss2 files (for HHBlits), move the ss and ss2 files to the
+dir you will run HHBlits in. Move the presults file to the dir you will run runBioserf in
 
 3. Create a set of models using HHBlits (HHSuite3 btw)
 
@@ -45,7 +45,8 @@ pdb dir.
 
 `hhmakemodel.pl -m 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 -d /scratch0/NOT_BACKED_UP/dbuchan/pdb -i B0R5N0.hhr -ts B0R5N0.hh.pdb`
 
-4. Parse blast and output modeller mod.py files and tidy up the set of pGenTHREADER models
+4. Parse blast and output modeller mod.py files and tidy up the set of pGenTHREADER models. Some rogue
+java.class files might need to be delted
 
 `> javac -cp lib/biojava-1.7.1.jar:lib/bytecode.jar:./ runBioserf.java`
 
@@ -62,14 +63,17 @@ pdb dir.
 * B0R5N0.pgen.presults: presults file from Genthreader run (you need all the pdbs too)
 * modlib/ : location of modeller libraries
 * lib/x86-64-intel8/ : location of modelly architecture specific libs
-* python : location of the python to use
+* python : location of the python to use or location of mod9.17 exe
 * qmodcheck_mainens : path to this Exe
 * qmodcheck : path to this Exe
 * modchekpot.data : path to this data file
 * tmjury3d_mq_modeller_threadsafe: path to this exe
 
 Finally this should output a file
-B0R5N0.final.pdb
+B0R5N0.final_pdb
+
+consider swapping python location for mod9.17
+Note that here the modeller PYTHONPATH and LD_LIBRARY_PATH must be set
 
 # DomSerf protocol
 
@@ -116,7 +120,7 @@ python submitter.py /home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_
 
 ## Work out which proteins need to pass through to step 3
 calculate_missing.py
-calculate_missing $HOME/working/genome3d/pdbaa_based_models $HOME/working/genome3d/ $HOME/working/genome3d/Genome3D.2017-09-05/all_fasta > todo_list.txt
+calculate_missing.py $HOME/working/genome3d/pdbaa_based_models $HOME/working/genome3d/ $HOME/working/genome3d/Genome3D.2017-09-05/all_fasta > todo_list.txt
 
 3. If no domain pdb files were produced (i.e. we couldn't find a PDB match which was already classified in CATH). Then we run the following.
 
@@ -127,8 +131,10 @@ Run domTHREADER
 ## SLURM
 sbatch run_domthreader.sh
 or
-python Applications/bioserf/slurm_helper_scriptssubmitter.py /home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_fasta $HOME/Applications/bioserf/slurm_helper_scripts/run_domthreader.sh
+python Applications/bioserf/slurm_helper_scripts/submitter.py /home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_fasta $HOME/Applications/bioserf/slurm_helper_scripts/run_domthreader.sh
 
+THIS IS VERY LONG RUNNING. If the cluster dies consider using calculate_missing to
+workout what still needs doing and remove the completed ones before starting again.
 
 4. Run runParseCathDomthreader
 

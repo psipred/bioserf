@@ -3,9 +3,15 @@ import sys
 import re
 import os
 
-# calculate_missing $HOME/working/genome3d/pdbaa_based_models $HOME/working/genome3d/Genome3D.2017-09-05/all_fasta
+# if we're looking for complet pdb models
+# calculate_missing.py $HOME/working/genome3d/pdbaa_based_models $HOME/working/genome3d/Genome3D.2017-09-05/all_fasta
+
+# if domthreader has stopped and we want to get rid of complete things
+# calculate_missing.py $HOME/working/genome3d/domthreader_output $HOME/working/genome3d/Genome3D.2017-09-05/all_fasta
 
 complete_genes = []
+
+# regex for complete pdb models
 # pdb_str = ".+/(.+?)_\d+_\d+\.pdb"
 # pdb_re = re.compile(pdb_str)
 # for path in glob.glob(sys.argv[1]+"*_*_*.pdb"):
