@@ -49,6 +49,7 @@ sub make_lookup
     if($fasta_file =~ /^.+\/(.+)\.pfilt/){$id = $1;}
   	elsif($fasta_file =~ /^.+\/(.+)\.fasta/){$id = $1;}
   	elsif($fasta_file =~ /^.+\/(.+)\.fa/){$id = $1;}
+  	elsif($fasta_file =~ /^.+\/(.+)\.fsa/){$id = $1;}
 		elsif($fasta_file =~ /^.+\/(.+)\.input/){$id = $1;}
   	else
   	{
@@ -61,6 +62,7 @@ sub make_lookup
   	if ($fasta_file =~ /^(.+)\.fasta/ ){$id = $1;}
   	elsif ($fasta_file =~ /^(.+)\.pfilt/){$id = $1;}
 		elsif ($fasta_file =~ /^(.+)\.fa/){$id = $1;}
+  	elsif($fasta_file =~ /^.+\/(.+)\.fsa/){$id = $1;}
 		elsif ($fasta_file =~ /^(.+)\.input/){$id = $1;}
 		  	else
   	{
