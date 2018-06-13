@@ -330,14 +330,15 @@ sub print_ali
 	print $fhOut ">P1;".$pdb_id."\n";
 	if($pdom_ctrl == 0)
 	{
-		print $fhOut "StructureX:".$pdb_id."::".$chain."::".$chain."::::\n";
+		print $fhOut "StructureX:".$pdb_id.":FIRST:".$chain."::".$chain."::::\n";
 	}
 	else
 	{
-		print $fhOut "StructureX:".$pdb_id."::".$chain."::".$chain."::::\n";
+		print $fhOut "StructureX:".$pdb_id.":FIRST:".$chain."::".$chain."::::\n";
 	}
-	print $fhOut $s_seq."*\n";
-	$fhOut->close;
+	#print $fhOut $s_seq."*\n";
+  print $fhOut "*\n";
+  $fhOut->close;
 }
 
 sub get_coords
