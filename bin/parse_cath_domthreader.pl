@@ -37,6 +37,7 @@ if($fasta =~ /\//)
 {
   if($fasta =~ /^.+\/(.+)\.pfilt/){$prot_id = $1;}
 	elsif($fasta =~ /^.+\/(.+)\.fasta/){$prot_id = $1;}
+	elsif($fasta =~ /^.+\/(.+)\.fsa/){$prot_id = $1;}
   elsif($fasta =~ /^.+\/(.+)\.fa/){$prot_id = $1;}
   elsif($fasta =~ /^.+\/(.+)\.input/){$prot_id = $1;}
 	else
@@ -50,6 +51,7 @@ else
 	if ($fasta =~ /^(.+)\.fasta/ ){$prot_id = $1;}
 	elsif ($fasta =~ /^(.+)\.pfilt/){$prot_id = $1;}
 	elsif ($fasta =~ /^(.+)\.fa/){$prot_id = $1;}
+	elsif ($fasta =~ /^(.+)\.fsa/){$prot_id = $1;}
   elsif($fasta =~ /^(.+)\.input/){$prot_id = $1;}
 	else
 	{
