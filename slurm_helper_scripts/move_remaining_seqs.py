@@ -14,4 +14,4 @@ for dom_file in glob.glob(results+"*.presults"):
     dom_id = dom_file[dom_file.rfind("/")+1:-14]
     result_list.append(dom_id)
 
-print(results_list)
+print(result_list)
