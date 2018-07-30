@@ -9,9 +9,9 @@
 #
 #SBATCH --array=1-1000
 
-path=$HOME/working/genome3d/Genome3D.2017-09-05/all_fasta/$1/
+path=$HOME/working/genome3d/Genome3D.2017-09-05/collapsed_fasta/$1/
 size=${#path}
-FILES=($HOME/working/genome3d/Genome3D.2017-09-05/all_fasta/$1/*)
+FILES=($HOME/working/genome3d/Genome3D.2017-09-05/collapsed_fasta/$1/*)
 out_name=${FILES[$SLURM_ARRAY_TASK_ID-1]}
 out_name=${out_name:size:-6}
 result_path=$HOME/working/genome3d/domthreader_output/$out_name.presults

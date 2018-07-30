@@ -16,7 +16,7 @@ for dom_file in glob.glob(results+"*.presults"):
     dom_id = dom_file[dom_file.rfind("/")+1:-14]
     result_list.append(dom_id)
 
-print(result_list)
+# print(result_list)
 
 targets = '/home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_fasta/'
 target_list = []
@@ -42,4 +42,4 @@ for target_dir in glob.glob(targets+"*"):
                 if not os.path.isdir(output_dir+str(dir_count)):
                     os.makedirs(output_dir+str(dir_count))
 
-print(count_list)
+# print(count_list)
