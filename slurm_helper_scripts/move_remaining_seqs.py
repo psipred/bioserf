@@ -4,6 +4,7 @@
 import glob
 import os
 from sets import Set
+import shutil
 
 dir_count = 1
 seq_count = 0
@@ -34,11 +35,11 @@ for target_dir in glob.glob(targets+"*"):
             print(found)
         else:
             prot_count += 1
+            shutil.copy2(target, output_dir+str(dir_count)+"/"+prot_id+".fasta")
             if prot_count == 1000:
                 dir_count += 1
                 prot_count = 0
                 if not os.path.isdir(output_dir+str(dir_count)):
                     os.makedirs(output_dir+str(dir_count))
-            print(dir_count, prot_count)
 
 print(count_list)
