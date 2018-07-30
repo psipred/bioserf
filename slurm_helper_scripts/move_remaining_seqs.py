@@ -2,6 +2,7 @@
 # have been produced
 
 import glob
+import os
 from sets import Set
 
 dir_count = 1
@@ -21,6 +22,11 @@ target_list = []
 count_list = 0
 prot_count = 0
 dir_count = 1
+
+output_dir = '/home/camp/buchand/working/genome3d/Genome3D.2017-09-05/collapsed_fasta/'
+if not os.path.isdir(output_dir+str(dir_count)):
+    os.makedirs(output_dir+str(dir_count))
+
 for target_dir in glob.glob(targets+"*"):
     for target in glob.glob(target_dir+"/*"):
         prot_id = target[target.rfind("/")+1:-6]
@@ -31,6 +37,8 @@ for target_dir in glob.glob(targets+"*"):
             if prot_count == 1000:
                 dir_count += 1
                 prot_count = 0
+                if not os.path.isdir(output_dir+str(dir_count)):
+                    os.makedirs(output_dir+str(dir_count))
             print(dir_count, prot_count)
 
 print(count_list)
