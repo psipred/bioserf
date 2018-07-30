@@ -18,10 +18,13 @@ print(result_list)
 
 targets = '/home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_fasta/'
 target_list = []
+count_list = 0
 for target_dir in glob.glob(targets+"*"):
     for target in glob.glob(target_dir+"/*"):
         prot_id = target[target.rfind("/")+1:-6]
         if prot_id in result_list:
             print(found)
         else:
-            print("Moving", prot_id)
+            count_list++
+
+print(count_list)
