@@ -25,6 +25,6 @@ for target_dir in glob.glob(targets+"*"):
         if prot_id in result_list:
             print(found)
         else:
-            count_list++
+            count_list+=1
 
 print(count_list)
