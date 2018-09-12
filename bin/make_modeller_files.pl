@@ -3,7 +3,7 @@
 # Read in the domainFindered domains and output a modeller .py and aln file for
 # each domain
 #
-
+BEGIN {push @INC, '/home/camp/buchand/perl5/lib/perl5'}
 use strict;
 use FileHandle;
 use DirHandle;
