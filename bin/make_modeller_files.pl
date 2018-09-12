@@ -3,13 +3,13 @@
 # Read in the domainFindered domains and output a modeller .py and aln file for
 # each domain
 #
-BEGIN {push @INC, '/home/camp/buchand/perl5/lib/perl5'}
+# BEGIN {push @INC, '/home/camp/buchand/perl5/lib/perl5'}
 use strict;
 use FileHandle;
 use DirHandle;
 use English;
 use Data::Dumper;
-use File::Fetch;
+# use File::Fetch;
 use File::Copy;
 
 my $ssf_file = $ARGV[0];
@@ -224,8 +224,9 @@ sub read_domain_start
 
   if(! -e $dompdb.$pdb_id)
   {
-    my $ff = File::Fetch->new(uri => 'http://www.cathdb.info/version/v4_2_0/api/rest/id/'.$pdb_id.'.pdb');
-    my $where = $ff->fetch(to => $dompdb);
+    #my $ff = File::Fetch->new(uri => 'http://www.cathdb.info/version/v4_2_0/api/rest/id/'.$pdb_id.'.pdb');
+    #my $where = $ff->fetch(to => $dompdb);
+    `wget 'http://www.cathdb.info/version/v4_2_0/api/rest/id/'.$pdb_id.'.pdb'`;
     move($dompdb.$pdb_id.".pdb", $dompdb.$pdb_id);
     print("GOT pdb to: ".$where."\n");
   }
