@@ -180,7 +180,7 @@ sub read_fasta
   {
     $ID=$1;
   }
-  print($ID);
+  # print($ID);
 	return($length);
 }
 
