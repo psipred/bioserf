@@ -79,7 +79,7 @@ if(-e $pgen_file && -e $align_file)
 # print Dumper $hBlastData;
 # print Dumper $hPDomData;
 remove_low_overlaps();
-print Dumper $hPDomData;
+# print Dumper $hPDomData;
 print_ssf();
 print_alignments();
 
@@ -178,7 +178,7 @@ sub read_fasta
   {
     $ID=$1;
   }
-  #print($ID);
+  print($ID);
 	return($length);
 }
 
