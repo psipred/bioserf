@@ -70,6 +70,7 @@ sub make_lookup
   		exit;
   	}
   }
+  print($fasta_file."\n");
 	my $fhIn = new FileHandle($fasta_file,"r");
 
 	LOOP: while(my $line = $fhIn->getline)
