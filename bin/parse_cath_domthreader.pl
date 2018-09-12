@@ -143,7 +143,7 @@ sub remove_low_overlaps
 		}
 		my $align_length =$hPDomData->{$id}{STOP}-$hPDomData->{$id}{START};
 		my $ratio = $align_length/$hCathSummary->{$domId}{LENGTH};
-    # print $ratio."\n";
+    # qprint $ratio."\n";
 		if($ratio < 0.4)
 		{
 			delete $hPDomData->{$id};
@@ -314,6 +314,7 @@ sub read_pdom_data
 			$align_count++;
 			$id = $1;
 			$current_id = "PDOM|".$id.":".$align_count;
+      print($current_id);
 			if(exists $hData->{$current_id})
 			{
 				$hData->{$current_id}{ALIGNMENT_HEADER} = ">".$current_id;
