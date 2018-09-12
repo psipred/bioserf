@@ -143,7 +143,7 @@ sub remove_low_overlaps
 		}
 		my $align_length =$hPDomData->{$id}{STOP}-$hPDomData->{$id}{START};
 		my $ratio = $align_length/$hCathSummary->{$domId}{LENGTH};
-    print $ratio."\n";
+    # print $ratio."\n";
 		if($ratio < 0.4)
 		{
 			delete $hPDomData->{$id};
