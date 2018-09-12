@@ -126,7 +126,7 @@ sub remove_low_overlaps
 		my $align_length = $hBlastData->{$id}{STOP}-$hBlastData->{$id}{START};
 		#print $domId."\n";
 		my $ratio = $align_length/$hCathSummary->{$domId}{LENGTH};
-    print $ratio."\n";
+    # print $ratio."\n";
 		if($ratio < 0.4)
 		{
 				delete $hBlastData->{$id};
