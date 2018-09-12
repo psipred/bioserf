@@ -60,10 +60,12 @@ else
 	}
 }
 #exit;
+$length = read_fasta($fasta);
 if(-e $file)
 {
+  print("HI");
 	print $fhBlastAlignOut $file."\n";
-	$length = read_fasta($fasta);
+	# $length = read_fasta($fasta);
 	$hBlastData = read_blast_data($file);
 	print $fhBlastAlignOut "-------\n";
 }
