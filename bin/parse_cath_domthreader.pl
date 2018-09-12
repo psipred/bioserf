@@ -314,7 +314,7 @@ sub read_pdom_data
 			$align_count++;
 			$id = $1;
 			$current_id = "PDOM|".$id.":".$align_count;
-      print($current_id);
+      # print($current_id);
 			if(exists $hData->{$current_id})
 			{
 				$hData->{$current_id}{ALIGNMENT_HEADER} = ">".$current_id;
@@ -335,7 +335,7 @@ sub read_pdom_data
 			}
 		}
 	}
-  #print Dumper $hData;
+  print Dumper $hData;
 	return($hData);
 }
 
