@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 #SBATCH --job-name=parse_cath_domth
-#SBATCH --output=parse_cath_domth.out
-#SBATCH --error=parse_cath_domth.err%N
+#SBATCH --output=messages/parse_cath_domth_%J.out
+#SBATCH --error=messages/parse_cath_domth_%J.err
 #
 #SBATCH --ntasks=1
 #SBATCH --time=6:00:00
