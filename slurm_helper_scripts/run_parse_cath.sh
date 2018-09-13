@@ -14,7 +14,7 @@ FILES=($HOME/working/genome3d/Genome3D.2017-09-05/all_fasta/$SUBSET/*)
 out_name=${FILES[$SLURM_ARRAY_TASK_ID-1]}
 out_name=${out_name:70:-5}
 pdb_out_name=$out_name'domserf.pdb.bls'
-# echo $out_name
+echo $out_name
 
 # echo $HOME/working/genome3d/Genome3D.2017-09-05/ecoli_fasta/1/${FILES[$SLURM_ARRAY_TASK_ID-1]}
 if [ -f $HOME/working/genome3d/Genome3D.2017-09-05/all_fasta/$SUBSET/$out_name'fasta' ]; then
