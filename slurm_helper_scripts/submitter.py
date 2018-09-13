@@ -48,4 +48,3 @@ for directory in glob.glob(path+'/*'):
             sys.stdout.flush()
             wait = False
         time.sleep(300)
-SQwO3D3YwVdn

@@ -147,7 +147,7 @@ workout what still needs doing and remove the completed ones before starting aga
 # SLURM
 sbatch run_parse_cath.sh
 
-
+python Applications/bioserf/slurm_helper_scripts/submitter.py /home/camp/buchand/working/genome3d/Genome3D.2017-09-05/all_fasta $HOME/Applications/bioserf/slurm_helper_scripts/run_domthreader.sh
 
 5. Do Modelling
 
