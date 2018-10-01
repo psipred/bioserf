@@ -159,6 +159,9 @@ python Applications/bioserf/slurm_helper_scripts/submitter.py /home/camp/buchand
 `for i in ``ls *.ali | sed -e 's/\.ali//'``; do echo $i; ../bin/rewrite_modeller.pl ./  B0R5N0.mod_lookups B0R5N0.blastaligns B0R5N0.pdomaligns ../example/B0R5N0.fasta $i.ali ../bin/reformat.pl; done;`
 
 # SLURM
+find working/genome3d/parse_cath_domth_output/ -iname "*.py" > modeller_scripts.txt
+split -l 9000 --numeric-suffixes=1 modeller_scripts.txt scripts_
+
 sbatch run_modeller.sh
 python ~/bin/split_fasta.py ecoli.fa ecoli_fasta/all
 sbatch run_rewrite.sh
