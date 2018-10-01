@@ -154,7 +154,7 @@ python Applications/bioserf/slurm_helper_scripts/submitter.py /home/camp/buchand
 `export PYTHONPATH=~/bin/modeller9.17/modlib:~/bin/modeller9.17/lib/x86_64-intel8/`
 `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/bin/modeller9.17/lib/x86_64-intel8/`
 
-`for i in ``ls *.py | sed -e 's/\.py//'``; do echo $i; ~/bin/modeller9.17/bin/mod9.17 $i.py; done;`
+`for i in ``ls *.py| sed -e 's/\.py//'``; do echo $i; ~/bin/modeller9.17/bin/mod9.17 $i.py; done;`
 
 `for i in ``ls *.ali | sed -e 's/\.ali//'``; do echo $i; ../bin/rewrite_modeller.pl ./  B0R5N0.mod_lookups B0R5N0.blastaligns B0R5N0.pdomaligns ../example/B0R5N0.fasta $i.ali ../bin/reformat.pl; done;`
 
