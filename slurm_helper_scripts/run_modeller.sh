@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 #SBATCH --job-name=run_modeller
-#SBATCH --output=run_modeller.out
-#SBATCH --error=run_modeller.err
+#SBATCH --output=messages/run_modeller_%J.out
+#SBATCH --error=messages/run_modeller_%J.err
 #
 #SBATCH --ntasks=1
 #SBATCH --array=1-30
