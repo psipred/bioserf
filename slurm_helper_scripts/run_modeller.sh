@@ -5,7 +5,7 @@
 #SBATCH --error=run_modeller.err
 #
 #SBATCH --ntasks=1
-#SBATCH --time=6:00:00
+#SBATCH --time=72:00:00
 #
 
 export PYTHONPATH=$HOME/Applications/modeller9.19/modlib/:$HOME/Applications/modeller9.19/lib/x86_64-intel8/
