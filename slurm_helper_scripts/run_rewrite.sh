@@ -16,7 +16,7 @@ FILE=${FILES[$SLURM_ARRAY_TASK_ID-1]}
 while read -r line || [[ -n "$line" ]]; do
     i=$line
     j=`echo $i | cut -d. -f1`
-    ali=`echo $i | cut -d"/" -f1`
+    ali=`echo $i | cut -d"/" -f4`
     fasta_full=`echo $j | rev | cut -d"_" -f2- | rev`
     fasta=`echo $fasta_full | cut -d"/" -f4`
     echo $i
