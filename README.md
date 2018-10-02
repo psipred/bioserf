@@ -163,6 +163,6 @@ find working/genome3d/parse_cath_domth_output/ -iname "*.py" > modeller_scripts.
 split -l 9000 --numeric-suffixes=1 modeller_scripts.txt scripts_
 sbatch run_modeller.sh
 
-find working/genome3d/parse_cath_domth_output/ -iname "*.ali" > ali_files.txt
+find working/genome3d/parse_cath_domth_output/ -iname "*.ali" | grep -v .ali.ali > ali_files.txt
 split -l 10000 --numeric-suffixes=1 ali_files.txt ali_
 sbatch run_rewrite.sh
