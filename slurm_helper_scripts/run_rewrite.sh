@@ -1,10 +1,11 @@
 #!/bin/bash
 #
 #SBATCH --job-name=run_rewrite
-#SBATCH --output=run_rewrite.out
-#SBATCH --error=run_rewrite.err
-##SBATCH --ntasks=1
-##SBATCH --array=1-27
+#SBATCH --output=messages/run_rewrite_%J.out
+#SBATCH --error=messages/run_rewrite_%J.err
+
+#SBATCH --ntasks=1
+#SBATCH --array=1-27
 
 cd $HOME/working/genome3d/parse_cath_domth_output/
 export PYTHONPATH=$HOME/Applications/modeller9.19/modlib/:$HOME/Applications/modeller9.19/lib/x86_64-intel8/
