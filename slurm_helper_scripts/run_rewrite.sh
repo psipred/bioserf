@@ -16,7 +16,5 @@ FILE=${FILES[$SLURM_ARRAY_TASK_ID-1]}
 while read -r line || [[ -n "$line" ]]; do
     i=$line
     j=`echo $i | cut -d. -f1`
-    echo $i
-    echo $j
-    # $HOME/Applications/bioserf/bin/rewrite_modeller.pl $HOME/working/genome3d/parse_cath_domth_output/ $HOME/working/genome3d/parse_cath_domth_output/$j.mod_lookups $HOME/working/genome3d/parse_cath_domth_output/$j.blastaligns $HOME/working/genome3d/parse_cath_domth_output/$j.pdomaligns $HOME/working/genome3d/Genome3D.2017-09-05/ecoli_fasta/all/$j.fasta $i $HOME/Applications/bioserf/bin/reformat.pl
+    $HOME/Applications/bioserf/bin/rewrite_modeller.pl $HOME/working/genome3d/parse_cath_domth_output/ $HOME/$j.mod_lookups $HOME/$j.blastaligns $HOME/$j.pdomaligns $HOME/working/genome3d/Genome3D.2017-09-05/all/$j.fasta $HOME/$i $HOME/Applications/bioserf/bin/reformat.pl
 done < "$FILE"
