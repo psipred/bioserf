@@ -161,7 +161,8 @@ python Applications/bioserf/slurm_helper_scripts/submitter.py /home/camp/buchand
 # SLURM
 find working/genome3d/parse_cath_domth_output/ -iname "*.py" > modeller_scripts.txt
 split -l 9000 --numeric-suffixes=1 modeller_scripts.txt scripts_
-
 sbatch run_modeller.sh
-python ~/bin/split_fasta.py ecoli.fa ecoli_fasta/all
+
+find working/genome3d/parse_cath_domth_output/ -iname "*.ali" > ali_files.txt
+split -l 10000 --numeric-suffixes=1 ali_files.txt ali_
 sbatch run_rewrite.sh
