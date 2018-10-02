@@ -24,5 +24,5 @@ while read -r line || [[ -n "$line" ]]; do
     # echo $ali
     # echo $fasta_full
     # echo $fasta
-    echo $HOME/Applications/bioserf/bin/rewrite_modeller.pl $HOME/working/genome3d/parse_cath_domth_output/ $HOME/$fasta_full.mod_lookups $HOME/$fasta_full.blastaligns $HOME/$fasta_full.pdomaligns $HOME/working/genome3d/Genome3D.2017-09-05/all/$fasta.fasta $ali $HOME/Applications/bioserf/bin/reformat.pl
+    $HOME/Applications/bioserf/bin/rewrite_modeller.pl $HOME/working/genome3d/parse_cath_domth_output/ $HOME/$fasta_full.mod_lookups $HOME/$fasta_full.blastaligns $HOME/$fasta_full.pdomaligns $HOME/working/genome3d/Genome3D.2017-09-05/all/$fasta.fasta $ali $HOME/Applications/bioserf/bin/reformat.pl
 done < "$FILE"
