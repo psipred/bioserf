@@ -17,6 +17,7 @@ while read -r line || [[ -n "$line" ]]; do
     i=$line
     j=`echo $i | cut -d. -f1`
     fasta=`echo $i | rev | cut -d"_" -f2- | rev`
+    fasta=`echo $fasta | cit -d"/" -f4`
     #echo $i
-    echo $HOME/Applications/bioserf/bin/rewrite_modeller.pl $HOME/working/genome3d/parse_cath_domth_output/ $HOME/$j.mod_lookups $HOME/$j.blastaligns $HOME/$j.pdomaligns $HOME/$fasta.fasta $HOME/$i $HOME/Applications/bioserf/bin/reformat.pl
+    echo $HOME/Applications/bioserf/bin/rewrite_modeller.pl $HOME/working/genome3d/parse_cath_domth_output/ $HOME/$j.mod_lookups $HOME/$j.blastaligns $HOME/$j.pdomaligns $HOME/working/genome3d/Genome3D.2017-09-05/all/$fasta.fasta $HOME/$i $HOME/Applications/bioserf/bin/reformat.pl
 done < "$FILE"
