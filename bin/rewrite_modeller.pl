@@ -144,6 +144,7 @@ sub read_ali
       }
     }
 		#if($modelid !~ /A0SXL3/){next;}
+    SHOULD DO SOME STUFF IF WE HAVE A TREMBL ID AND GET ONLY THE UNIPROT ID OUT
 		# print $modelid."\n";
 		my $modelfile = $modelid.".B99990001.pdb";
 		my $model = '';
@@ -186,7 +187,7 @@ sub reprintModel
 	my $genome3d_remarks = '';
 	$genome3d_remarks.="REMARK GENOME3D NAME ".$modelid."_".$q_start."_".$q_stop."\n";
 	$genome3d_remarks.="REMARK GENOME3D UNIPROT_ID ".$modelid."\n";
-	$genome3d_remarks.="REMARK GENOME3D UNIPROT_MD5 .".$ctx->hexdigest()."\n";
+	$genome3d_remarks.="REMARK GENOME3D UNIPROT_MD5 ".$ctx->hexdigest()."\n";
 	$genome3d_remarks.="REMARK GENOME3D TIMESTAMP ".$year."-".$mon."-".$mday."\n";
     $genome3d_remarks.="REMARK GENOME3D TOTAL TEMPLATES 1\n";
     $genome3d_remarks.="REMARK GENOME3D SELECTION psiblast\n";
