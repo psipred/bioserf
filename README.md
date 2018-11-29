@@ -141,3 +141,5 @@ sbatch run_parse_cath.sh
 sbatch run_modeller.sh
 python ~/bin/split_fasta.py ecoli.fa ecoli_fasta/all
 sbatch run_rewrite.sh
+
+6. Move final models to final dir and upload to Applications
