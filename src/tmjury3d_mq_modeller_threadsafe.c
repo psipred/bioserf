@@ -303,11 +303,11 @@ int             jacobi(float a[6][6], float d[6], float v[6][6], int *nrot)
 #undef ROTATE
 
 /*
- * function eigsrt 
+ * function eigsrt
  *
  * Given the eigenvalues d[n] and eignevectors v[n][n] as output from jacobi
  * this routine sourts the eigenvalues into descending order and rearranges
- * the columns of v correspondingly 
+ * the columns of v correspondingly
  */
 void            eigsrt(float d[6], float v[6][6])
 {
@@ -414,7 +414,7 @@ int
 
 
 /*
- * Trace back highest scoring path 
+ * Trace back highest scoring path
  */
 void
                 trace(short *posa, short *posb, int mati, int matj,
@@ -680,7 +680,7 @@ int
 	    read_end = 1;
 	    break;
 	}
-	
+
 	switch (token)
 	{
 	case ATOM:
@@ -720,7 +720,7 @@ int
 	*natoms = 0;
 	return 1;
     }
-    
+
 
     return 0;
 }
@@ -797,7 +797,7 @@ int
 	fformat = unknown;
 
     switch (fformat)
-    { 
+    {
      case gcg:
 	sscanf(strstr(temp, "of:")+3, "%s", dbname);
 	while (strstr(temp, "..") == NULL)
@@ -924,14 +924,14 @@ main(argc, argv)
     ALNS tplt;
 	char fname[160], seq[MAXSEQLEN], id[160], tmppath[120], prefix[120], tmpFile[240]; /*DB: Added tmppath and prefix*/
     const char *rescodes = "ARNDCQEGHILKMFPSTWYVXXX";
-    
+
     if (argc < 7)  /*DB: Changed this to error if the new variables are not complete*/
 	fail("usage : tmjury3d_mq_modeller tmppath prefix target-seq mqapscore ensemble.pdb ntemplates {mintmsc}");
 
     /*DB: here we read in the new variables */
 	sscanf(argv[1],"%s", tmppath);
 	sscanf(argv[2],"%s", prefix);
-	
+
 	ifp = fopen(argv[3], "r");	/* Open seq file in TEXT mode */
     if (!ifp)
     {
@@ -940,9 +940,9 @@ main(argc, argv)
     }
 
     seqlen = getseq(id, seq, ifp);
-	
+
     fclose(ifp);
-	
+
     for (i=0; i<seqlen; i++)
 	targstr[i].aac = aanum(seq[i]);
 
@@ -972,12 +972,11 @@ main(argc, argv)
     fclose(ifp);
 
 	nmqap = i;
-	
     ifp = fopen(argv[5], "r");	/* Open PDB file in TEXT mode */
     if (!ifp)
     {
-	printf("PDB file error!\n");
-	exit(-1);
+	   printf("PDB file error!\n");
+	   exit(-1);
     }
 
     ntemplates = atoi(argv[6]);
@@ -1016,7 +1015,7 @@ main(argc, argv)
 	}
     }
 
-    printf("%d models read from PDB file\n", nmodels); 
+    printf("%d models read from PDB file\n", nmodels);
 
 	if (nmodels != nmqap)
 	fail("Mismatching number of models and MQAP scores!");
@@ -1024,14 +1023,14 @@ main(argc, argv)
     /* Calculate all pairwise equivalences */
 
     incompatmat = allocmat(nmodels, nmodels, sizeof(int), TRUE);
-	
+
     for (moda=0; moda<nmodels; moda++)
     {
 	jury[moda] = 0;
 
 	if (natoms[moda] > seqlen)
 	    fail("Model longer than target sequence!");
-	
+
 	if (natoms[moda] > 0)
 	    for (i=0; i<natoms[moda]; i++)
 		atoms[moda][i].nequiv = 0;
@@ -1043,7 +1042,7 @@ main(argc, argv)
 	    {
 		if (seqscore(atoms[moda], atoms[modb], 1, 0, &tplt, natoms[moda], natoms[modb]) < 10)
 		    continue;
-		
+
 		/* Calculate centroids */
 		veczero(CG_a);
 		veczero(CG_b);
@@ -1054,41 +1053,41 @@ main(argc, argv)
 			vecadd(CG_b, CG_b, atoms[modb][tplt.posn_b[j]-1].pos);
 			naln++;
 		    }
-		
+
 		vecscale(CG_a, CG_a, ONE / naln);
 		vecscale(CG_b, CG_b, ONE / naln);
-		
+
 		for (i = 0; i < natoms[moda]; i++)
 		    vecsub(atoms[moda][i].pos, atoms[moda][i].pos, CG_a);
 		for (j = 0; j < natoms[modb]; j++)
 		    vecsub(atoms[modb][j].pos, atoms[modb][j].pos, CG_b);
-		
+
 		/* Calculate U */
 		for (i = 0; i < 3; i++)
 		    for (j = 0; j < 3; j++)
 			u[i][j] = ZERO;
-		
+
 		for (j = 1; j <= tplt.length; j++)
 		    if (tplt.posn_a[j] > 0 && tplt.posn_b[j] > 0)
 			for (k = 0; k < 3; k++)
 			    for (l = 0; l < 3; l++)
 				u[k][l] += atoms[moda][tplt.posn_a[j]-1].pos[k] * atoms[modb][tplt.posn_b[j]-1].pos[l];
-		
+
 		if (lsq_fit(u, fr_xf))
 		    continue; /* LSQ fit failed - all we can do is move to the next pair! */
-		
+
 		for (j = 0; j < natoms[modb]; j++)
 		{
 		    transform_point(fr_xf, atoms[modb][j].pos, new);
 		    veccopy(atoms[modb][j].pos, new);
 		}
-		
+
 		for (nequiv = 0, i = 1; i <= tplt.length; i++)
 		    if (tplt.posn_a[i] > 0 && tplt.posn_b[i] > 0)
 			nequiv++;
 
 		d0sq = SQR(1.24 * pow(nequiv-15.0, 1.0/3.0) - 1.8);
-		
+
 		for (nsup = tmsc = 0, i = 1; i <= tplt.length; i++)
 		    if (tplt.posn_a[i] > 0 && tplt.posn_b[i] > 0)
 		    {
@@ -1102,7 +1101,7 @@ main(argc, argv)
 
 		if (nequiv > 20 && nsup < 0.7 * MIN(natoms[moda], natoms[modb]))
 		    incompatmat[moda][modb] = incompatmat[modb][moda] = 1;
-		
+
 		if (tmsc < 0.99)
 		{
 		    jury[moda] += tmsc * natoms[moda] / seqlen;
@@ -1115,7 +1114,7 @@ main(argc, argv)
 	scoretab[moda].modelnum = moda;
 	scoretab[moda].score = -mqapscore[moda] * jury[moda] / nmodels;
     }
-    
+
     qsort(scoretab, nmodels, sizeof(struct mscore), cmpsc);
 
 #if 0
@@ -1132,10 +1131,10 @@ main(argc, argv)
 	strcat(tmpFile, ".jury.aln");
 
 	afp = fopen(tmpFile, "w");
-    
+
 	if (!afp)
 	fail("Cannot open alignment file!");
-    
+
     fprintf(afp, ">P1;%s\nSEQ:::::::::\n",prefix);
     for (j=0; j<seqlen; j++)
 	fputc(seq[j], afp);
@@ -1149,15 +1148,15 @@ main(argc, argv)
 		    printf("%d incompat with %d\n", scoretab[i].modelnum+1, scoretab[j].modelnum+1);
 		    scoretab[j].skipflg = TRUE;
 		}
-    
+
     for (n=i=0; i<nmodels && n<ntemplates; i++)
 	if (!scoretab[i].skipflg)
 	    tlist[n++] = i;
 
     ntemplates = n;
-	
+
     printf("ntemplates = %d\n", ntemplates);
-	
+
     for (i=0; i<ntemplates; i++)
     {
 	moda = scoretab[tlist[i]].modelnum;
@@ -1165,10 +1164,10 @@ main(argc, argv)
 	for (j = 1; j <= tplt.length; j++)
 	    if (tplt.posn_a[j] <= 0)
 		break;
-		
+
 	if (j <= tplt.length)
 		fail("Gap in target sequence - shouldn't happen!!!");
-	
+
 	if (atoms[moda][0].chain == ' ')
 	    fprintf(afp, ">P1;0t%02d\nStructureX:0t%02d:FIRST::LAST:::::\n", i+1, i+1);
 	else
@@ -1182,7 +1181,7 @@ main(argc, argv)
     }
 
     fclose(afp);
-    
+
 	/*DB: we create a tmpdir to house our pdb files for this job*/
 	strcpy(tmpFile, tmppath);
 	strcat(tmpFile, prefix);
@@ -1190,15 +1189,15 @@ main(argc, argv)
 	mode_t process_mask = umask(0);
 	mkdir(tmpFile, S_IRWXU | S_IRWXG | S_IRWXO);
 	umask(process_mask);
-	
+
 	for (j=0; j<ntemplates; j++)
-    {	
+    {
 	sprintf(fname, "%s%s_pdb/0t%02d.pdb", tmppath, prefix, j+1);
 	ofp = fopen(fname, "w");
-    
+
 	if (ofp == NULL)
 	    fail("Cannot output PDB file!");
-    
+
 	printf("%d %f\n", scoretab[j].modelnum+1, scoretab[j].score);
 	moda = scoretab[tlist[j]].modelnum;
 	fseek(ifp, filepos[moda], SEEK_SET);
@@ -1215,7 +1214,7 @@ main(argc, argv)
 
 	fclose(ofp);
     }
-	
+
 	/*DB: Here we add the new file path */
 	strcpy(tmpFile, tmppath);
 	strcat(tmpFile, prefix);

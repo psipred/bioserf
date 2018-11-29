@@ -37,6 +37,7 @@ if($fasta =~ /\//)
 {
   if($fasta =~ /^.+\/(.+)\.pfilt/){$prot_id = $1;}
 	elsif($fasta =~ /^.+\/(.+)\.fasta/){$prot_id = $1;}
+	elsif($fasta =~ /^.+\/(.+)\.fsa/){$prot_id = $1;}
   elsif($fasta =~ /^.+\/(.+)\.fa/){$prot_id = $1;}
   elsif($fasta =~ /^.+\/(.+)\.input/){$prot_id = $1;}
 	else
@@ -50,6 +51,7 @@ else
 	if ($fasta =~ /^(.+)\.fasta/ ){$prot_id = $1;}
 	elsif ($fasta =~ /^(.+)\.pfilt/){$prot_id = $1;}
 	elsif ($fasta =~ /^(.+)\.fa/){$prot_id = $1;}
+	elsif ($fasta =~ /^(.+)\.fsa/){$prot_id = $1;}
   elsif($fasta =~ /^(.+)\.input/){$prot_id = $1;}
 	else
 	{
@@ -58,10 +60,12 @@ else
 	}
 }
 #exit;
+$length = read_fasta($fasta);
 if(-e $file)
 {
+  print("HI");
 	print $fhBlastAlignOut $file."\n";
-	$length = read_fasta($fasta);
+	# $length = read_fasta($fasta);
 	$hBlastData = read_blast_data($file);
 	print $fhBlastAlignOut "-------\n";
 }
@@ -77,7 +81,7 @@ if(-e $pgen_file && -e $align_file)
 # print Dumper $hBlastData;
 # print Dumper $hPDomData;
 remove_low_overlaps();
-
+# print Dumper $hPDomData;
 print_ssf();
 print_alignments();
 
@@ -124,7 +128,7 @@ sub remove_low_overlaps
 		my $align_length = $hBlastData->{$id}{STOP}-$hBlastData->{$id}{START};
 		#print $domId."\n";
 		my $ratio = $align_length/$hCathSummary->{$domId}{LENGTH};
-    print $ratio."\n";
+    # print $ratio."\n";
 		if($ratio < 0.4)
 		{
 				delete $hBlastData->{$id};
@@ -141,7 +145,7 @@ sub remove_low_overlaps
 		}
 		my $align_length =$hPDomData->{$id}{STOP}-$hPDomData->{$id}{START};
 		my $ratio = $align_length/$hCathSummary->{$domId}{LENGTH};
-    print $ratio."\n";
+    # qprint $ratio."\n";
 		if($ratio < 0.4)
 		{
 			delete $hPDomData->{$id};
@@ -176,7 +180,7 @@ sub read_fasta
   {
     $ID=$1;
   }
-  #print($ID);
+  # print($ID);
 	return($length);
 }
 
@@ -312,6 +316,7 @@ sub read_pdom_data
 			$align_count++;
 			$id = $1;
 			$current_id = "PDOM|".$id.":".$align_count;
+      # print($current_id);
 			if(exists $hData->{$current_id})
 			{
 				$hData->{$current_id}{ALIGNMENT_HEADER} = ">".$current_id;
@@ -332,7 +337,7 @@ sub read_pdom_data
 			}
 		}
 	}
-  #print Dumper $hData;
+  # print Dumper $hData;
 	return($hData);
 }
 

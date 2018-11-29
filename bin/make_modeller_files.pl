@@ -3,12 +3,14 @@
 # Read in the domainFindered domains and output a modeller .py and aln file for
 # each domain
 #
-
+# BEGIN {push @INC, '/home/camp/buchand/perl5/lib/perl5'}
 use strict;
 use FileHandle;
 use DirHandle;
 use English;
 use Data::Dumper;
+# use File::Fetch;
+use File::Copy;
 
 my $ssf_file = $ARGV[0];
 my $blast_aligns = $ARGV[1];
@@ -47,6 +49,7 @@ sub make_lookup
     if($fasta_file =~ /^.+\/(.+)\.pfilt/){$id = $1;}
   	elsif($fasta_file =~ /^.+\/(.+)\.fasta/){$id = $1;}
   	elsif($fasta_file =~ /^.+\/(.+)\.fa/){$id = $1;}
+  	elsif($fasta_file =~ /^.+\/(.+)\.fsa/){$id = $1;}
 		elsif($fasta_file =~ /^.+\/(.+)\.input/){$id = $1;}
   	else
   	{
@@ -59,6 +62,7 @@ sub make_lookup
   	if ($fasta_file =~ /^(.+)\.fasta/ ){$id = $1;}
   	elsif ($fasta_file =~ /^(.+)\.pfilt/){$id = $1;}
 		elsif ($fasta_file =~ /^(.+)\.fa/){$id = $1;}
+  	elsif ($fasta_file =~ /^(.+)\.fsa/){$id = $1;}
 		elsif ($fasta_file =~ /^(.+)\.input/){$id = $1;}
 		  	else
   	{
@@ -66,6 +70,7 @@ sub make_lookup
   		exit;
   	}
   }
+  print($fasta_file."\n");
 	my $fhIn = new FileHandle($fasta_file,"r");
 
 	LOOP: while(my $line = $fhIn->getline)
@@ -134,6 +139,7 @@ sub read_pdom_aligns
 
 sub read_blast_aligns
 {
+  # print($blast_aligns);
 	my $fhIn = new FileHandle($blast_aligns, "r");
 	my $hData = {};
 	my $align_name = 'START';
@@ -217,6 +223,14 @@ sub read_domain_start
 	my $seq_id = $1;
 	my $pdb_id = $2.$3.$4;
 
+  if(! -e $dompdb.$pdb_id)
+  {
+    #my $ff = File::Fetch->new(uri => 'http://www.cathdb.info/version/v4_2_0/api/rest/id/'.$pdb_id.'.pdb');
+    #my $where = $ff->fetch(to => $dompdb);
+    `wget 'http://www.cathdb.info/version/v4_2_0/api/rest/id/'.$pdb_id.'.pdb'`;
+    move($dompdb.$pdb_id.".pdb", $dompdb.$pdb_id);
+    print("GOT pdb to: ".$dompdb.$pdb_id."\n");
+  }
 	my $fhIn = new FileHandle($dompdb.$pdb_id,"r");
 	my $line = $fhIn->getline;
 	$line =~ /^ATOM.{7}\s\s.{4}.{3}.{2}(.{4})/;
@@ -318,14 +332,15 @@ sub print_ali
 	print $fhOut ">P1;".$pdb_id."\n";
 	if($pdom_ctrl == 0)
 	{
-		print $fhOut "StructureX:".$pdb_id."::".$chain."::".$chain."::::\n";
+		print $fhOut "StructureX:".$pdb_id.":FIRST:".$chain."::".$chain."::::\n";
 	}
 	else
 	{
-		print $fhOut "StructureX:".$pdb_id."::".$chain."::".$chain."::::\n";
+		print $fhOut "StructureX:".$pdb_id.":FIRST:".$chain."::".$chain."::::\n";
 	}
-	print $fhOut $s_seq."*\n";
-	$fhOut->close;
+	#print $fhOut $s_seq."*\n";
+  print $fhOut "*\n";
+  $fhOut->close;
 }
 
 sub get_coords

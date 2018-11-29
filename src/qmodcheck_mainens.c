@@ -507,68 +507,67 @@ main(int argc, char **argv)
     Transform       fr_xf;
 
     if (argc != 5)
-	fail("usage : collect_data ensemble.pdb qmodcheck modcheckpot.dat tmp/");
+      fail("usage : collect_data ensemble.pdb qmodcheck modcheckpot.dat tmp/");
 
     ifp = fopen(argv[1], "r");	/* Open PDB file in TEXT mode */
 
     if (!ifp)
     {
-	printf("PDB file error!\n");
-	exit(-1);
+      printf("PDB file error!\n");
+      exit(-1);
     }
 
     /* Read models */
     for (nmodels=0; nmodels<MAXNSTRUC; nmodels++)
     {
-	if (read_atoms(ifp, natoms+nmodels, atoms+nmodels))
-	    break;
+      if (read_atoms(ifp, natoms+nmodels, atoms+nmodels))
+	     break;
+      if (natoms[nmodels] < 10)
+	     continue;
 
-	if (natoms[nmodels] < 10)
-	    continue;
+      //  sprintf(tmpPDBPath, "%sqmod_temp.pdb", argv[4]);
+      sprintf(tmpPDBPath, "qmod_temp.pdb");
+      ofp = fopen(tmpPDBPath, "w");
+      for (i = 0; i < natoms[nmodels]; i++)
+      {
+        fprintf(ofp, "ATOM   %4d %s %s  %4d    %8.3f%8.3f%8.3f%6.2f%6.2f\n",
+        i + 1, atoms[nmodels][i].atmnam, rnames[atoms[nmodels][i].aac], atoms[nmodels][i].resnum, atoms[nmodels][i].pos[0], atoms[nmodels][i].pos[1], atoms[nmodels][i].pos[2], 1.0, 99.9);
+      }
+      fprintf(ofp, "TER\nEND\n");
+      fclose(ofp);
 
-  sprintf(tmpPDBPath, "%sqmod_temp.pdb", argv[4]);
-	ofp = fopen(tmpPDBPath, "w");
-	for (i = 0; i < natoms[nmodels]; i++)
-	{
-	    fprintf(ofp, "ATOM   %4d %s %s  %4d    %8.3f%8.3f%8.3f%6.2f%6.2f\n",
-		    i + 1, atoms[nmodels][i].atmnam, rnames[atoms[nmodels][i].aac], atoms[nmodels][i].resnum, atoms[nmodels][i].pos[0], atoms[nmodels][i].pos[1], atoms[nmodels][i].pos[2], 1.0, 99.9);
-	}
-	fprintf(ofp, "TER\nEND\n");
-	fclose(ofp);
+      printf("%d ", nmodels+1);
 
-	printf("%d ", nmodels+1);
-
-	fflush(stdout);
-
+      fflush(stdout);
+      //printf("HI THERE\n");
 //	sprintf(cmdstr, "/var/www/cgi-bin/psipred/bin/qmodcheck qmod_temp.pdb | tail -1 > qmod.tmp");
 //	sprintf(cmdstr, "qmodcheck qmod_temp.pdb A | tail -1");
 
-sprintf(cmdstr, "%s %s %s %s | tail -1 > qmod.tmp", argv[2], tmpPDBPath, argv[3], argv[4]);
-//puts(cmdstr);
-	ret = system(cmdstr);
+      sprintf(cmdstr, "%s %s %s %s | tail -1 > qmod.tmp", argv[2], tmpPDBPath, argv[3], argv[4]);
+      //puts(cmdstr);
+      ret = system(cmdstr);
+      //printf("AFTER THERE\n");
+      if (ret < 0 || (WIFSIGNALED(ret) && (WTERMSIG(ret) == SIGINT || WTERMSIG(ret) == SIGQUIT)))
+        break;
 
-	if (ret < 0 || (WIFSIGNALED(ret) && (WTERMSIG(ret) == SIGINT || WTERMSIG(ret) == SIGQUIT)))
-	    break;
+      qfp = fopen("qmod.tmp", "r");
+      if (!qfp)
+        fail("Cannot read qmod.tmp");
+      if (fscanf(qfp, "%f", &qm_val) == 1)
+      {
+        printf("%f\n", qm_val);
+        if (qm_val < best_qm)
+        {
+          best_qm = qm_val;
+          sprintf(cpCMD, "/bin/cp -f %s %sbest.qmod.pdb", tmpPDBPath, argv[4]);
+          system(cpCMD);
+        }
+      }
+      else
+        puts("FAILED!");
 
-	qfp = fopen("qmod.tmp", "r");
-	if (!qfp)
-	    fail("Cannot read qmod.tmp");
-	if (fscanf(qfp, "%f", &qm_val) == 1)
-	{
-	    printf("%f\n", qm_val);
-	    if (qm_val < best_qm)
-	    {
-		best_qm = qm_val;
-    sprintf(cpCMD, "/bin/cp -f %s %sbest.qmod.pdb", tmpPDBPath, argv[4]);
-		system(cpCMD);
-	    }
-	}
-	else
-	    puts("FAILED!");
-
-	fclose(qfp);
-
-	fflush(stdout);
+      fclose(qfp);
+      fflush(stdout);
     }
 
     fclose(ifp);
