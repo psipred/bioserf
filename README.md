@@ -164,5 +164,21 @@ split -l 9000 --numeric-suffixes=1 modeller_scripts.txt scripts_
 sbatch run_modeller.sh
 
 find working/genome3d/parse_cath_domth_output/ -iname "*.ali" | grep -v .ali.ali > ali_files.txt
+
 split -l 10000 --numeric-suffixes=1 ali_files.txt ali_
 sbatch run_rewrite.sh
+
+
+# Clean up files
+Files that can be removed after the fact:
+
+## pdomthreader
+find . -name "*.pgt.log" -name "*.pdt.log" -o -name "*.blast" -o -name "*.iter3.mtx" -o -iname "*.ter3.chk" -o -name "*.output" -o -name "*.ss" -o -name "*.ss2" -o -name "*.fsa" -o -name "*.horiz" -type -f -delete
+
+## parse_cath_domth_output/
+Clear out as many of the modeller files as we can
+*.ini
+*.sch
+*.rsr
+*.D00000001
+*.V99990001What

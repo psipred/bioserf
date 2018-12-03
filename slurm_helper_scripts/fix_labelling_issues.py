@@ -1,6 +1,7 @@
 import glob
 import re
 import shutil
+import os
 
 pdb_dir = '/scratch0/NOT_BACKED_UP/dbuchan/genome3d/home/camp/buchand/' \
           'working/genome3d/parse_cath_domth_output/*.pdb'
@@ -11,7 +12,7 @@ id_pattern = re.compile("REMARK GENOME3D UNIPROT_ID .{2}\|(.+)\|.+")
 md_pattern = re.compile("REMARK GENOME3D UNIPROT_MD5 \.(.+)")
 
 for file in glob.glob(pdb_dir):
-    print(file)
+    print("WOKRING ON: ", file)
     output_str = ''
     with open(file) as pdb_file:
         for line in pdb_file:
@@ -24,4 +25,5 @@ for file in glob.glob(pdb_dir):
             output_str += line
     output_file = open('tmp.pdb', 'w')
     output_file.write(output_str)
+    output_file.close()
     shutil.copy2('tmp.pdb', file)
