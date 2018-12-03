@@ -168,6 +168,7 @@ find working/genome3d/parse_cath_domth_output/ -iname "*.ali" | grep -v .ali.ali
 split -l 10000 --numeric-suffixes=1 ali_files.txt ali_
 sbatch run_rewrite.sh
 
+<<<<<<< HEAD
 
 # Clean up files
 Files that can be removed after the fact:
@@ -182,3 +183,6 @@ Clear out as many of the modeller files as we can
 *.rsr
 *.D00000001
 *.V99990001What
+=======
+6. Move final models to final dir and upload to Applications
+>>>>>>> 8b6be8bd682ed95cf6f03f75b7029c3eee1f2617
