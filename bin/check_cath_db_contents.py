@@ -6,7 +6,9 @@ for name in glob.glob('*.py'):
     print(name)
     with open(name) as fh:
         contents = fh.readlines()
-        result = cath_id_re.match(contents)
-        if result:
-            for match in result:
-                print(match)
+        for line in contents:
+            if "knowns" in line:
+                result = cath_id_re.match(line)
+                if result:
+                    for match in result:
+                        print(match)
