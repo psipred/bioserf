@@ -9,8 +9,6 @@ for name in glob.glob('*.py'):
             if "knowns" in line:
                 print(line)
                 result = cath_id_re.search(line)
-                print(result)
                 if result:
-                    print("hi")
-                    for match in result:
-                        print(match)
+                    for cath_id in result.groups():
+                        print(cath_id)
