@@ -8,7 +8,7 @@ for name in glob.glob('*.py'):
         for line in contents:
             if "knowns" in line:
                 print(line)
-                result = cath_id_re.match(line)
+                result = cath_id_re.search(line)
                 print(result)
                 if result:
                     print("hi")
