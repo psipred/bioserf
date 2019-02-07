@@ -10,5 +10,6 @@ for name in glob.glob('*.py'):
                 print(line)
                 result = cath_id_re.match(line)
                 if result:
+                    print("hi")
                     for match in result:
                         print(match)
