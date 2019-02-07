@@ -227,7 +227,7 @@ sub read_domain_start
   {
     #my $ff = File::Fetch->new(uri => 'http://www.cathdb.info/version/v4_2_0/api/rest/id/'.$pdb_id.'.pdb');
     #my $where = $ff->fetch(to => $dompdb);
-    `wget 'http://www.cathdb.info/version/v4_2_0/api/rest/id/'$pdb_id.pdb'`;
+    `wget 'http://www.cathdb.info/version/v4_2_0/api/rest/id/$pdb_id.pdb'`;
     move($pdb_id.".pdb", $dompdb.$pdb_id);
     print("GOT pdb to: ".$dompdb.$pdb_id."\n");
   }
