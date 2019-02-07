@@ -3,7 +3,7 @@ import re
 import os
 import urllib.request
 
-cath_db = "/data/cath_data/dompdb"
+cath_db = "/data/cath_data/dompdb/"
 cath_id_re = re.compile("(\d.{3}\w\d{2})")
 for name in glob.glob('*.py'):
     with open(name) as fh:
