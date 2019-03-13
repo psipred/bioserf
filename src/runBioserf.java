@@ -72,7 +72,7 @@ class runBioserf
     runModeller(strUUID, "psiblast", strTmpPath, strModellerBin);
     System.out.println("Built PSI-BLAST models!\n");
     System.out.println("Tidying pGenTHREADER models!\n");
-    tidyGenModels(fPResults, strTmpPath, strUUID);
+    //tidyGenModels(fPResults, strTmpPath, strUUID);
 
     File fEnsemble = catModels(strTmpPath, strUUID);
 
